@@ -64,7 +64,6 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
     autoCloseBrackets: true,
     selfContain: true,
     lineWrapping: false,
-    extraKeys: {"Ctrl-Space": "autocomplete"},
 })
 
 
@@ -73,7 +72,8 @@ function copyText(that){
     if(!(that.id == (panel.id + "-tab"))){
         if(that.id == "nav-html-tab"){
             let content = tinymce.get('tinymce').getContent();
-            codeEditor.getDoc().setValue(content);
+            let cleanContent = beautifyCode(content)
+            codeEditor.getDoc().setValue(cleanContent);
             setTimeout(function(){
                 codeEditor.refresh()
             }, 500);
@@ -82,7 +82,6 @@ function copyText(that){
             tinymce.get('tinymce').setContent(content);
         } 
     }
-
 }
 
 function codeWrapLine(that){
@@ -104,4 +103,11 @@ function codeUndoRedo(flag){
     }else{
         codeEditor.redo()
     }
+}
+
+function beautifyCode(code){
+    let settings = {
+
+    }
+    return html_beautify(code, settings)
 }

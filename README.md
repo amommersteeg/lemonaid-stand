@@ -6,3 +6,4 @@ All-in one toolbox for courseware developers
 https://www.electronjs.org/docs/tutorial/first-app#installing-electron
 https://www.electronforge.io/
 https://www.ryadel.com/en/electron-jquery-bootstrap-project-add-npm/
+https://css-tricks.com/how-i-created-a-code-beautifier-in-two-days/
