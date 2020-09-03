@@ -72,7 +72,7 @@ function copyText(that){
     if(!(that.id == (panel.id + "-tab"))){
         if(that.id == "nav-html-tab"){
             let content = tinymce.get('tinymce').getContent();
-            let cleanContent = beautifyCode(content)
+            let cleanContent = codeBeautify(content)
             codeEditor.getDoc().setValue(cleanContent);
             setTimeout(function(){
                 codeEditor.refresh()
@@ -105,9 +105,14 @@ function codeUndoRedo(flag){
     }
 }
 
-function beautifyCode(code){
+function codeBeautify(code){
     let settings = {
 
     }
     return html_beautify(code, settings)
+}
+
+function codeCopyAll(){
+    let text = codeEditor.getDoc().getValue();
+    navigator.clipboard.writeText(text);
 }
