@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    -->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" >
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <script src="js/tinymce/tinymce.min.js"></script>
+
+    <script src="js/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="css/codemirror/codemirror.css">
+    <script src="js/codemirror/http.js"></script>
+    <script src="js/codemirror/css.js"></script>
+    <script src="js/codemirror/xml.js"></script>
+    <script src="js/codemirror/javascript.js"></script>
+    <script src="js/codemirror/htmlmixed.js"></script>
+    <script src="js/codemirror/autorefresh.js"></script>
+
+
+    <link rel="stylesheet" href="css/index.css" >
+  </head>
+
+  <body>
+    <div class="container">
+        <h1>Word to HTML</h1>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="nav-word-tab" data-toggle="tab" href="#nav-word" role="tab" aria-controls="nav-word" aria-selected="true" onclick="copyText(this)">Word</a>
+            <a class="nav-link" id="nav-html-tab" data-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-html" aria-selected="false" onclick="copyText(this)">HTML</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-word" role="tabpanel" aria-labelledby="nav-word-tab">
+                <div class="contentContainer">
+                    <textarea id="tinymce">Hello, World!</textarea>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-html" role="tabpanel" aria-labelledby="nav-html-tab">
+                <div class="contentContainer codeContainer">
+                    <textarea id="codemirror"></textarea>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p>This code is using TinyMCE v5.4.2, Bootstrap v5.0.0-alpha, CodeMirror v5.57.0</p>
+        </div>
+    </div>
+    
+   
+    <script src="js/index.js"></script>
+  </body>
+</html>
