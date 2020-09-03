@@ -60,7 +60,11 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
     mode: 'htmlmixed',
     showCursorWhenSelecting: true,
     autoRefresh: true,
+    autoCloseTags: true,
+    autoCloseBrackets: true,
+    selfContain: true,
     lineWrapping: false,
+    extraKeys: {"Ctrl-Space": "autocomplete"},
 })
 
 
