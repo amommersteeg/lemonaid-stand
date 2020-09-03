@@ -60,6 +60,7 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
     mode: 'htmlmixed',
     showCursorWhenSelecting: true,
     autoRefresh: true,
+    lineWrapping: false,
 })
 
 
@@ -78,4 +79,17 @@ function copyText(that){
         } 
     }
 
+}
+
+function wrapLine(that){
+    let state = codeEditor.getOption("lineWrapping");
+    if(state){
+        codeEditor.setOption("lineWrapping", false);
+        that.classList.add('btn-outline-secondary');
+        that.classList.remove('btn-secondary', 'active');
+    }else{
+        codeEditor.setOption("lineWrapping", true);
+        that.classList.add('btn-secondary', 'active');
+        that.classList.remove('btn-outline-secondary');
+    }
 }

@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+//const tinymce = require('./node_modules/tinymce/tinymce.min.js')
 
 function createWindow () {
   // Create the browser window.
@@ -12,6 +13,9 @@ function createWindow () {
 
   // and load the index.html of the app.
   win.loadFile('src/index.html')
+
+  // Open the DevTools.
+  win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)
