@@ -59,13 +59,16 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
     lineNumbers: true,
     mode: 'htmlmixed',
     showCursorWhenSelecting: true,
+    styleActiveLine: true,
+    foldGutter: true,
+    dragDrop : true,
     autoRefresh: true,
     autoCloseTags: true,
     autoCloseBrackets: true,
     selfContain: true,
     lineWrapping: false,
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"]
 })
-
 
 function copyText(that){
     let panel = document.querySelector('#nav-tabContent > .active')
@@ -116,3 +119,4 @@ function codeCopyAll(){
     let text = codeEditor.getDoc().getValue();
     navigator.clipboard.writeText(text);
 }
+
