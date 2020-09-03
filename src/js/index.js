@@ -81,7 +81,7 @@ function copyText(that){
 
 }
 
-function wrapLine(that){
+function codeWrapLine(that){
     let state = codeEditor.getOption("lineWrapping");
     if(state){
         codeEditor.setOption("lineWrapping", false);
@@ -91,5 +91,13 @@ function wrapLine(that){
         codeEditor.setOption("lineWrapping", true);
         that.classList.add('btn-secondary', 'active');
         that.classList.remove('btn-outline-secondary');
+    }
+}
+
+function codeUndoRedo(flag){
+    if(flag == true){
+        codeEditor.undo()
+    }else{
+        codeEditor.redo()
     }
 }

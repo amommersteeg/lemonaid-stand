@@ -21,6 +21,8 @@
     <script src="js/codemirror/htmlmixed.js"></script>
     <script src="js/codemirror/autorefresh.js"></script>
 
+    <link href="css/fontawesome/all.min.css" rel="stylesheet">
+
 
     <link rel="stylesheet" href="css/index.css" >
   </head>
@@ -42,7 +44,9 @@
             </div>
             <div class="tab-pane fade" id="nav-html" role="tabpanel" aria-labelledby="nav-html-tab">
                 <div class="btn-group" role="group" aria-label="Code Editor Options">
-                    <button type="button" class="btn btn-outline-secondary" onclick="wrapLine(this)">Line Wrap</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="codeUndoRedo(true)"><i class="fas fa-undo"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="codeUndoRedo(false)"><i class="fas fa-redo"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="codeWrapLine(this)">Line Wrap</button>
                 </div>
                 <div class="contentContainer codeContainer">
                     <textarea id="codemirror"></textarea>
