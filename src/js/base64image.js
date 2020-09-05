@@ -1,3 +1,4 @@
+// https://blog.soshace.com/the-ultimate-guide-to-drag-and-drop-image-uploading-with-pure-javascript/
 var // where files are dropped + file selector is opened
 	dropRegion = document.getElementById("drop-region"),
 	// where images are previewed

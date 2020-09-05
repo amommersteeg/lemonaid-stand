@@ -5,10 +5,13 @@
   "main": "main.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "@simonwep/pickr": "^1.7.2",
     "bootstrap": "^5.0.0-alpha1",
     "codemirror": "^5.57.0",
     "electron-squirrel-startup": "^1.0.0",
+    "jquery": "^3.5.1",
     "js-beautify": "^1.13.0",
+    "spectrum-colorpicker2": "^2.0.3",
     "tinymce": "^5.4.2"
   },
   "devDependencies": {
