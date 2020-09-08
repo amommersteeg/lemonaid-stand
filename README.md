@@ -20,7 +20,8 @@ https://github.com/sindresorhus/electron-store
 
 
 # Libraries Used
-This code is using TinyMCE v5.4.2, Bootstrap v5.0.0-alpha, CodeMirror v5.57.0
+This code is using TinyMCE v5.4.2, Bootstrap v5.0.0-alpha, CodeMirror v5.57.0, Mammoth v1.4.11
 
 # To Do
-Custom menu/about page<
+Custom menu/about page
+Integrate mammoth to input docx to output folder, https://github.com/mwilliamson/mammoth.js -> open it into the editor?

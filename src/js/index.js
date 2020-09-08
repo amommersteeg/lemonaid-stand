@@ -5,7 +5,18 @@ let toast = new bootstrap.Toast(document.querySelector(".toast"),
     }
 );
 
+/******** Shared Functions   *******/
+function preventDefault(e) {
+	e.preventDefault();
+  	e.stopPropagation();
+}
+
 /******** Vertical Navigation Code  ********/
+var mammoth = require("mammoth");
+const electron = require('electron');
+const {app, dialog } = electron.remote;
+const fs = require('fs');
+const path = require("path");
 
 document.getElementById("navVerticalHtmlLink").addEventListener("click", function() { openTab( "navVerticalHtmlLink", "navVerticalHtml")});
 document.getElementById("navVerticalBaseLink").addEventListener("click", function() { openTab( "navVerticalBaseLink", "navVerticalBase")});
@@ -152,6 +163,75 @@ function codeCopyAll(){
     toast.show();
 }
 
+
+function codeConvertFile(filePath) {
+    if(path.extname(filePath) == ".docx" || path.extname(filePath) == ".doc"){
+        mammoth.convertToHtml({path: filePath})
+        .then(function(result){
+            var html = result.value; // The generated HTML
+            //console.log(html);
+            let cleanHTML = codeBeautify(html)
+            codeEditor.getDoc().setValue(cleanHTML);
+            setTimeout(function(){
+                codeEditor.refresh()
+            }, 600);
+            copyText(document.getElementById("nav-word-tab"))
+            var messages = result.messages;
+            document.getElementById('codeUploadMessage').innerHTML = "";
+            if(messages.length > 0){
+                let messageText = "";
+                for(let i=0; i<messages.length; i++){
+                    messageText += messages[i] + '\n';
+                }
+                document.getElementById('codeUploadMessage').innerHTML = messageText;
+            }
+            document.getElementById('toastBody').innerHTML = "File Conversion Complete";
+            toast.show();
+            let htmlTab = document.getElementById('nav-html-tab')
+            let tab = new bootstrap.Tab(htmlTab)
+            tab.show()
+        })
+        .done();
+    }else{
+        document.getElementById('codeUploadMessage').innerHTML = "Error: Must be a .docx or .doc Word file";
+    }
+}
+
+let codeFakeInput = document.createElement("button");
+let codeUploadRegion = document.getElementById("codeUploadRegion")
+codeUploadRegion.addEventListener('click', function() {
+	codeFakeInput.click();
+});
+
+codeFakeInput.addEventListener("click", function(event) {
+    dialog.showOpenDialog({properties: ['openFile']})
+    .then(result => {
+
+        // checks if window was closed
+        if (result.canceled) {
+            console.log("No file selected!")
+        } else {
+            // convert process
+            const filePath = result.filePaths[0];
+            codeConvertFile(filePath);
+        }
+    })
+});
+
+codeUploadRegion.addEventListener('drop', (event) => { 
+    preventDefault(event);
+
+    for (const f of event.dataTransfer.files) { 
+        codeConvertFile(f.path)
+      } 
+}); 
+  
+codeUploadRegion.addEventListener('dragover', preventDefault, false)
+codeUploadRegion.addEventListener('dragenter', preventDefault, false)
+codeUploadRegion.addEventListener('dragleave', preventDefault, false)
+
+
+
 document.getElementById("nav-word-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-word-tab")) });
 document.getElementById("nav-html-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-html-tab")) });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
@@ -159,13 +239,14 @@ document.getElementById("codeUndoBtn").addEventListener("click", function(){ cod
 document.getElementById("codeRedoBtn").addEventListener("click", function(){ codeUndoRedo(false) });
 document.getElementById("codeWrapLineBtn").addEventListener("click", function(){ codeWrapLine(document.getElementById("codeWrapLineBtn")) });
 document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
+//document.getElementById("codeUploadBtn").addEventListener("click", codeUploadFile);
 
 
 
 /******** Image to Base 64 Code ********/
 // https://blog.soshace.com/the-ultimate-guide-to-drag-and-drop-image-uploading-with-pure-javascript/
 var // where files are dropped + file selector is opened
-	dropRegion = document.getElementById("drop-region"),
+	dropRegion = document.getElementById("baseUploadRegion"),
 	// where images are previewed
 	imagePreviewRegion = document.getElementById("image-preview");
 
@@ -185,11 +266,6 @@ fakeInput.addEventListener("change", function(event) {
     event.target.value = null;
 });
 
-
-function preventDefault(e) {
-	e.preventDefault();
-  	e.stopPropagation();
-}
 
 dropRegion.addEventListener('dragenter', preventDefault, false)
 dropRegion.addEventListener('dragleave', preventDefault, false)

@@ -1,19 +1,21 @@
 {
   "name": "lemon-aid-stand",
+  "productName": "Lemon-Aid Stand",
   "version": "0.1.0",
   "description": "All-in one toolbox for courseware developers",
   "main": "main.js",
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^6.0.0",
+    "mammoth": "^1.4.11"
+  },
+  "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@simonwep/pickr": "^1.7.2",
     "bootstrap": "^5.0.0-alpha1",
     "codemirror": "^5.57.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^6.0.0",
     "js-beautify": "^1.13.0",
-    "tinymce": "^5.4.2"
-  },
-  "devDependencies": {
+    "tinymce": "^5.4.2",
     "@electron-forge/cli": "^6.0.0-beta.53",
     "@electron-forge/maker-deb": "^6.0.0-beta.53",
     "@electron-forge/maker-rpm": "^6.0.0-beta.53",
@@ -27,11 +29,13 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "author": "",
+  "author": "LAC",
   "license": "ISC",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "src/img/icon/lemon.icns"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
