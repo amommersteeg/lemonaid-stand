@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+
+    <!--
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    -->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" >
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+
+    <link href="css/fontawesome/all.min.css" rel="stylesheet">
+
+    <!-- js-beautify -->
+    <script src="js/js-beautify/beautifier.min.js"></script>
+    <script src="js/js-beautify/beautify-css.js"></script>
+    <script src="js/js-beautify/beautify-html.js"></script>
+
+
+    <link rel="stylesheet" href="css/main.css" >
+  </head>
+
+  <body>
+    <div class="container">
+        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for examples" title="Search title or comment">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i></button>
+        <table class="table table-hover" id="codeTable">
+            <thead>
+                <tr>
+                    <th scope="col"></th>  
+                    <th scope="col">Code</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Comment</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="test"></div>
+        <div>
+            <p>copy as escape code / copy as hex / copy as decimal</p>
+            <p>Add/edit/remove items</p>
+            <p>drag to rearrange order</p>
+            <p>Add unique id -> date/time to each item</p>
+            <p>This code is using TinyMCE v5.4.2, Bootstrap v5.0.0-alpha, CodeMirror v5.57.0</p>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="exampleModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Element</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><i class="fas fa-times"></i></span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Title" aria-label="title">
+                </div>
+                <div class="input-group mb-3">
+                    <textarea class="form-control" placeholder="Code"></textarea>
+                </div>
+                <div class="input-group mb-3">
+                    <textarea class="form-control" placeholder="Comment"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+   
+    <script src="js/commoncode.js"></script>
+  </body>
+</html>

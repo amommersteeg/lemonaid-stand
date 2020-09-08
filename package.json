@@ -9,9 +9,8 @@
     "bootstrap": "^5.0.0-alpha1",
     "codemirror": "^5.57.0",
     "electron-squirrel-startup": "^1.0.0",
-    "jquery": "^3.5.1",
+    "electron-store": "^6.0.0",
     "js-beautify": "^1.13.0",
-    "spectrum-colorpicker2": "^2.0.3",
     "tinymce": "^5.4.2"
   },
   "devDependencies": {
@@ -20,8 +19,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.53",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.53",
     "@electron-forge/maker-zip": "^6.0.0-beta.53",
-    "electron": "^10.1.1",
-    "htmlhint": "^0.14.1"
+    "electron": "^10.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

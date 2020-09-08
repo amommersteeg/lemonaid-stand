@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
 
     <!--
         <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
@@ -37,43 +38,99 @@
     <script src="js/js-beautify/beautify-css.js"></script>
     <script src="js/js-beautify/beautify-html.js"></script>
 
+    <!-- Fontawesome -->
     <link href="css/fontawesome/all.min.css" rel="stylesheet">
 
+    <!-- pickr -->
+    <link href="css/pickr/classic.min.css" rel="stylesheet">
+    <script src="js/pickr/pickr.min.js"></script>
 
     <link rel="stylesheet" href="css/main.css" >
   </head>
 
   <body>
-    <div class="container">
-        <a href="base64image.html">Base 64</a>
-        <h1>Word to HTML</h1>
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-link active" id="nav-word-tab" data-toggle="tab" href="#nav-word" role="tab" aria-controls="nav-word" aria-selected="true" onclick="copyText(this)">Word</a>
-            <a class="nav-link" id="nav-html-tab" data-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-html" aria-selected="false" onclick="copyText(this)">HTML</a>
-            </div>
+    <!-- Bootstrap Toast -->
+    <div class="toast m-2" class="toast">
+        <div class="toast-header">
+        <i class="far fa-lemon">&#x00A0;</i>
+        <strong class="mr-auto">25&#x00A2;</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="toast-body" id="toastBody"></div>
+    </div>
+
+    <!-- Vertical Navigation -->
+    <div class="content d-flex flex-row">
+        <nav class="nav navVertical d-flex flex-column">
+            <a class="nav-link navVerticalLink active" aria-current="page" id="navVerticalHtmlLink" href="#"><i class="fas fa-file-code"></i></a>
+            <a class="nav-link navVerticalLink" id="navVerticalBaseLink" href="#"><i class="far fa-image"></i></a>
+            <a class="nav-link navVerticalLink" id="navVerticalContrastLink" href="#"><i class="fas fa-adjust"></i></a>
         </nav>
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-word" role="tabpanel" aria-labelledby="nav-word-tab">
-                <div class="contentContainer">
-                    <textarea id="tinymce">Hello, World!</textarea>
+        
+        <div class="tabVertical" id="nav-tabContent">
+            <!-- Word to HTML -->
+            <div class="tab-pane fade show paneVertical active" id="navVerticalHtml" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="contentHeader">
+                    <h1>Word to HTML</h1>
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-link active" id="nav-word-tab" data-toggle="tab" href="#nav-word" role="tab" aria-controls="nav-word" aria-selected="true">Word</a>
+                        <a class="nav-link" id="nav-html-tab" data-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-html" aria-selected="false" >HTML</a>
+                        </div>
+                    </nav>
+                </div>           
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane contentContainer fade show active" id="nav-word" role="tabpanel" aria-labelledby="nav-word-tab">
+                        <textarea id="tinymce">Hello, World!</textarea>
+                    </div>
+                    <div class="tab-pane contentContainer fade" id="nav-html" role="tabpanel" aria-labelledby="nav-html-tab">
+                        <div class="btn-group" role="group" aria-label="Code Editor Options">
+                            <button type="button" class="btn btn-outline-secondary" id="codeUndoBtn"><i class="fas fa-undo"></i></button>
+                            <button type="button" class="btn btn-outline-secondary" id="codeRedoBtn"><i class="fas fa-redo"></i></button>
+                            <button type="button" class="btn btn-outline-secondary" id="codeWrapLineBtn">Line Wrap</button>
+                            <button type="button" class="btn btn-outline-secondary" id="codeCopyBtn">Copy All</button>
+                        </div>
+                        <textarea id="codemirror"></textarea>
+                    </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="nav-html" role="tabpanel" aria-labelledby="nav-html-tab">
-                <div class="btn-group" role="group" aria-label="Code Editor Options">
-                    <button type="button" class="btn btn-outline-secondary" onclick="codeUndoRedo(true)"><i class="fas fa-undo"></i></button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="codeUndoRedo(false)"><i class="fas fa-redo"></i></button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="codeWrapLine(this)">Line Wrap</button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="codeCopyAll()">Copy All</button>
+
+            <!-- Image to Base 64 -->
+            <div class="tab-pane fade paneVertical" id="navVerticalBase" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <h1>Image to Base64</h1>
+                <div id="images" class="d-flex justify-content-center flex-wrap photoList"></div>
+
+                <div id="drop-region">
+                <div class="drop-message">
+                    Drag & Drop image or click to upload
                 </div>
-                <div class="contentContainer codeContainer">
-                    <textarea id="codemirror"></textarea>
+                </div>
+                <div id="image-message"></div>
+                <div id="image-preview"></div>
+
+
+            </div>
+
+            <!-- WebAim Contrast -->
+            <div class="tab-pane fade paneVertical" id="navVerticalContrast" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div>
+                    <h1>Background Color</h1>
+                    <div id="background">
+                      <div class="colorBox"> </div>
+                      <input type="text" class="colorText">
+                    </div>
+                </div>
+                <div style="height: 75%; overflow-y: scroll;">
+                    <h1>Foreground Colors</h1>
+                    <div id="foreground"></div>
+                    <button id="foregroundBtn">Add another color</button>
                 </div>
             </div>
         </div>
-        <div>
-            <p>This code is using TinyMCE v5.4.2, Bootstrap v5.0.0-alpha, CodeMirror v5.57.0</p>
-        </div>
+
     </div>
     
    
