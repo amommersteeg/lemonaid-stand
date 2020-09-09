@@ -1,9 +1,17 @@
-let toast = new bootstrap.Toast(document.querySelector(".toast"),
+let toastElem = document.getElementById('notiToast');
+let toast = new bootstrap.Toast(toastElem,
     {
         delay: 2000
 
     }
 );
+
+toastElem.addEventListener('hidden.bs.toast', function () {
+    toastElem.classList.remove("active")
+})
+toastElem.addEventListener('show.bs.toast', function () {
+    toastElem.classList.add("active")
+})
 
 /******** Shared Functions   *******/
 function preventDefault(e) {

@@ -1,9 +1,17 @@
+body{
+    overflow: hidden;
+}
 .toast{
     position: absolute; 
     top: 0; 
     right: 0; 
     min-width: 200px;
     z-index: 100;
+    display: none;
+}
+
+.toast.active{
+    display: block;
 }
 
 .content{
@@ -11,15 +19,22 @@
     width: 100vw;
     height: 100vh;
     z-index: 90;
-    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
 }
 
 .navVertical{
+    position: fixed;
+    right: 0;
     background-color: #f1f1f1;
     border: 1px solid #ccc;
-    border-right: none;
+    border-left: none;
     height: 100vh;
 }
+
 
 .navVertical a{
     height: 60px;
@@ -35,7 +50,7 @@
     padding: 0px 12px;
     border: 1px solid #ccc;
     width: calc(100vw - 60px);
-    border-left: none;
+    border-right: none;
 }
 
 .paneVertical{
@@ -56,7 +71,6 @@
     height: calc(100vh - 120px);
     position: relative;
 	margin-bottom: 1.5rem;
-	overflow: hidden;
 }
 
 .codeContainer{
