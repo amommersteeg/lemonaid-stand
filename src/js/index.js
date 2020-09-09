@@ -29,6 +29,7 @@ const path = require("path");
 document.getElementById("navVerticalHtmlLink").addEventListener("click", function() { openTab( "navVerticalHtmlLink", "navVerticalHtml")});
 document.getElementById("navVerticalBaseLink").addEventListener("click", function() { openTab( "navVerticalBaseLink", "navVerticalBase")});
 document.getElementById("navVerticalContrastLink").addEventListener("click", function() { openTab( "navVerticalContrastLink", "navVerticalContrast")});
+document.getElementById("navVerticalCommonLink").addEventListener("click", function() { openTab( "navVerticalCommonLink", "navVerticalCommon")});
 
 
 function openTab(link, tab) {

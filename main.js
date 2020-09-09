@@ -3,7 +3,7 @@ const isMac = process.platform === 'darwin'
 
 let loadingScreen;
 let mainWindow;
-
+let aboutScreen;
 /*app.setAboutPanelOptions({
   applicationName: "Lemon-Aid Stand",
   applicationVersion: "v0.1.0-dev",
@@ -24,8 +24,6 @@ const createLoadingScreen = () => {
   var menu = Menu.buildFromTemplate([
     {label: app.name,
       submenu: [
-        { role: 'about' },
-        { type: 'separator' },
         { role: 'quit' }
       ]
     }
@@ -38,7 +36,7 @@ const createLoadingScreen = () => {
     loadingScreen.show();
   });
 }
-let aboutScreen = null;
+
 function createAboutScreen() {
   if (aboutScreen) {
     aboutScreen.focus()
@@ -46,12 +44,20 @@ function createAboutScreen() {
   }
   /// create a browser window
   aboutScreen = new BrowserWindow({
+    parent: mainWindow,
+    modal: true,
     width: 400,
     height: 400,
     title: '',
+    center: true,
     minimizable: false,
     fullscreenable: false,
-    resizable: false
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+    }
   })
   aboutScreen.loadFile('src/about.html')
   aboutScreen.on('closed', function() {
