@@ -212,7 +212,13 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", function(event) {
-    dialog.showOpenDialog({properties: ['openFile']})
+    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+        properties: ['openFile'],
+        filters: [
+            { name: 'Word', extensions: ['docx', 'doc' ]},
+          ]
+    
+    })
     .then(result => {
 
         // checks if window was closed
