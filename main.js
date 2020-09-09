@@ -1,7 +1,15 @@
-const { app, BrowserWindow } = require('electron')
+const { app, shell, BrowserWindow, Menu } = require('electron')
+const isMac = process.platform === 'darwin'
 
 let loadingScreen;
 let mainWindow;
+
+/*app.setAboutPanelOptions({
+  applicationName: "Lemon-Aid Stand",
+  applicationVersion: "v0.1.0-dev",
+  authors: "LAC",
+  iconPath: "src/img/icon.lemon.png"
+})*/
 
 const createLoadingScreen = () => {
   /// create a browser window
@@ -11,8 +19,18 @@ const createLoadingScreen = () => {
     /// remove the window frame, so it will rendered without frames
     frame: false,
     /// and set the transparency to true, to remove any kind of background
-    transparent: true
+    transparent: true,
   });
+  var menu = Menu.buildFromTemplate([
+    {label: app.name,
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    }
+  ])
+  Menu.setApplicationMenu(menu); 
   loadingScreen.setResizable(false);
   loadingScreen.loadFile('src/loadingscreen.html')
   loadingScreen.on('closed', () => loadingScreen = null);
@@ -20,8 +38,26 @@ const createLoadingScreen = () => {
     loadingScreen.show();
   });
 }
-
-
+let aboutScreen = null;
+function createAboutScreen() {
+  if (aboutScreen) {
+    aboutScreen.focus()
+    return
+  }
+  /// create a browser window
+  aboutScreen = new BrowserWindow({
+    width: 400,
+    height: 400,
+    title: '',
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false
+  })
+  aboutScreen.loadFile('src/about.html')
+  aboutScreen.on('closed', function() {
+    aboutScreen = null
+  })
+}
   
 function createWindow() {
   // Create the browser window.
@@ -32,11 +68,66 @@ function createWindow() {
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      fullscreenable: true,
+      //fullscreen: true,
     },
     show: false
     /// set show to false, the window will be visible when to loading screen will be remove
   });
+
+  var menu = Menu.buildFromTemplate([
+    {
+        label: app.name,
+        submenu: [
+          { label: 'About',
+            click() {
+              createAboutScreen()
+            }
+         },
+          { type: 'separator' },
+          { role: 'quit' }
+        ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'selectall'}
+      ] 
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload'},
+        { role: 'forceReload'},
+        { type: 'separator' },
+        { role: 'minimize'},
+        (isMac ? {role: 'zoom'} : { role: ' togglefullscreen'})
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        { role: 'toggleDevTools'},
+        { type: 'separator' },
+        { 
+          label: 'Contact',
+          click: async () => {
+            await shell.openExternal('https://withane.design/contact/')
+          }
+        }
+      ]
+    }
+
+  ])
+
+  Menu.setApplicationMenu(menu); 
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
@@ -51,6 +142,7 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null
   });
+
   mainWindow.webContents.on('did-finish-load', () => {
     /// when the content has loaded, hide the loading screen and show the main window
     if (loadingScreen) {
@@ -58,6 +150,8 @@ function createWindow() {
     }
     mainWindow.show();
   });
+
+
 }
 
 // This method will be called when Electron has finished

@@ -23,5 +23,7 @@ https://github.com/sindresorhus/electron-store
 This code is using TinyMCE v5.4.2, Bootstrap v5.0.0-alpha, CodeMirror v5.57.0, Mammoth v1.4.11
 
 # To Do
-Custom menu/about page
-Integrate mammoth to input docx to output folder, https://github.com/mwilliamson/mammoth.js -> open it into the editor?
+- Custom menu/about page -> https://www.electronjs.org/docs/api/menu, https://gist.github.com/stevekinney/839eb9d2843c18c7d16b, https://coursetro.com/posts/code/119/Working-with-Electron-Menus---Tutorial, 
+
+- Integrate mammoth to input docx to output folder, https://github.com/mwilliamson/mammoth.js -> creating partial files/folders in the same location of doc file
+Add a down arrow instead of scroll bar?
