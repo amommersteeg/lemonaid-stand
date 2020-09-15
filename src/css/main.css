@@ -1,6 +1,27 @@
 body{
     overflow: hidden;
 }
+
+/* Modifications to Bootstrap */
+
+.card{
+    width: 600px;
+}
+
+.modal-fullscreen-lg-down{
+    padding: 10px;
+    border-radius: .3rem;
+    height: auto;
+}
+
+@media (max-width: 991.98px){
+    .modal-fullscreen-lg-down .modal-content{
+        border-radius: .3rem;
+        border: 1px solid rgba(0,0,0,.2);
+    }
+}
+
+
 .toast{
     position: absolute; 
     top: 0; 
@@ -13,6 +34,11 @@ body{
 .toast.active{
     display: block;
 }
+
+
+
+
+/* Custom CSS */
 
 .content{
     position: absolute;   
@@ -107,4 +133,27 @@ body{
 .colorBox{
     width: 100px;
     height: 100px;
+}
+
+.snippetToolbar{
+    background-color: white;
+    width: 100%;
+}
+
+.snippetToolbarContent{
+    margin: auto;
+    max-width: 500px;
+
+}
+
+
+.listNoStyle{
+    list-style: none;
+    padding-left: 0;
+}
+
+.clearSearch{
+    /*cursor: pointer;
+    justify-content: center;
+    position: absolute;*/
 }

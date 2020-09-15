@@ -20,6 +20,9 @@ const createLoadingScreen = () => {
     frame: false,
     /// and set the transparency to true, to remove any kind of background
     transparent: true,
+    webPreferences: {
+      worldSafeExecuteJavaScript: true,
+    }
   });
   var menu = Menu.buildFromTemplate([
     {label: app.name,
@@ -69,7 +72,7 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 700,
     icon: "scr/img/icon/lemon.png",
     webPreferences: {
       worldSafeExecuteJavaScript: true,

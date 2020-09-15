@@ -5,23 +5,26 @@
   "description": "All-in one toolbox for courseware developers",
   "main": "main.js",
   "dependencies": {
+    "@yaireo/tagify": "^3.18.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^6.0.0",
-    "mammoth": "^1.4.11"
+    "mammoth": "^1.4.11",
+    "nedb": "^1.8.0"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.14.0",
-    "@simonwep/pickr": "^1.7.2",
-    "bootstrap": "^5.0.0-alpha1",
-    "codemirror": "^5.57.0",
-    "js-beautify": "^1.13.0",
-    "tinymce": "^5.4.2",
     "@electron-forge/cli": "^6.0.0-beta.53",
     "@electron-forge/maker-deb": "^6.0.0-beta.53",
     "@electron-forge/maker-rpm": "^6.0.0-beta.53",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.53",
     "@electron-forge/maker-zip": "^6.0.0-beta.53",
-    "electron": "^10.1.1"
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@popperjs/core": "^2.4.4",
+    "@simonwep/pickr": "^1.7.2",
+    "bootstrap": "^5.0.0-alpha1",
+    "codemirror": "^5.57.0",
+    "electron": "^10.1.1",
+    "js-beautify": "^1.13.0",
+    "tinymce": "^5.4.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
