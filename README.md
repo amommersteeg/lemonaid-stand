@@ -30,7 +30,7 @@ In the `releases` folder are complied versions for Windows and Mac computers (po
     * Add creating of partial html components when uploading HTML and exporting using Mammoth.
     * And more.
 
-### Known Bugs & To Do's
+### Known Bugs
     * 
 
 
