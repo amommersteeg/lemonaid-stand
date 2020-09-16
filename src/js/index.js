@@ -71,9 +71,9 @@ tinymce.init({
     height: "100%",
     scroll: true,
     resize: false,
-    plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+    plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons', //quickbars
     mobile: {
-        plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap quickbars linkchecker emoticons'
+        plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap linkchecker emoticons'  //quickbars
     },
     menu: {
         file: { title: 'File', items: 'newdocument | preview | print ' },
@@ -87,7 +87,7 @@ tinymce.init({
     },
     toolbar: 'undo redo | bold italic underline strikethrough removeformat| formatselect | outdent indent | numlist bullist checklist  | charmap emoticons | image link | fullscreen',
     block_formats: 'Paragraph=p; Div =div; Blockquote=blockquote; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6;',
-    quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+    //quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     toolbar_mode: 'sliding',
 
     // Create custom templates for regular tasks,
@@ -608,7 +608,7 @@ function updateRating(container, ratio){
 */
 
 const NUMCARDS = 4;
-let AUTOBACKUP = false;
+let AUTOBACKUP = true;
 let SEARCHPARAM;
 
 /*function loadTooltips(){

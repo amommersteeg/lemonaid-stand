@@ -5,3 +5,5 @@ document.getElementById("closeBtn").addEventListener("click", function (e) {
                window.close();
                console.log(window)
 }); 
+
+document.getElementById('aboutVersion').innerHTML = remote.app.getVersion();
