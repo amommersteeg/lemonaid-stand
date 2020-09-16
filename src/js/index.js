@@ -680,7 +680,7 @@ db.notes.loadDatabase(function (err){
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
-            let filepath = "Lemon-Aid Stand Note - Autobackup." + new Date() + ".json"
+            let filepath = __dirname + "/Lemon-Aid Stand Note - Autobackup." + Date.now() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
                 console.log(err)
                 if(err == null){
