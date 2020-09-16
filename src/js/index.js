@@ -1016,7 +1016,7 @@ function snippetEditSaveNote(){
     let fav = editModalElem.getAttribute('data-fav')
     let isNewDoc = true;
 
-    if(id == null){
+    if(id == null || id == ""){
         id = Date.now()
     }else{
         isNewDoc = false;
