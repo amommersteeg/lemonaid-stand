@@ -25,7 +25,7 @@ In the `releases` folder are complied versions for Windows and Mac computers (po
 
 ## Roadmap
 * 0.2.0
-    * Refactor the code into separate files to allow for better collaboration. 
+    * Refactor the project's code into separate files to allow for better collaboration. 
     * Add styling to the components.
     * Add creating of partial html components when uploading HTML and exporting using Mammoth.
     * And more.
@@ -52,7 +52,7 @@ https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
 
 
 ## Libraries Used
-This code is using: 
+This project is using: 
 * [TinyMCE v5.4.2](https://www.tiny.cloud/docs/)
 * [Bootstrap v5.0.0-alpha](https://v5.getbootstrap.com/docs/5.0/getting-started/introduction/)
 * [CodeMirror v5.57.0](https://codemirror.net/)
@@ -70,9 +70,3 @@ https://dev.to/lauthieb/code-notes-an-open-source-code-snippet-manager-to-increa
 
 ## License
 [MIT License](https://github.com/amommersteeg/Lemon-Aid_Stand/blob/master/LICENSE)
-
-Bug
-- can't edit not twice in row? - Readd event listeners?
-- Make sure to clear id attributes/targe for edit window
-
-- Issue with replacing tags, only doing 1 note - Fixed

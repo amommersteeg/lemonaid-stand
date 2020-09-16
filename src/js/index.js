@@ -680,7 +680,7 @@ db.notes.loadDatabase(function (err){
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
-            let filepath = "Lemon-Aid Stand Note - Autobackup" + new Date() + ".json"
+            let filepath = "Lemon-Aid Stand Note - Autobackup." + new Date() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
                 console.log(err)
                 if(err == null){
@@ -1080,6 +1080,7 @@ function snippetEditSaveNote(){
                 document.getElementById(id).focus();
                 let textareas = document.getElementById(id).getElementsByClassName('snippetFileEditor')
                 snippetCreateSnippet(textareas);
+                snippetAddEventListeners(document.getElementById(id));
             }
           })
     }
@@ -1108,6 +1109,7 @@ snippetEditModal.addEventListener('hidden.bs.modal', function (e) {
     document.getElementById('snippetEditDescription').value = "";
     snippetTagify.removeAllTags();
     document.getElementById('snippetEditFiles').innerHTML = "";
+    document.getElementById('snippetEditModal').setAttribute('data-target', '');
 })
 
 
