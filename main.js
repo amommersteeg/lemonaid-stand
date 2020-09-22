@@ -1,15 +1,11 @@
 const { app, shell, BrowserWindow, Menu } = require('electron')
 const isMac = process.platform === 'darwin'
+const fs = require('fs');
+const { parse } = require('node-html-parser')
 
 let loadingScreen;
 let mainWindow;
 let aboutScreen;
-/*app.setAboutPanelOptions({
-  applicationName: "Lemon-Aid Stand",
-  applicationVersion: "v0.1.0-dev",
-  authors: "LAC",
-  iconPath: "src/img/icon.lemon.png"
-})*/
 
 const createLoadingScreen = () => {
   /// create a browser window
@@ -33,7 +29,7 @@ const createLoadingScreen = () => {
   ])
   Menu.setApplicationMenu(menu); 
   loadingScreen.setResizable(false);
-  loadingScreen.loadFile('src/loadingscreen.html')
+  loadingScreen.loadFile('src/pages/loadingscreen.html')
   loadingScreen.on('closed', () => loadingScreen = null);
   loadingScreen.webContents.on('did-finish-load', () => {
     loadingScreen.show();
@@ -62,13 +58,14 @@ function createAboutScreen() {
       enableRemoteModule: true,
     }
   })
-  aboutScreen.loadFile('src/about.html')
+  aboutScreen.loadFile('src/pages/about.html')
   aboutScreen.on('closed', function() {
     aboutScreen = null
   })
 }
   
 function createWindow() {
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
@@ -140,7 +137,7 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
-
+  //mainWindow.loadURL('data:text/html, ' + baseHtml)
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
@@ -168,7 +165,8 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createLoadingScreen();
-  /// add a little timeout for tutorial purposes, remember to remove this
+
+  // timeout to show loading screen
   setTimeout(() => {
     createWindow();
   }, 4000);

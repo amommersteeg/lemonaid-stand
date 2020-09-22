@@ -1,3 +1,54 @@
+const mammoth = require("mammoth");
+const electron = require('electron');
+const {app, dialog } = electron.remote;
+const fs = require('fs');
+const path = require("path");
+
+/* Load html templates
+* Node + JS
+* Loads html template from separate files and appends to DOM (index.html), synchronous/blocking
+* Set the 'template-target' attribute on the div container to add the template <div template-target="example">
+* Set the same 'template-target' in corresponding template tag <template template-target="example">
+* Parameter: location of the template .html files (string)
+* Returns: nothing
+*/
+function loadPartials(folderPath){
+    const fs = require("fs");
+    let files = fs.readdirSync(folderPath)
+
+    files.forEach(file => {
+        if(folderPath.substring(0, folderPath.length-1) != "/"){
+            folderPath = folderPath + "/"
+        }
+        let html = fs.readFileSync(folderPath + file)
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        let templates = doc.getElementsByTagName('template')
+
+        Array.from(templates).forEach(template =>{ 
+            let target = template.getAttribute('template-target')
+                let parent = document.querySelector('[template-target="'+target+'"]')
+                if(parent){
+                    let clone = template.content.cloneNode(true);
+                    parent.appendChild(clone)
+                }else{
+                    console.error("Can not find template-target " + target )
+                }
+        })
+    })
+}
+
+loadPartials('src/partials/') //execute function
+
+
+// Load all separate js files
+/*require('scr/js/pages/word2html.js')
+require('scr/js/pages/base64.js')
+require('scr/js/pages/contrast.js')
+require('scr/js/pages/snippet.js')*/
+
+
+// Global Variables
 const MONTHS = [
     'January',
     'February',
@@ -11,7 +62,24 @@ const MONTHS = [
     'October',
     'November',
     'December'
-  ]
+]
+
+
+
+
+// Load HTML templates
+/*const links = document.querySelectorAll('link[rel="import"]');
+links.forEach((link) => {
+        let template = link.import.querySelector('template');
+        let clone = document.importNode(template.content, true);
+        let target = clone.querySelector(".template").dataset.tab;
+        document.getElementById(target).appendChild(clone);
+});*/
+
+
+
+
+
 
 
 let toastElem = document.getElementById('notiToast');
@@ -36,11 +104,7 @@ function preventDefault(e) {
 }
 
 /******** Vertical Navigation Code  ********/
-var mammoth = require("mammoth");
-const electron = require('electron');
-const {app, dialog } = electron.remote;
-const fs = require('fs');
-const path = require("path");
+
 
 document.getElementById("navVerticalHtmlLink").addEventListener("click", function() { openTab( "navVerticalHtmlLink", "navVerticalHtml")});
 document.getElementById("navVerticalBaseLink").addEventListener("click", function() { openTab( "navVerticalBaseLink", "navVerticalBase")});
