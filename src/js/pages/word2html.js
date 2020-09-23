@@ -4,6 +4,7 @@ tinymce.init({
     height: "100%",
     scroll: true,
     resize: false,
+    auto_focus :'tinymce',
     plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons', //quickbars
     mobile: {
         plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap linkchecker emoticons'  //quickbars
@@ -80,10 +81,12 @@ function copyText(that){
             codeEditor.getDoc().setValue(cleanContent);
             setTimeout(function(){
                 codeEditor.refresh()
+                codeEditor.focus()
             }, 500);
         }else if(that.id == "nav-word-tab"){
             let content = codeEditor.getDoc().getValue();
             tinymce.get('tinymce').setContent(content);
+            tinymce.get('tinymce').focus()
         } 
     }
 }
@@ -204,3 +207,5 @@ document.getElementById("codeRedoBtn").addEventListener("click", function(){ cod
 document.getElementById("codeWrapLineBtn").addEventListener("click", function(){ codeWrapLine(document.getElementById("codeWrapLineBtn")) });
 document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
 //document.getElementById("codeUploadBtn").addEventListener("click", codeUploadFile);
+
+

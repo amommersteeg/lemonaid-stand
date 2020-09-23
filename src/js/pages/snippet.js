@@ -22,7 +22,7 @@
 */
 
 const NUMCARDS = 4;
-let AUTOBACKUP = true;
+let AUTOBACKUP = false;
 let SEARCHPARAM;
 
 /*function loadTooltips(){

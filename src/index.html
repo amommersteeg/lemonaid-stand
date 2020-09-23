@@ -84,14 +84,18 @@
             <div class="tab-pane fade paneVertical" id="navVerticalCommon" role="tabpanel" aria-labelledby="nav-contact-tab" template-target="snippet"></div>
         </div>
 
-        <nav class="nav navVertical d-flex flex-column order-1">
-            <a class="nav-link navVerticalLink active" aria-current="page" id="navVerticalHtmlLink" href="#"><i class="fas fa-file-code"></i></a>
-            <a class="nav-link navVerticalLink" id="navVerticalBaseLink" href="#"><i class="far fa-image"></i></a>
-            <a class="nav-link navVerticalLink" id="navVerticalContrastLink" href="#"><i class="fas fa-adjust"></i></a>
-            <a class="nav-link navVerticalLink" id="navVerticalCommonLink" href="#"><i class="fas fa-table"></i></a>
+        <nav class="nav navVertical d-flex flex-column order-1" id="mainNav">
+            <a class="nav-link navVerticalLink active" id="navVerticalHtmlLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+1"><i class="fas fa-file-code"></i></a>
+            <a class="nav-link navVerticalLink" id="navVerticalBaseLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+2"><i class="far fa-image"></i></a>
+            <a class="nav-link navVerticalLink" id="navVerticalContrastLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+3"><i class="fas fa-adjust"></i></a>
+            <a class="nav-link navVerticalLink" id="navVerticalCommonLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+4"><i class="fas fa-table"></i></a>
         </nav>
 
         <div template-target="modals"></div>
+
+        <div class="tooltip" id="planTooltip">
+            <span class="tooltiptext">Tooltip text</span>
+        </div>
     
         <!-- Share js file -->
         <script src="js/index.js"></script> 

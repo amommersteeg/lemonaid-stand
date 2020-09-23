@@ -7,6 +7,7 @@ let loadingScreen;
 let mainWindow;
 let aboutScreen;
 
+
 const createLoadingScreen = () => {
   /// create a browser window
   loadingScreen = new BrowserWindow({
@@ -169,7 +170,8 @@ app.on('ready', () => {
   // timeout to show loading screen
   setTimeout(() => {
     createWindow();
-  }, 4000);
+  }, 10); // normally 4000
+
 })
 
 // Quit when all windows are closed.

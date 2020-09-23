@@ -157,3 +157,7 @@ body{
     justify-content: center;
     position: absolute;*/
 }
+
+[data-toggle="tooltip"] * { 
+    pointer-events: none; 
+}

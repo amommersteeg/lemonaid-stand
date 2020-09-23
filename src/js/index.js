@@ -1,17 +1,19 @@
+// Load the required Node dependencies
 const mammoth = require("mammoth");
 const electron = require('electron');
-const {app, dialog } = electron.remote;
+const {app, dialog, globalShortcut} = electron.remote;
 const fs = require('fs');
 const path = require("path");
 
 
-/* Load html templates
+/** 
+* Load html templates
 * Node + JS
 * Loads html template from separate files and appends to DOM (index.html), synchronous/blocking
 * Set the 'template-target' attribute on the div container to add the template <div template-target="example">
 * Set the same 'template-target' in corresponding template tag <template template-target="example">
-* Parameter: location of the template .html files (string)
-* Returns: nothing
+* @param folderPath location of the template .html files (string)
+* @returns nothing
 */
 function loadPartials(folderPath){
     const fs = require("fs");
@@ -42,10 +44,12 @@ function loadPartials(folderPath){
 loadPartials('src/partials/') //execute function
 
 
-/*
-Loads js file
-parameters: string, full link to js file, eg: '/js/file.js'
-returns: promise once js file is loaded
+/**
+* Loads js file
+* JS
+* loads js files to the DOM in the <head> if they haven't already been loaded
+* @param scr String, full link to js file, eg: '/js/file.js'
+* @returns promise once js file is loaded
 */
 function LoadJS(src){
     return new Promise( function( resolve, reject ) {
@@ -72,6 +76,9 @@ function LoadJS(src){
 }
 
 LoadJS('./js/pages/word2html.js')
+LoadJS('./js/pages/base64.js')
+LoadJS('./js/pages/contrast.js')
+LoadJS('./js/pages/snippet.js')
 
 
 // Global Variables
@@ -89,23 +96,6 @@ const MONTHS = [
     'November',
     'December'
 ]
-
-
-
-
-// Load HTML templates
-/*const links = document.querySelectorAll('link[rel="import"]');
-links.forEach((link) => {
-        let template = link.import.querySelector('template');
-        let clone = document.importNode(template.content, true);
-        let target = clone.querySelector(".template").dataset.tab;
-        document.getElementById(target).appendChild(clone);
-});*/
-
-
-
-
-
 
 
 let toastElem = document.getElementById('notiToast');
@@ -131,8 +121,9 @@ function preventDefault(e) {
 
 /******** Vertical Navigation Code  ********/
 
-
-document.getElementById("navVerticalHtmlLink").addEventListener("click", function() { openTab( "navVerticalHtmlLink", "navVerticalHtml")});
+document.getElementById("navVerticalHtmlLink").addEventListener("click", function() { openTab( "navVerticalHtmlLink", "navVerticalHtml")
+    tinymce.get('tinymce').focus();
+});
 document.getElementById("navVerticalBaseLink").addEventListener("click", function() { openTab( "navVerticalBaseLink", "navVerticalBase")});
 document.getElementById("navVerticalContrastLink").addEventListener("click", function() { openTab( "navVerticalContrastLink", "navVerticalContrast")});
 document.getElementById("navVerticalCommonLink").addEventListener("click", function() { openTab( "navVerticalCommonLink", "navVerticalCommon")});
@@ -153,4 +144,59 @@ function openTab(link, tab) {
     document.getElementById(tab).classList.add('active');
     document.getElementById(tab).classList.add('show');
 
-  }
+}
+
+// Add shortcut keys the main nav
+let navLinks = document.getElementById("mainNav").children
+for(let i=0; i<navLinks.length; i++){
+    let key = 'Ctrl+' + (i+1);
+    globalShortcut.register(key, () => {
+        navLinks[i].click();
+    })
+}
+
+// Add shortcut key for secondary nav
+globalShortcut.register("Ctrl+Tab", () => {
+    let page = document.getElementsByClassName("paneVertical active")[0]
+    let tabs = page.getElementsByClassName("nav-link");
+
+    if(tabs){
+        for(let i=0; i<tabs.length; i++){
+            if(tabs[i].classList.contains("active")){
+                let nextTab = i+1
+                if( nextTab == tabs.length){
+                    nextTab = 0;
+                }
+                tabs[nextTab].click()
+                break;
+            }
+        }
+    }
+})
+
+globalShortcut.register("Ctrl+Shift+Tab", () => {
+    let page = document.getElementsByClassName("paneVertical active")[0]
+    let tabs = page.getElementsByClassName("nav-link");
+
+    if(tabs){
+        for(let i=0; i<tabs.length; i++){
+            if(tabs[i].classList.contains("active")){
+                let nextTab = i-1
+                if( nextTab < 0){
+                    nextTab = tabs.length-1;
+                }
+                tabs[nextTab].click()
+                break;
+            }
+        }
+    }
+})
+
+// Enable Tooltip Globally
+let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl, {
+    delay: { "show": 500, "hide": 0 },
+    trigger: "hover"
+  })
+})
