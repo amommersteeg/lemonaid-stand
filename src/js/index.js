@@ -5,6 +5,7 @@ const {app, dialog, globalShortcut} = electron.remote;
 const fs = require('fs');
 const path = require("path");
 const Datastore = require('nedb');
+const os = require('os');
 
 /* * * Global Variables * * */
 
@@ -29,20 +30,21 @@ let db = {};  // database object
 let settings = {
     snippet: {
         autoBackup: true,
+        backupLocation: `${os.homedir() + '/Desktop'}`,  // Node
         numCards: 20,
     }
     
-
 }
+let settingDefaults = {};
+Object.assign(settingDefaults, settings)
 
 /* * * Load Settings * * */
 db.settings = new Datastore({ filename: 'standSettings.db'});
-db.settings.loadDatabase(function (err) {
-    // get all settings   
+db.settings.loadDatabase(function (err) { 
     db.settings.find({}, function(err, docs){
         if(docs.length > 0){
             let doc = docs[0]
-            loadSettings(doc);
+            Object.assign(settings, doc)
         }
     })
 });
@@ -52,19 +54,59 @@ db.settings.loadDatabase(function (err) {
  * @param {*} folderPath 
  */
 function loadSettings(data){
-    // cycle through data and update settings with new data
-    // need to check sub settings. 
-    // loop through settings see if data has same settings and update 
-    
+    let settings = document.querySelectorAll(`[data-settings]`)
+    Array.from(settings).forEach(item =>{
+        let type = item.type;
+        let key = item.getAttribute('data-settings');
+        let value = key.split('.').reduce(function(o, key) {
+                return o[key];
+            }, data);
+        if(type == "checkbox"){
+            item.checked = value;
+        }else if(type == "text"){
+            item.value = value;
+        }else if(type == "number"){
+            item.value = value;
+        }
+    })
 }
+
 
 /**
  * 
  * @param {*} folderPath 
  */
 function saveSettings(){
-    // TODO: get settings from page and update settings object
-    db.settings.update({ _id: 1 }, settings , {multi: false, upsert: true}, function (err, numAffected) {
+    let settings = document.querySelectorAll(`[data-settings]`)
+    let data = {
+        _id: 1,
+    }
+    Array.from(settings).forEach(item =>{
+        let type = item.type;
+        let key = item.getAttribute('data-settings');
+        let value = null;
+        if(type == "checkbox"){
+            value = item.checked;
+        }else if(type == "text"){
+            value = item.value;
+        }else if(type == "number"){
+            value = item.value;
+        }
+        var schema = data;                 // a moving reference to internal objects within obj
+        var pList = key.split('.');
+        var len = pList.length;
+        for(var i = 0; i < len-1; i++) {
+            var elem = pList[i];
+            if( !schema[elem] ) {
+                schema[elem] = {}
+            }
+            schema = schema[elem];
+        }
+        schema[pList[len-1]] = value;
+
+    })
+
+    db.settings.update({ _id: 1 }, data , {multi: false, upsert: true}, function (err, numAffected) {
         if(numAffected == 1){
             document.getElementById('alertToastBody').innerHTML = "Settings saved";
             alertToast.show();
@@ -76,6 +118,10 @@ function saveSettings(){
  * 
  * @param {*} folderPath 
  */
+function loadSettingDefaults(){
+    loadSettings(settingDefaults)
+}
+
 
 /** 
 * Load html templates
@@ -179,7 +225,9 @@ document.getElementById("mainNavHtml2Word").addEventListener("click", function()
 document.getElementById("mainNavBase64").addEventListener("click", function() { openTab(this, "mainTabBase64")});
 document.getElementById("mainNavContrast").addEventListener("click", function() { openTab(this,  "mainTabContrast")});
 document.getElementById("mainNavSnippet").addEventListener("click", function() { openTab( this, "mainTabSnippet")});
-document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")});
+document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")
+    loadSettings(settings)  
+});
 
 /**
 * Opens main tab
@@ -280,6 +328,9 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
   })
 })
 
+
+document.getElementById('settingsSaveBtn').addEventListener('click', saveSettings)
+document.getElementById('settingsLoadDefaults').addEventListener('click', loadSettingDefaults)
 
 
 
