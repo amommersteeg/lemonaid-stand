@@ -127,6 +127,7 @@ document.getElementById("navVerticalHtmlLink").addEventListener("click", functio
 document.getElementById("navVerticalBaseLink").addEventListener("click", function() { openTab( "navVerticalBaseLink", "navVerticalBase")});
 document.getElementById("navVerticalContrastLink").addEventListener("click", function() { openTab( "navVerticalContrastLink", "navVerticalContrast")});
 document.getElementById("navVerticalCommonLink").addEventListener("click", function() { openTab( "navVerticalCommonLink", "navVerticalCommon")});
+document.getElementById("navVerticalSettingsLink").addEventListener("click", function() { openTab( "navVerticalSettingsLink", "navVerticalSettings")});
 
 
 function openTab(link, tab) {

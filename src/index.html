@@ -78,10 +78,11 @@
 
         <!-- Vertical Navigation -->
         <div class="tabVertical content tab-content order-0" id="nav-tabContent">
-            <div class="tab-pane fade show paneVertical active" id="navVerticalHtml" role="tabpanel" aria-labelledby="nav-home-tab" template-target="html2word"></div>
-            <div class="tab-pane fade paneVertical" id="navVerticalBase" role="tabpanel" aria-labelledby="nav-profile-tab" template-target="base64"></div>
-            <div class="tab-pane fade paneVertical" id="navVerticalContrast" role="tabpanel" aria-labelledby="nav-contact-tab" template-target="contrast"></div>
-            <div class="tab-pane fade paneVertical" id="navVerticalCommon" role="tabpanel" aria-labelledby="nav-contact-tab" template-target="snippet"></div>
+            <div class="tab-pane fade show paneVertical active" id="navVerticalHtml" role="tabpanel" template-target="html2word"></div>
+            <div class="tab-pane fade paneVertical" id="navVerticalBase" role="tabpanel" template-target="base64"></div>
+            <div class="tab-pane fade paneVertical" id="navVerticalContrast" role="tabpanel" template-target="contrast"></div>
+            <div class="tab-pane fade paneVertical" id="navVerticalCommon" role="tabpanel" template-target="snippet"></div>
+            <div class="tab-pane fade paneVertical" id="navVerticalSettings" role="tabpanel" template-target="settings"></div>
         </div>
 
         <nav class="nav navVertical d-flex flex-column order-1" id="mainNav">
@@ -89,14 +90,11 @@
             <a class="nav-link navVerticalLink" id="navVerticalBaseLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+2"><i class="far fa-image"></i></a>
             <a class="nav-link navVerticalLink" id="navVerticalContrastLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+3"><i class="fas fa-adjust"></i></a>
             <a class="nav-link navVerticalLink" id="navVerticalCommonLink" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+4"><i class="fas fa-table"></i></a>
+            <a class="nav-link navVerticalLink mt-auto" id="navVerticalSettingsLink" href="#" tabindex="-1"><i class="fas fa-cog"></i></a>
         </nav>
 
         <div template-target="modals"></div>
 
-        <div class="tooltip" id="planTooltip">
-            <span class="tooltiptext">Tooltip text</span>
-        </div>
-    
         <!-- Share js file -->
         <script src="js/index.js"></script> 
        <!-- <script src="js/temp.js"></script>-->
