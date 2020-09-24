@@ -69,7 +69,7 @@ function validateImage(image) {
 
 
 function previewImage(image){
-    var parent = document.querySelector('#image-preview');
+    var parent = document.getElementById('image-preview');
   
       // Make sure `file.name` matches our extensions criteria
       if ( /\.(jpe?g|png|gif)$/i.test(image.name) ) {
@@ -77,22 +77,24 @@ function previewImage(image){
   
         reader.addEventListener("load", function (event) {
             image.src = this.result;
+            let id = Date.now()
             let item = `
                 <div>
-                    <button class="btn btn-outline-secondary" id="baseImageCloseBtn"><i class="fas fa-times"></i></button>
+                    <button class="btn btn-outline-secondary" id="${id+"close"}"><i class="fas fa-times"></i></button>
                     <img class="image-view" title="${image.name}" src="${image.src}">
                     <p>Name:${image.name}</p>
                     <p>Size:${formatBytes(image.size)}</p>
                     <textarea>${image.src}</textarea>
-                    <button class="btn btn-outline-secondary" id="baseImageCopyBtn">Copy Text</button>
+                    <button class="btn btn-outline-secondary" id="${id+"copy"}">Copy Text</button>
                 </div>`
             parent.insertAdjacentHTML('beforeend', item);
             document.getElementById('image-message').innerHTML = "";
-            document.getElementById('baseImageCopyBtn').addEventListener('click', function(event){ 
+            document.getElementById(id+"copy").addEventListener('click', function(event){ 
                 imageCopy(event.target);
             })
-            document.getElementById('baseImageCloseBtn').addEventListener('click', function(event){ 
-                document.getElementById('image-preview').innerHTML = "";
+            document.getElementById(id+'close').addEventListener('click', function(){ 
+                let element = document.getElementById(id+'close').parentElement;
+                parent.removeChild(element)
             })
         });
   

@@ -4,7 +4,78 @@ const electron = require('electron');
 const {app, dialog, globalShortcut} = electron.remote;
 const fs = require('fs');
 const path = require("path");
+const Datastore = require('nedb');
 
+/* * * Global Variables * * */
+
+const MONTHS = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+]
+
+let db = {};  // database object
+
+// Default settings
+let settings = {
+    snippet: {
+        autoBackup: true,
+        numCards: 20,
+    }
+    
+
+}
+
+/* * * Load Settings * * */
+db.settings = new Datastore({ filename: 'standSettings.db'});
+db.settings.loadDatabase(function (err) {
+    // get all settings   
+    db.settings.find({}, function(err, docs){
+        if(docs.length > 0){
+            let doc = docs[0]
+            loadSettings(doc);
+        }
+    })
+});
+
+/**
+ * 
+ * @param {*} folderPath 
+ */
+function loadSettings(data){
+    // cycle through data and update settings with new data
+    // need to check sub settings. 
+    // loop through settings see if data has same settings and update 
+    
+}
+
+/**
+ * 
+ * @param {*} folderPath 
+ */
+function saveSettings(){
+    // TODO: get settings from page and update settings object
+    db.settings.update({ _id: 1 }, settings , {multi: false, upsert: true}, function (err, numAffected) {
+        if(numAffected == 1){
+            document.getElementById('alertToastBody').innerHTML = "Settings saved";
+            alertToast.show();
+        }
+    })
+}
+
+/**
+ * 
+ * @param {*} folderPath 
+ */
 
 /** 
 * Load html templates
@@ -80,23 +151,6 @@ LoadJS('./js/partials/base64.js')
 LoadJS('./js/partials/contrast.js')
 LoadJS('./js/partials/snippet.js')
 
-
-/* * * Global Variables * * */
-
-const MONTHS = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-]
 
 /* * * Alert Toast * * */
 
@@ -225,3 +279,7 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
     trigger: "hover"
   })
 })
+
+
+
+

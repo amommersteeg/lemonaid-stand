@@ -58,14 +58,13 @@ let snippetReplaceTagify = new Tagify(snippetReplaceTagifyElement, {
     }
 })
 
-let Datastore = require('nedb');
-const { brotliDecompress } = require("zlib");
-let db = {};
+//let Datastore = require('nedb');
+//let db = {};
 db.notes = new Datastore({ filename: 'snippetNotes.db'});
-db.settings = new Datastore({ filename: 'standSettings.db'});
+db.tags = new Datastore({ filename: 'snippetTags.db'});
 
-db.settings.loadDatabase(function (err) {    // Callback is optional
-    db.settings.findOne({title: 'tags'}, function (err, doc) {
+db.tags.loadDatabase(function (err) {    // Callback is optional
+    db.tags.findOne({title: 'tags'}, function (err, doc) {
         if(doc){
             snippetTagify.settings.whitelist = doc.tags;
             snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
@@ -73,7 +72,7 @@ db.settings.loadDatabase(function (err) {    // Callback is optional
             console.log(snippetTagify.settings.whitelist)
         }
     });
-    db.settings.find({}, function (err, docs) {
+    db.tags.find({}, function (err, docs) {
         console.log(docs)
     })
 });
@@ -511,7 +510,7 @@ function snippetEditSaveNote(){
         snippetTagify.settings.whitelist = snippetTagify.settings.whitelist.concat(newTagList)
         snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
         snippetLoadFilterTags(snippetTagify.settings.whitelist) 
-        db.settings.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {upsert: true}, function (err) {
+        db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {upsert: true}, function (err) {
             console.log(err)
         });
     }
@@ -612,7 +611,7 @@ function snippetReplaceTag(){
             snippetLoadNotes({}, 0, NUMCARDS)
         });
 
-        db.settings.update({title: 'tags'}, { $pull: { tags: old } }, {}, function (err, numReplaced) {
+        db.tags.update({title: 'tags'}, { $pull: { tags: old } }, {}, function (err, numReplaced) {
             //console.log(err)
             if(numReplaced > 0){
                 const index = snippetTagify.settings.whitelist .indexOf(old);
@@ -636,7 +635,7 @@ function snippetReplaceTag(){
             });
         });
 
-        db.settings.update({title: 'tags'}, { $pull: { tags: old } }, {}, function (err, numReplaced) {
+        db.tags.update({title: 'tags'}, { $pull: { tags: old } }, {}, function (err, numReplaced) {
             const index = snippetTagify.settings.whitelist .indexOf(old);
             if (index > -1) {
                 snippetTagify.settings.whitelist.splice(index, 1);
@@ -644,7 +643,7 @@ function snippetReplaceTag(){
                 snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
                 snippetLoadFilterTags(snippetTagify.settings.whitelist) 
             }
-            db.settings.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {z}, function (err) {
+            db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {z}, function (err) {
                 snippetTagReplaceCloseBtn.click();
                 document.getElementById('alertToastBody').innerHTML = "Tag Replaced";
                 alertToast.show();
@@ -761,7 +760,7 @@ function snippetImport(){
                 });
             });
 
-            db.settings.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {upsert: true}, function (err) {
+            db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {upsert: true}, function (err) {
                 snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
                 snippetLoadFilterTags(snippetTagify.settings.whitelist) 
                 document.getElementById('snippetNoteList').innerHTML = '';
