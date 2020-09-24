@@ -98,8 +98,8 @@ db.notes.loadDatabase(function (err){
             fs.writeFile(filepath, fileData, function(err) {
                 console.log(err)
                 if(err == null){
-                    document.getElementById('toastBody').innerHTML = "Notes autobacked up";
-                    toast.show();
+                    document.getElementById('alertToastBody').innerHTML = "Notes autobacked up";
+                    alertToast.show();
                 }
             }); 
         });
@@ -353,8 +353,8 @@ function snippetDeleteNote(event){
     db.notes.remove({ _id: parseInt(id) }, {}, function (err, numRemoved) {
         if(numRemoved > 0){
             document.getElementById('snippetNoteList').removeChild(document.getElementById(id));
-            document.getElementById('toastBody').innerHTML = "Note deleted";
-            toast.show();
+            document.getElementById('alertToastBody').innerHTML = "Note deleted";
+            alertToast.show();
         }
     });
 }
@@ -399,8 +399,8 @@ function snippetCopyFile(event){
     let editor = item.getElementsByClassName('CodeMirror')[0]
     let code = editor.CodeMirror.getDoc().getValue();
     navigator.clipboard.writeText(code);
-    document.getElementById('toastBody').innerHTML = "Code Copied";
-    toast.show();
+    document.getElementById('alertToastBody').innerHTML = "Code Copied";
+    alertToast.show();
 }
 
 
@@ -475,8 +475,8 @@ function snippetEditSaveNote(){
             snippetCreateSnippet(textareas);
             snippetAddEventListeners(document.getElementById(id))
             document.getElementById('snippetEditModalClose').click();
-            document.getElementById('toastBody').innerHTML = "Note added";
-            toast.show();
+            document.getElementById('alertToastBody').innerHTML = "Note added";
+            alertToast.show();
     
         });
 
@@ -485,8 +485,8 @@ function snippetEditSaveNote(){
         db.notes.update({ _id: parseInt(id) }, doc , {returnUpdatedDocs: true, multi: false}, function (err, numReplaced, affectedDocuments) {
             if(numReplaced){
                 document.getElementById('snippetEditModalClose').click();
-                document.getElementById('toastBody').innerHTML = "Note updated";
-                toast.show();
+                document.getElementById('alertToastBody').innerHTML = "Note updated";
+                alertToast.show();
                 let listItem = snippetNoteComponent(affectedDocuments)
                 parent.insertAdjacentHTML("beforeend", listItem);
 
@@ -586,12 +586,12 @@ function snippetFavNote(event){
             item.getElementsByClassName('snippetNoteFav')[0].setAttribute('data-fav', fav)
             if(fav){
                 item.getElementsByClassName('snippetNoteFav')[0].innerHTML = '<i class="fas fa-heart"></i>';
-                document.getElementById('toastBody').innerHTML = "Note added to favourites";
-                toast.show();
+                document.getElementById('alertToastBody').innerHTML = "Note added to favourites";
+                alertToast.show();
             }else{
                 item.getElementsByClassName('snippetNoteFav')[0].innerHTML = '<i class="far fa-heart"></i>';
-                document.getElementById('toastBody').innerHTML = "Note removed from favourites";
-                toast.show();
+                document.getElementById('alertToastBody').innerHTML = "Note removed from favourites";
+                alertToast.show();
             }
             
         }
@@ -624,8 +624,8 @@ function snippetReplaceTag(){
     
             }
             snippetTagReplaceCloseBtn.click();
-            document.getElementById('toastBody').innerHTML = "Tag Removed";
-            toast.show();
+            document.getElementById('alertToastBody').innerHTML = "Tag Removed";
+            alertToast.show();
         });
        
     }else if(replacement != "" && old != "") {
@@ -646,8 +646,8 @@ function snippetReplaceTag(){
             }
             db.settings.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {z}, function (err) {
                 snippetTagReplaceCloseBtn.click();
-                document.getElementById('toastBody').innerHTML = "Tag Replaced";
-                toast.show();
+                document.getElementById('alertToastBody').innerHTML = "Tag Replaced";
+                alertToast.show();
             })
         })
     }
@@ -717,8 +717,8 @@ function snippetExport(){
             fs.writeFile(results.filePath, fileData, function(err) {
                 console.log(err)
                 if(err == null){
-                    document.getElementById('toastBody').innerHTML = "Notes exported";
-                    toast.show();
+                    document.getElementById('alertToastBody').innerHTML = "Notes exported";
+                    alertToast.show();
                 }
             }); 
         });
@@ -766,8 +766,8 @@ function snippetImport(){
                 snippetLoadFilterTags(snippetTagify.settings.whitelist) 
                 document.getElementById('snippetNoteList').innerHTML = '';
                 snippetLoadNotes({}, 0, NUMCARDS)
-                document.getElementById('toastBody').innerHTML = `Notes imported, ${numAdded} added, ${numNotes-numAdded} skipped`;
-                toast.show();
+                document.getElementById('alertToastBody').innerHTML = `Notes imported, ${numAdded} added, ${numNotes-numAdded} skipped`;
+                alertToast.show();
             })
         });
     })

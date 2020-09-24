@@ -81,7 +81,8 @@ LoadJS('./js/pages/contrast.js')
 LoadJS('./js/pages/snippet.js')
 
 
-// Global Variables
+/* * * Global Variables * * */
+
 const MONTHS = [
     'January',
     'February',
@@ -97,9 +98,10 @@ const MONTHS = [
     'December'
 ]
 
+/* * * Alert Toast * * */
 
-let toastElem = document.getElementById('notiToast');
-let toast = new bootstrap.Toast(toastElem,
+let toastElem = document.getElementById('alertToast');
+let alertToast = new bootstrap.Toast(toastElem,
     {
         delay: 2000
 
@@ -113,25 +115,29 @@ toastElem.addEventListener('show.bs.toast', function () {
     toastElem.classList.add("active")
 })
 
-/******** Shared Functions   *******/
-function preventDefault(e) {
-	e.preventDefault();
-  	e.stopPropagation();
-}
 
-/******** Vertical Navigation Code  ********/
+/* * * Main Nav * * */
 
-document.getElementById("navVerticalHtmlLink").addEventListener("click", function() { openTab( "navVerticalHtmlLink", "navVerticalHtml")
+/** Event Listeners for Nav Buttons */
+document.getElementById("mainNavHtml2Word").addEventListener("click", function() { openTab(this, "mainTabHtml2Word")
     tinymce.get('tinymce').focus();
 });
-document.getElementById("navVerticalBaseLink").addEventListener("click", function() { openTab( "navVerticalBaseLink", "navVerticalBase")});
-document.getElementById("navVerticalContrastLink").addEventListener("click", function() { openTab( "navVerticalContrastLink", "navVerticalContrast")});
-document.getElementById("navVerticalCommonLink").addEventListener("click", function() { openTab( "navVerticalCommonLink", "navVerticalCommon")});
-document.getElementById("navVerticalSettingsLink").addEventListener("click", function() { openTab( "navVerticalSettingsLink", "navVerticalSettings")});
+document.getElementById("mainNavBase64").addEventListener("click", function() { openTab(this, "mainTabBase64")});
+document.getElementById("mainNavContrast").addEventListener("click", function() { openTab(this,  "mainTabContrast")});
+document.getElementById("mainNavSnippet").addEventListener("click", function() { openTab( this, "mainTabSnippet")});
+document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")});
 
-
-function openTab(link, tab) {
-    var i, tabcontent, tablinks;
+/**
+* Opens main tab
+* JS
+* Loads the tab page, updating the class lists to show active styling
+* @param this include the button being clicked
+* @param tab string id of the tab to load
+* @returns nothing
+*/
+function openTab(that, tab) {
+    let i, tabcontent, tablinks;
+    let link = that.id
     tabcontent = document.getElementsByClassName("paneVertical");
     for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].classList.remove('active');
@@ -144,10 +150,11 @@ function openTab(link, tab) {
     document.getElementById(link).classList.add('active');
     document.getElementById(tab).classList.add('active');
     document.getElementById(tab).classList.add('show');
-
 }
 
-// Add shortcut keys the main nav
+/** Add shortcut keys the main nav
+ *  Node
+ */ 
 let navLinks = document.getElementById("mainNav").children
 for(let i=0; i<navLinks.length; i++){
     let key = 'Ctrl+' + (i+1);
@@ -156,7 +163,11 @@ for(let i=0; i<navLinks.length; i++){
     })
 }
 
-// Add shortcut key for secondary nav
+/* * * Secondary Nav * * */
+
+/** Allow to cycle through tabs using ctrl+tab
+ *  Node
+ */
 globalShortcut.register("Ctrl+Tab", () => {
     let page = document.getElementsByClassName("paneVertical active")[0]
     let tabs = page.getElementsByClassName("nav-link");
@@ -175,6 +186,9 @@ globalShortcut.register("Ctrl+Tab", () => {
     }
 })
 
+/** Allow to cycle through tabs the opposite way using ctrl+shift+tab
+ *  Node
+ */
 globalShortcut.register("Ctrl+Shift+Tab", () => {
     let page = document.getElementsByClassName("paneVertical active")[0]
     let tabs = page.getElementsByClassName("nav-link");
@@ -193,7 +207,17 @@ globalShortcut.register("Ctrl+Shift+Tab", () => {
     }
 })
 
-// Enable Tooltip Globally
+
+/* * * Shared Functions * * */
+
+function preventDefault(e) {
+	e.preventDefault();
+  	e.stopPropagation();
+}
+
+
+
+// Enable Tooltips Globally
 let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
 tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl, {

@@ -5,7 +5,9 @@ tinymce.init({
     scroll: true,
     resize: false,
     auto_focus :'tinymce',
-    plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons', //quickbars
+    quickbars_insert_toolbar: '',
+    quickbars_selection_toolbar: '',
+    plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons', //quickbars
     mobile: {
         plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap linkchecker emoticons'  //quickbars
     },
@@ -120,8 +122,8 @@ function codeBeautify(code){
 function codeCopyAll(){
     let text = codeEditor.getDoc().getValue();
     navigator.clipboard.writeText(text);
-    document.getElementById('toastBody').innerHTML = "Code Copied";
-    toast.show();
+    document.getElementById('alertToastBody').innerHTML = "Code Copied";
+    alertToast.show();
 }
 
 
@@ -146,8 +148,8 @@ function codeConvertFile(filePath) {
                 }
                 document.getElementById('codeUploadMessage').innerHTML = messageText;
             }
-            document.getElementById('toastBody').innerHTML = "File Conversion Complete";
-            toast.show();
+            document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
+            alertToast.show();
             let htmlTab = document.getElementById('nav-html-tab')
             let tab = new bootstrap.Tab(htmlTab)
             tab.show()

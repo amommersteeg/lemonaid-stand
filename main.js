@@ -69,8 +69,10 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 700,
+    width: 900,
+    height: 800,
+    minWidth: 600,
+    minHeight: 600,
     icon: "scr/img/icon/lemon.png",
     webPreferences: {
       worldSafeExecuteJavaScript: true,

@@ -118,6 +118,6 @@ function formatBytes(bytes, decimals = 0) {
 function imageCopy(element){
     let text = element.parentNode.querySelector('textarea').value
     navigator.clipboard.writeText(text);
-    document.getElementById('toastBody').innerHTML = "Text Copied";
-    toast.show();
+    document.getElementById('alertToastBody').innerHTML = "Text Copied";
+    alertToast.show();
 }
