@@ -75,10 +75,10 @@ function LoadJS(src){
     } );
 }
 
-LoadJS('./js/pages/word2html.js')
-LoadJS('./js/pages/base64.js')
-LoadJS('./js/pages/contrast.js')
-LoadJS('./js/pages/snippet.js')
+LoadJS('./js/partials/word2html.js')
+LoadJS('./js/partials/base64.js')
+LoadJS('./js/partials/contrast.js')
+LoadJS('./js/partials/snippet.js')
 
 
 /* * * Global Variables * * */

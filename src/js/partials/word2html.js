@@ -23,8 +23,8 @@ tinymce.init({
     },
     toolbar: 'undo redo | bold italic underline strikethrough removeformat| formatselect | outdent indent | numlist bullist checklist  | charmap emoticons | image link | fullscreen',
     block_formats: 'Paragraph=p; Div =div; Blockquote=blockquote; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6;',
-    //quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     toolbar_mode: 'sliding',
+    contextmenu: ' cut copy paste | link ',
 
     // Create custom templates for regular tasks,
     templates: [

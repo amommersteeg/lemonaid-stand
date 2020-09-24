@@ -6,6 +6,7 @@ const { parse } = require('node-html-parser')
 let loadingScreen;
 let mainWindow;
 let aboutScreen;
+let helpScreen;
 
 
 const createLoadingScreen = () => {
@@ -30,7 +31,7 @@ const createLoadingScreen = () => {
   ])
   Menu.setApplicationMenu(menu); 
   loadingScreen.setResizable(false);
-  loadingScreen.loadFile('src/pages/loadingscreen.html')
+  loadingScreen.loadFile('src/windows/loadingscreen.html')
   loadingScreen.on('closed', () => loadingScreen = null);
   loadingScreen.webContents.on('did-finish-load', () => {
     loadingScreen.show();
@@ -59,9 +60,36 @@ function createAboutScreen() {
       enableRemoteModule: true,
     }
   })
-  aboutScreen.loadFile('src/pages/about.html')
+  aboutScreen.loadFile('src/windows/about.html')
   aboutScreen.on('closed', function() {
     aboutScreen = null
+  })
+}
+
+function createHelpScreen() {
+  if (helpScreen) {
+    helpScreen.focus()
+    return
+  }
+  /// create a browser window
+  helpScreen = new BrowserWindow({
+    modal: true,
+    width: 400,
+    height: 400,
+    title: '',
+    center: true,
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+    }
+  })
+  helpScreen.loadFile('src/windows/help.html')
+  helpScreen.on('closed', function() {
+    helpScreen = null
   })
 }
   
@@ -89,11 +117,11 @@ function createWindow() {
     {
         label: app.name,
         submenu: [
-          { label: 'About',
-            click() {
-              createAboutScreen()
-            }
-         },
+        { label: 'About',
+          click() {
+            createAboutScreen()
+          }
+        },
           { type: 'separator' },
           { role: 'quit' }
         ]
@@ -125,6 +153,11 @@ function createWindow() {
       submenu: [
         { role: 'toggleDevTools'},
         { type: 'separator' },
+        { label: 'Help',
+          click() {
+            createHelpScreen()
+          }
+        },
         { 
           label: 'Contact',
           click: async () => {
