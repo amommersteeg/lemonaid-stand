@@ -73,13 +73,32 @@ body {
 }
 
 .paneVertical {
-  display: none;
   height: 100%;
+  opacity: 0;
+  -webkit-animation: fadein 1s;
+          animation: fadein 1s;
 }
 
-.paneVertical.active {
-  /*display: block;
-    opacity: 1;*/
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.paneVertical.show {
+  opacity: 1;
 }
 
 .contentHeader {
