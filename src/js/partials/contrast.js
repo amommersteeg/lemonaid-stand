@@ -1,8 +1,9 @@
 /******** WebAim Contrast Code ********/
-const backgroundElement = document.querySelector('#background');
+const contrastBackgroundElement = document.getElementById('contrastBackgroundColor');
+let contrastBackgroundColor = "";
 
 const background = new Pickr({
-    el: backgroundElement,
+    el: contrastBackgroundElement,
     useAsButton: true,
     default: 'white',
     theme: 'classic',
@@ -27,47 +28,86 @@ const background = new Pickr({
       }
     }
 }).on('init', pickr => {
-    let backgroundColor = pickr.getSelectedColor().toHEXA();
-    backgroundElement.querySelector('input').value = backgroundColor;
-    backgroundElement.querySelector('div').style.backgroundColor = backgroundColor;
+    contrastBackgroundColor = pickr.getSelectedColor().toHEXA().toString();
+    contrastBackgroundElement.closest('.card').querySelector('input').value = contrastBackgroundColor;
+    contrastBackgroundElement.style.backgroundColor = contrastBackgroundColor;
 }).on('save', (color, pickr) => {
-    let backgroundColor = color.toHEXA().toString();
-    pickr.addSwatch(backgroundColor)
-    backgroundElement.querySelector('input').value = backgroundColor;
-    backgroundElement.querySelector('div').style.backgroundColor = backgroundColor;
-    let previewText = document.querySelectorAll('.previewText');
-    previewText.forEach(text => {
-        text.style.backgroundColor = backgroundColor;
-     })
-    background.hide();
-    let foregroundColors = document.querySelectorAll('.foregroundColors');
-    foregroundColors.forEach( colorDiv => {
-        let color = colorDiv.querySelector('.colorText').value;
-        let ratio = calculateRatio(backgroundColor, color);
-        updateRating(colorDiv, ratio)
+    contrastBackgroundColor = color.toHEXA().toString();
+    contrastBackgroundElement.closest('.card').querySelector('input').value = contrastBackgroundColor;
+    contrastBackgroundElement.style.backgroundColor = contrastBackgroundColor;
+    pickr.addSwatch(contrastBackgroundColor);
+    let contrastCards = document.getElementById('contrastForegroundColors').children
+
+    Array.from(contrastCards).forEach( card => {
+        let color = card.querySelector('.contrastColorText').value;
+        card.querySelector('.contrastInputText').style.backgroundColor = contrastBackgroundColor;
+        let previews = card.querySelectorAll('.contrastPreview')
+        previews.forEach(preview => {
+            preview.style.backgroundColor = contrastBackgroundColor;
+        })
+        let ratio = calculateRatio(contrastBackgroundColor, color);
+        card.querySelector('.contrastRatio').innerText = ratio
+        updateRating(card, ratio)
     })
+    pickr.hide();
 })
 
-const foregroundContainer = document.querySelector('#foreground')
-const foregroundBtn = document.querySelector('#foregroundBtn');
+contrastBackgroundElement.parentElement.querySelector('.contrastColorText').addEventListener('change', function(event){
+    let color = event.target.value;
+    background.setColor(color);
+})
 
-foregroundBtn.addEventListener('click', () => {
+const contrastForegroundBtn = document.getElementById('contrastForegroundBtn');
+
+contrastForegroundBtn.addEventListener('click', () => {
+    const contrastForegroundContainer = document.getElementById('contrastForegroundColors');
+    let id = Date.now()
     let template = `
-        <div class='foregroundColors'>
-            <div class="colorBox"></div>
-            <input type="text" class="colorText">
-            <div class="ratio"></div>
-            <p class="previewText previewText--sm">The five boxing wizards jump quickly.</p>
-            <div class="contrastRating contrastRating--sm"></div>
-            <p class="previewText previewText--lg">The five boxing wizards jump quickly.</p>
-            <div class="contrastRating contrastRating--lg"></div>
-            <p class="previewText"><i class="fas fa-check-square"></i></p>
-            <div class="contrastRating contrastRating--gph"></div>
+        <div class="card m-3">
+            <div class="input-group">
+                <input class="form-control card-header contrastInputText" value="Lemond-aid Stand is here to help.">
+                 <button class="btn btn-outline-secondary" type="button" id="${'contrastCard' + id}"><i class="fas fa-times"></i></button>
+             </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="contrastColorBox contrastColorBox-foreground mx-2"></div>
+                    <input type="text" class="form-control contrastColorText">
+                    <p class="card-text px-2">Ratio <span class="contrastRatio"></span></p>
+                </div>
+                <div class="d-flex mt-3">
+                    <div class="card mr-2">
+                        <div class="contrastPreview d-flex align-items-center justify-content-center">
+                            <h4 class="contrastPreviewText-normal contrastPreviewText-sans">aA</h4><h4 class="contrastPreviewText-normal contrastPreviewText-serif">aA</h4>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Normal Text</h5>
+                            <p class="card-text">AA <span class="contrastNormalAA"></span></p>
+                            <p class="card-text">AAA <span class="contrastNormalAAA"></span></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="contrastPreview d-flex align-items-center justify-content-center">
+                            <h4 class="contrastPreviewText-large contrastPreviewText-sans">aA</h4><h4 class="contrastPreviewText-large contrastPreviewText-serif">aA</h4>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Large Text</h5>
+                            <p class="card-text">AA <span class="contrastLargeAA"></span></p>
+                            <p class="card-text">AAA <span class="contrastLargeAAA"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>`
 
-    foregroundContainer.insertAdjacentHTML('beforeend', template);
-    let newElement = foregroundContainer.lastChild;
-  
+    contrastForegroundContainer.insertAdjacentHTML('afterbegin', template);
+
+    let newElement = contrastForegroundContainer.querySelector('.card').querySelector('.contrastColorBox')
+    let card = newElement.closest('.card')
+
+    document.getElementById('contrastCard'+id).addEventListener('click', function(){
+        contrastForegroundContainer.removeChild(card);
+    })
+
     const pickr = new Pickr({
         el: newElement,
         useAsButton: true,
@@ -95,33 +135,52 @@ foregroundBtn.addEventListener('click', () => {
         }
     }).on('init', pickr => {
         let color = pickr.getSelectedColor().toHEXA().toString();
-        newElement.querySelector('input').value = color;
-        newElement.querySelector('div').style.backgroundColor = color;
-        let backgroundColor = document.querySelector('#background > input').value;
-        let previewText = newElement.querySelectorAll('.previewText');
-        previewText.forEach(text => {
-            text.style.color = color;
-            text.style.backgroundColor = backgroundColor;
+        newElement.parentElement.querySelector('input').value = color;
+        newElement.style.backgroundColor = color;
+
+        card.querySelector('.contrastInputText').style.color = color;
+        card.querySelector('.contrastInputText').style.backgroundColor = contrastBackgroundColor;
+
+        let ratio = calculateRatio(contrastBackgroundColor, color);
+        newElement.parentElement.querySelector('.contrastRatio').innerText = ratio;
+
+       let previews = card.querySelectorAll('.contrastPreview')
+        Array.from(previews).forEach(div => {
+            div.style.backgroundColor = contrastBackgroundColor;
+            div.style.color = color;
         })
-        let ratio = calculateRatio(backgroundColor, color);
-        updateRating(newElement, ratio)
+        updateRating(card, ratio)
+
+
     }).on('save', (color, pickr) => {
         color = color.toHEXA().toString();
-        pickr.addSwatch(color)
-        newElement.querySelector('input').value = color;
-        let backgroundColor = document.querySelector('#background > input').value;
-        newElement.querySelector('div').style.backgroundColor = color;
-        let previewText = newElement.querySelectorAll('.previewText');
-        previewText.forEach(text => {
-            text.style.color = color;
+        pickr.addSwatch(color);
+    
+        newElement.parentElement.querySelector('input').value = color;
+        newElement.style.backgroundColor = color;
+
+        card.querySelector('.contrastInputText').style.color = color;
+        card.querySelector('.contrastInputText').style.backgroundColor = contrastBackgroundColor;
+
+        let ratio = calculateRatio(contrastBackgroundColor, color);
+        newElement.parentElement.querySelector('.contrastRatio').innerText = ratio;
+
+       let previews = card.querySelectorAll('.contrastPreview')
+        Array.from(previews).forEach(div => {
+            div.style.backgroundColor = contrastBackgroundColor;
+            div.style.color = color;
         })
+        updateRating(card, ratio)
         pickr.hide();
-        let ratio = calculateRatio(backgroundColor, color);
-        updateRating(newElement, ratio)
+    })
+
+    card.querySelector('.contrastColorText').addEventListener('change', function(event){
+        let color = event.target.value;
+        pickr.setColor(color);
     })
 });
   
-foregroundBtn.click();
+contrastForegroundBtn.click();
 
 // function from https://stackoverflow.com/a/5624139/3695983
 function hexToRgb(hex) {
@@ -163,25 +222,20 @@ function calculateRatio(color1, color2){
         ? ((color2luminance + 0.05) / (color1luminance + 0.05))
         : ((color1luminance + 0.05) / (color2luminance + 0.05));
     
-    return ratio;
+    return Math.floor(1/ratio* 100) / 100;
 }
 
 function updateRating(container, ratio){
-    let smallText = container.querySelector('.contrastRating--sm');
-    let largeText = container.querySelector('.contrastRating--lg');
-    let gphText = container.querySelector('.contrastRating--gph');
-    let ratioText = container.querySelector('.ratio');
 
-    ratioText.innerHTML = ` 
-        ${Math.floor(1/ratio* 100) / 100} : 1 
-    `
-    smallText.innerHTML = `
-        AA-level small text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
-        AAA-level small text: ${ratio < 1/7 ? 'PASS' : 'FAIL' }`;
-    largeText.innerHTML = `
-        AA-level large text: ${ratio < 1/3 ? 'PASS' : 'FAIL' }<br>
-        AAA-level large text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }`;
-    gphText.innerHTML = `
-     AA-level user interface: ${ratio < 1/3 ? 'PASS' : 'FAIL' }<br>
-    `
+    let normalAA = container.querySelector('.contrastNormalAA');
+    let normalAAA = container.querySelector('.contrastNormalAAA');
+    let largeAA = container.querySelector('.contrastLargeAA');
+    let largeAAA = container.querySelector('.contrastLargeAAA');
+    let pass = '<span class="badge rounded-pill bg-success">Pass</span>';
+    let fail = '<span class="badge rounded-pill bg-danger">Fail</span>'
+
+    normalAA.innerHTML = `${ratio >= 4.5 ? pass : fail }`
+    normalAAA.innerHTML = `${ratio >= 7 ? pass : fail }`
+    largeAA.innerHTML = `${ratio >= 3 ? pass : fail }`
+    largeAAA.innerHTML = `${ratio >= 4.5 ? pass : fail }`
 }

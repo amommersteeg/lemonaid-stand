@@ -4,7 +4,8 @@ body {
 
 /* Modifications to Bootstrap */
 .card {
-  width: 600px;
+  max-width: 600px;
+  width: 80vw;
 }
 
 .modal-fullscreen-lg-down {
@@ -160,9 +161,42 @@ body {
      object-fit: scale-down;
 }
 
-.colorBox {
-  width: 100px;
+.contrastColorBox {
+  width: 100%;
   height: 100px;
+}
+
+.contrastColorBox-foreground {
+  height: 50px;
+  width: 50px;
+}
+
+.contrastColorText {
+  width: auto;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.contrastPreview {
+  height: 60px;
+  letter-spacing: .1em;
+}
+
+.contrastPreviewText-normal {
+  font-size: 14pt;
+}
+
+.contrastPreviewText-large {
+  font-size: 18pt;
+}
+
+.contrastPreviewText-sans {
+  font-family: sans-serif;
+}
+
+.contrastPreviewText-serif {
+  font-family: serif;
 }
 
 .snippetToolbar {

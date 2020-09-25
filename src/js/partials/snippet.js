@@ -151,7 +151,7 @@ function snippetLoadNotes(searchParam, skip, limit, clearParent=false){
             })
 
             //enable all events
-            let notes = document.getElementsByClassName('card')
+            let notes = document.getElementsByClassName('snippetNote')
             for(let i=0; i<notes.length; i++){
                 snippetAddEventListeners(notes[i])
             }
@@ -237,7 +237,7 @@ function snippetNoteComponent(note) {
     
 
     let markup = `
-        <li id="${note._id}" class="card my-2" tabindex='-1'>
+        <li id="${note._id}" class="card my-2 snippetNote" tabindex='-1'>
             <div class="card-body">
                 <div class="d-flex flex-row justify-content-between mb-1">
                     <h5 class="card-title snippetNoteTitle">${note.title}</h5>
