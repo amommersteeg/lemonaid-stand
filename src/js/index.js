@@ -28,6 +28,7 @@ let db = {};  // database object
 
 // Default settings
 let settings = {
+    darkTheme: false,
     snippet: {
         autoBackup: true,
         backupLocation: `${os.homedir() + '/Desktop'}`,  // Node
@@ -108,7 +109,7 @@ function saveSettings(){
 
     db.settings.update({ _id: 1 }, data , {multi: false, upsert: true}, function (err, numAffected) {
         if(numAffected == 1){
-            document.getElementById('alertToastBody').innerHTML = "Settings saved";
+            document.getElementById('alertToastBody').innerHTML = "Settings saved.";
             alertToast.show();
         }
     })
@@ -119,7 +120,10 @@ function saveSettings(){
  * @param {*} folderPath 
  */
 function loadSettingDefaults(){
-    loadSettings(settingDefaults)
+    loadSettings(settingDefaults) 
+    document.getElementById('alertToastBody').innerHTML = "Default settings loaded. ";
+    alertToast.show();
+
 }
 
 

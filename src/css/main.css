@@ -101,6 +101,10 @@ body {
   opacity: 1;
 }
 
+.tab-oflowHide {
+  overflow: hidden;
+}
+
 .contentHeader {
   height: 100px;
 }
@@ -119,30 +123,41 @@ body {
 
 .CodeMirror {
   border: 1px solid #eee;
-  height: calc(100% - 100px);
+  height: calc(100% - 50px);
 }
 
-.drop-region {
+.dropRegion {
   background-color: #fff;
   border-radius: 20px;
   -webkit-box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
           box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
-  width: 400px;
   padding: 60px 40px;
   text-align: center;
   cursor: pointer;
   -webkit-transition: .3s;
   transition: .3s;
+  margin: 20px auto;
+  max-width: 750px;
 }
 
-.drop-region:hover {
+.dropRegion:hover {
   -webkit-box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
 }
 
-.image-view {
-  max-width: 80vw;
+.dropRegionUploadMsg {
+  margin: auto;
+  height: auto;
+  max-width: 750px;
+  padding: 0;
+}
+
+.base64ImageView {
+  width: auto;
+  height: auto;
   max-height: 50vh;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 
 .colorBox {
