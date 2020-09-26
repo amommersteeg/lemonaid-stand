@@ -27,17 +27,22 @@ const MONTHS = [
 let db = {};  // database object
 
 // Default settings
-let settings = {
+let settingsGlobal = {
     darkTheme: false,
     snippet: {
         autoBackup: true,
         backupLocation: `${os.homedir() + '/Desktop'}`,  // Node
         numCards: 20,
+    },
+    contrast: {
+        defaultText: "Lemond-aid Stand is here to help.",
     }
+
     
 }
+
 let settingDefaults = {};
-Object.assign(settingDefaults, settings)
+Object.assign(settingDefaults, settingsGlobal)
 
 /* * * Load Settings * * */
 db.settings = new Datastore({ filename: 'standSettings.db'});
@@ -45,8 +50,13 @@ db.settings.loadDatabase(function (err) {
     db.settings.find({}, function(err, docs){
         if(docs.length > 0){
             let doc = docs[0]
-            Object.assign(settings, doc)
+            Object.assign(settingsGlobal, doc)
         }
+        // Load the partial javascript
+        LoadJS('./js/partials/word2html.js')
+        LoadJS('./js/partials/base64.js')
+        LoadJS('./js/partials/contrast.js')
+        LoadJS('./js/partials/snippet.js')
     })
 });
 
@@ -109,6 +119,7 @@ function saveSettings(){
 
     db.settings.update({ _id: 1 }, data , {multi: false, upsert: true}, function (err, numAffected) {
         if(numAffected == 1){
+            Object.assign(settingsGlobal, data)
             document.getElementById('alertToastBody').innerHTML = "Settings saved.";
             alertToast.show();
         }
@@ -196,10 +207,6 @@ function LoadJS(src){
     } );
 }
 
-LoadJS('./js/partials/word2html.js')
-LoadJS('./js/partials/base64.js')
-LoadJS('./js/partials/contrast.js')
-LoadJS('./js/partials/snippet.js')
 
 
 /* * * Alert Toast * * */
@@ -230,7 +237,7 @@ document.getElementById("mainNavBase64").addEventListener("click", function() { 
 document.getElementById("mainNavContrast").addEventListener("click", function() { openTab(this,  "mainTabContrast")});
 document.getElementById("mainNavSnippet").addEventListener("click", function() { openTab( this, "mainTabSnippet")});
 document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")
-    loadSettings(settings)  
+    loadSettings(settingsGlobal)  
 });
 
 /**

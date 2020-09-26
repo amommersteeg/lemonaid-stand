@@ -21,8 +21,6 @@
         [string]
 */
 
-const NUMCARDS = 4;
-let AUTOBACKUP = false;
 let SEARCHPARAM;
 
 /*function loadTooltips(){
@@ -82,9 +80,9 @@ db.tags.loadDatabase(function (err) {    // Callback is optional
 
 // Get all docs
 db.notes.loadDatabase(function (err){
-    snippetLoadNotes({}, 0, NUMCARDS)
+    snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
 
-    if(AUTOBACKUP){
+    if(settingsGlobal.snippet.autoBackup){
         db.notes.find({}, function (err, docs) {
             let json = {
                 "name": "Lemon-Aid Stand Notes - Autobackup",
@@ -93,7 +91,7 @@ db.notes.loadDatabase(function (err){
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
-            let filepath = __dirname + "/Lemon-Aid Stand Note - Autobackup." + Date.now() + ".json"
+            let filepath = settingsGlobal.snippet.backupLocation + "/Lemon-Aid Stand Note - Autobackup." + Date.now() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
                 console.log(err)
                 if(err == null){
@@ -167,7 +165,7 @@ function snippetLoadNotes(searchParam, skip, limit, clearParent=false){
 document.getElementById('snippetLoadMoreBtn').addEventListener('click', snippetLoadMoreNotes)
 function snippetLoadMoreNotes(){
     let skip = document.getElementById('snippetNoteList').getElementsByClassName('card').length;
-    snippetLoadNotes(SEARCHPARAM, skip, NUMCARDS, false)
+    snippetLoadNotes(SEARCHPARAM, skip, settingsGlobal.snippet.numCards, false)
 }
 
 
@@ -608,7 +606,7 @@ function snippetReplaceTag(){
             console.log(err)
             console.log(numReplaced)
             document.getElementById('snippetNoteList').innerHTML = '';
-            snippetLoadNotes({}, 0, NUMCARDS)
+            snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
         });
 
         db.tags.update({title: 'tags'}, { $pull: { tags: old } }, {}, function (err, numReplaced) {
@@ -631,7 +629,7 @@ function snippetReplaceTag(){
         db.notes.update({ tags: old }, { $addToSet: { tags: replacement } }, {multi: true }, function (err, numReplaced) {
             db.notes.update({ tags: old }, { $pull: { tags: old } }, {multi: true }, function (err) {
                 document.getElementById('snippetNoteList').innerHTML = '';
-                snippetLoadNotes({}, 0, NUMCARDS)
+                snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
             });
         });
 
@@ -694,7 +692,7 @@ document.getElementById('snippetImportBtn').addEventListener('click', snippetImp
 function snippetExport(){
     const options = {
         title: "Save export file",
-        defaultPath : "Lemon-Aid Stand Notes.json",
+        defaultPath : settingsGlobal.snippet.backupLocation + "/Lemon-Aid Stand Notes.json",
         buttonLabel : "Save Exported Notes",
         filters :[
             {name: 'JSON', extensions: ['json']},
@@ -728,6 +726,7 @@ function snippetExport(){
 function snippetImport(){
     dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
         title: "Import notes file",
+        defaultPath : settingsGlobal.snippet.backupLocation,
         properties: ['openFile'],
         filters: [
             {name: 'JSON', extensions: ['json']},
@@ -764,7 +763,7 @@ function snippetImport(){
                 snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
                 snippetLoadFilterTags(snippetTagify.settings.whitelist) 
                 document.getElementById('snippetNoteList').innerHTML = '';
-                snippetLoadNotes({}, 0, NUMCARDS)
+                snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
                 document.getElementById('alertToastBody').innerHTML = `Notes imported, ${numAdded} added, ${numNotes-numAdded} skipped`;
                 alertToast.show();
             })
@@ -779,7 +778,7 @@ document.getElementById('searchBarClear').addEventListener("click", function () 
     if ('$or' in search){
         delete search.$or;
     }
-    snippetLoadNotes(search, 0, NUMCARDS, true);
+    snippetLoadNotes(search, 0, settingsGlobal.snippet.numCards, true);
 })
 
 document.getElementById('searchBar').addEventListener("input", function (evt) {
@@ -789,13 +788,13 @@ document.getElementById('searchBar').addEventListener("input", function (evt) {
         document.getElementById('searchBarClear').classList.remove("d-none")
         let regex = new RegExp(value , 'i')
         search.$or = [{ title: {$regex: regex }}, { description: {$regex: regex }}, {"files.language": {$regex: regex}}]
-        snippetLoadNotes(search , 0, NUMCARDS, true);
+        snippetLoadNotes(search , 0, settingsGlobal.snippet.numCards, true);
     }else if(value == ""){
         if ('$or' in search){
             delete search.$or;
         }
         document.getElementById('searchBarClear').classList.add("d-none");
-        snippetLoadNotes(search, 0, NUMCARDS, true);
+        snippetLoadNotes(search, 0, settingsGlobal.snippet.numCards, true);
     }
 });
 
@@ -819,7 +818,7 @@ document.getElementById('snippetFavFilterBtn').addEventListener('click', functio
         search.isFav = true
         
     }
-    snippetLoadNotes(search, 0, NUMCARDS, true)
+    snippetLoadNotes(search, 0, settingsGlobal.snippet.numCards, true)
 })
 
 document.getElementById('snipperLanguageFilter').addEventListener('change', function(){
@@ -834,7 +833,7 @@ document.getElementById('snipperLanguageFilter').addEventListener('change', func
     }else{
         search["files.language"] = value;
     }
-    snippetLoadNotes(search, 0, NUMCARDS, true)
+    snippetLoadNotes(search, 0, settingsGlobal.snippet.numCards, true)
 
 })
 
@@ -850,7 +849,7 @@ document.getElementById('snipperTagFilter').addEventListener('change', function(
     }else{
         search.tags = value;
     }
-    snippetLoadNotes(search, 0, NUMCARDS, true)
+    snippetLoadNotes(search, 0, settingsGlobal.snippet.numCards, true)
 
 })
 
@@ -871,5 +870,5 @@ document.getElementById('snippetFilterClear').addEventListener('click', function
     document.getElementById('snippetFavFilterBtn').getElementsByTagName('i')[0].classList.remove("fas");
     document.getElementById('snippetFavFilterBtn').getElementsByTagName('i')[0].classList.add("far");
 
-    snippetLoadNotes(search, 0, NUMCARDS, true)
+    snippetLoadNotes(search, 0, settingsGlobal.snippet.numCards, true)
 })

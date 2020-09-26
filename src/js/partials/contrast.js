@@ -65,7 +65,7 @@ contrastForegroundBtn.addEventListener('click', () => {
     let template = `
         <div class="card m-3">
             <div class="input-group">
-                <input class="form-control card-header contrastInputText" value="Lemond-aid Stand is here to help.">
+                <input class="form-control card-header contrastInputText" value="${settingsGlobal.contrast.defaultText}">
                  <button class="btn btn-outline-secondary" type="button" id="${'contrastCard' + id}"><i class="fas fa-times"></i></button>
              </div>
             <div class="card-body">

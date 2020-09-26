@@ -2,7 +2,7 @@
     <h1>Settings</h1>
     <div>
         <div class="mb-4">
-            <h3>Dark Theme</h3>
+            <h3>Dark theme</h3>
             <p>Enable dark theme. Note the app needs to be close to take effect.</p>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="settingsDarkTheme" data-settings="darkTheme" disabled>
@@ -24,17 +24,25 @@
             </div>
         </div>
         <div class="mb-3">
-            <h3>Backup Location</h3>
+            <h3>Backup location</h3>
             <p>Location where backup .json files are saved.</p>
             <input type="text" class="form-control" data-settings="snippet.backupLocation">
         </div>
         <div class="mb-3">
-            <h3>Max Number of Cards</h3>
+            <h3>Max number of cards</h3>
             <p>The maximum number of code snippets loaded at one time</p>
             <input type="number" class="form-control" data-settings="snippet.numCards">
         </div>
+
+        <h2>Contrast</h2>
+        <div class="mb-3">
+            <h3>Default text</h3>
+            <p>The default text shown in foreground card text field.</p>
+            <input type="text" class="form-control" data-settings="contrast.defaultText">
+        </div>
+
         <hr>
-        <div class="d-flex justify-content-end mt-3">
+        <div class="d-flex justify-content-end my-3">
             <button class="btn btn-primary mr-2" id="settingsLoadDefaults">Load Defaults</button>
             <button class="btn btn-primary" id="settingsSaveBtn">Save</button>
         </div>
