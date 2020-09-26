@@ -72,7 +72,7 @@ contrastForegroundBtn.addEventListener('click', () => {
                 <div class="d-flex align-items-center">
                     <div class="contrastColorBox contrastColorBox-foreground mx-2"></div>
                     <input type="text" class="form-control contrastColorText">
-                    <p class="card-text px-2">Ratio <span class="contrastRatio"></span></p>
+                    <p class="card-text px-2 contrastRatioBox">Ratio <span class="contrastRatio"></span></p>
                 </div>
                 <div class="d-flex mt-3">
                     <div class="card mr-2">
@@ -81,8 +81,8 @@ contrastForegroundBtn.addEventListener('click', () => {
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Normal Text</h5>
-                            <p class="card-text">AA <span class="contrastNormalAA"></span></p>
-                            <p class="card-text">AAA <span class="contrastNormalAAA"></span></p>
+                            <p class="card-text">WCAG AA  &nbsp;&nbsp;&nbsp;<span class="contrastNormalAA"></span></p>
+                            <p class="card-text">WCAG AAA &nbsp;<span class="contrastNormalAAA"></span></p>
                         </div>
                     </div>
                     <div class="card">
@@ -91,8 +91,8 @@ contrastForegroundBtn.addEventListener('click', () => {
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Large Text</h5>
-                            <p class="card-text">AA <span class="contrastLargeAA"></span></p>
-                            <p class="card-text">AAA <span class="contrastLargeAAA"></span></p>
+                            <p class="card-text">WCAG AA &nbsp;&nbsp;&nbsp;<span class="contrastLargeAA"></span></p>
+                            <p class="card-text">WCAG AAA &nbsp;<span class="contrastLargeAAA"></span></p>
                         </div>
                     </div>
                 </div>

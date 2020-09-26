@@ -199,6 +199,17 @@ body {
   font-family: serif;
 }
 
+.contrastRatioBox {
+  border: solid 1px lightgray;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.contrastRatio {
+  font-size: 24px;
+}
+
 .snippetToolbar {
   background-color: white;
   width: 100%;
