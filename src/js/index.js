@@ -45,7 +45,7 @@ let settingDefaults = {};
 Object.assign(settingDefaults, settingsGlobal)
 
 /* * * Load Settings * * */
-db.settings = new Datastore({ filename: 'standSettings.db'});
+db.settings = new Datastore({ filename: (__dirname + 'standSettings.db')});
 db.settings.loadDatabase(function (err) { 
     db.settings.find({}, function(err, docs){
         if(docs.length > 0){
@@ -53,10 +53,10 @@ db.settings.loadDatabase(function (err) {
             Object.assign(settingsGlobal, doc)
         }
         // Load the partial javascript
-        LoadJS('./js/partials/word2html.js')
-        LoadJS('./js/partials/base64.js')
-        LoadJS('./js/partials/contrast.js')
-        LoadJS('./js/partials/snippet.js')
+        LoadJS('/js/partials/word2html.js')
+        LoadJS('/js/partials/base64.js')
+        LoadJS('/js/partials/contrast.js')
+        LoadJS('/js/partials/snippet.js')
     })
 });
 
@@ -144,11 +144,12 @@ function loadSettingDefaults(){
 * Loads html template from separate files and appends to DOM (index.html), synchronous/blocking
 * Set the 'template-target' attribute on the div container to add the template <div template-target="example">
 * Set the same 'template-target' in corresponding template tag <template template-target="example">
-* @param folderPath location of the template .html files (string)
+* @param folderPath string, location of the template .html files name of the folder '/folder' or '/folder/folder2'
 * @returns nothing
 */
 function loadPartials(folderPath){
     const fs = require("fs");
+    folderPath = __dirname + folderPath;
     let files = fs.readdirSync(folderPath)
 
     files.forEach(file => {
@@ -173,17 +174,22 @@ function loadPartials(folderPath){
     })
 }
 
-loadPartials('src/partials/') //execute function
+loadPartials('/partials') //execute function
 
 
 /**
 * Loads js file
-* JS
+* Node + JS
 * loads js files to the DOM in the <head> if they haven't already been loaded
 * @param scr String, full link to js file, eg: '/js/file.js'
 * @returns promise once js file is loaded
 */
 function LoadJS(src){
+    const fs = require("fs");
+    const path = require("path");
+    filePath = __dirname + src;
+    console.log(filePath)
+
     return new Promise( function( resolve, reject ) {
         let scripts = document.getElementsByTagName("script");
         let loaded = false;
@@ -197,7 +203,7 @@ function LoadJS(src){
                 //console.log(src + " is already loaded");
             }else{
                 var link = document.createElement( 'script' );
-                link.src = src;
+                link.src = filePath;
                 document.head.appendChild( link );
                 link.onload = function() { 
                     resolve(); 

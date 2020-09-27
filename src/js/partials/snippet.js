@@ -58,8 +58,8 @@ let snippetReplaceTagify = new Tagify(snippetReplaceTagifyElement, {
 
 //let Datastore = require('nedb');
 //let db = {};
-db.notes = new Datastore({ filename: 'snippetNotes.db'});
-db.tags = new Datastore({ filename: 'snippetTags.db'});
+db.notes = new Datastore({ filename: (__dirname + 'snippetNotes.db')});
+db.tags = new Datastore({ filename: (__dirname + 'snippetTags.db')});
 
 db.tags.loadDatabase(function (err) {    // Callback is optional
     db.tags.findOne({title: 'tags'}, function (err, doc) {
