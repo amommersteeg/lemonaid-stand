@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-  <title>Loading Lemond-Aid Stand</title>
+  <link rel="stylesheet" href="../css/main.css" >
+  
+  <title>Lemon-Aid Stand</title>
   <style>
     /* Defines the main wrapper style */
-    .LoaderWrapper {
+    .loaderWrapper {
       position: absolute;
       top: 0;
       left: 0;
@@ -22,21 +24,39 @@
       justify-items: center;
 
       box-sizing: border-box;
-      background-color: yellow;
-
+      background-color: white;
+      border: 4px solid #ffd60e;
       border-radius: 0.5rem;
     }
 
-    .LoaderContent {
+    .loaderContent {
       color: black;
+      text-align: center;
+    }
+
+    .logo{
+      width: 150px;
+      height: 150px;
+    }
+
+    h1{
+      font-family: 'Annie Use Your Telescope', cursive;
+      font-size: 40px;
+    }
+
+    h2{
+      font-family: 'Cabin', sans-serif;
+      font-size: 15px;
     }
   </style>
 </head>
 
 <body>
-  <div class="LoaderWrapper">
-    <div class="LoaderContent">
-        Lemon-Aid Stand
+  <div class="loaderWrapper">
+    <div class="loaderContent">
+        <h1>Lemon-Aid Stand</h1>
+        <img src="../img/icon/logo1.png" class="logo">
+        <h2>All-in one toolbox for courseware developers.</h2>
     </div>
   </div>
 

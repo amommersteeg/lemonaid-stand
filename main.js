@@ -13,7 +13,7 @@ const createLoadingScreen = () => {
   /// create a browser window
   loadingScreen = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 350,
     /// remove the window frame, so it will rendered without frames
     frame: false,
     /// and set the transparency to true, to remove any kind of background
@@ -46,9 +46,9 @@ function createAboutScreen() {
   /// create a browser window
   aboutScreen = new BrowserWindow({
     parent: mainWindow,
-    modal: true,
+    frame: false,
     width: 400,
-    height: 400,
+    height: 350,
     title: '',
     center: true,
     minimizable: false,
@@ -73,9 +73,9 @@ function createHelpScreen() {
   }
   /// create a browser window
   helpScreen = new BrowserWindow({
-    modal: true,
-    width: 400,
-    height: 400,
+    frame: false,
+    width: 500,
+    height: 600,
     title: '',
     center: true,
     minimizable: false,
@@ -101,7 +101,7 @@ function createWindow() {
     height: 800,
     minWidth: 600,
     minHeight: 600,
-    icon: "scr/img/icon/lemon.png",
+    icon: "scr/img/icon/logo2.png",
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,
@@ -115,7 +115,7 @@ function createWindow() {
 
   var menu = Menu.buildFromTemplate([
     {
-        label: app.name,
+        label: (isMac ? app.name : "File"),
         submenu: [
         { label: 'About',
           click() {
@@ -145,7 +145,12 @@ function createWindow() {
         { role: 'forceReload'},
         { type: 'separator' },
         { role: 'minimize'},
-        (isMac ? {role: 'zoom'} : { role: ' togglefullscreen'})
+        (isMac ? {role: 'zoom'} : {
+          label: 'Maximize',
+          click: _ => {
+            mainWindow.maximize();
+          }
+      })
       ]
     },
     {
@@ -153,7 +158,7 @@ function createWindow() {
       submenu: [
         { role: 'toggleDevTools'},
         { type: 'separator' },
-        { label: 'Help',
+        { label: 'Tips and Tricks',
           click() {
             createHelpScreen()
           }
@@ -205,7 +210,7 @@ app.on('ready', () => {
   // timeout to show loading screen
   setTimeout(() => {
     createWindow();
-  }, 10); // normally 4000
+  }, 4000); // normally 4000
 
 })
 

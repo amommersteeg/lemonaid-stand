@@ -1,6 +1,22 @@
+@font-face {
+    font-family: "Annie Use Your Telescope";
+    src: url("../fonts/AnnieUseYourTelescope-Regular.ttf");
+
+}
+@font-face {
+    font-family: "Cabin";
+    src: url("../fonts/Cabin-Regular.ttf");
+    src: url("../fonts/Cabin-Bold.ttf");
+}
+
 body{
     overflow: hidden;
 }
+
+h1, p{
+    font-family: 'Cabin', sans-serif;
+}
+
 
 /* Modifications to Bootstrap */
 

@@ -5,24 +5,39 @@
     <title>About</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-
-    <!--
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    -->
+    
+    <link href="../css/fontawesome/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css" >
     <script src="../js/bootstrap/bootstrap.min.js"></script>
-
     <link rel="stylesheet" href="../css/main.css" >
     </head> 
 
     <body>
-        <img src="../img/icon/lemon.png" style="width: 100px">
-        <h1>Lemon-Aid Stand</h1>
-        <p>Version: <span id="aboutVersion"></span></p>
-        <p>Authors: LAC </p>
-        <p>Libraries: </p>
-        <p>License: </p>
-        <button class="btn" id="closeBtn">Close</button>
+        <div class="container mt-4">
+            <div class="d-flex justify-content-between">
+                <h1>Lemon-Aid Stand</h1>
+                <button class="btn btn-secondary" id="closeBtn"><i class="fas fa-times"></i></button>
+              </div>
+            <hr>
+            <p>Version: <small  id="aboutVersion"></small></p>
+            <p>Authors: <small>Lindsey Carter and Alex Mommersteeg</small> </p>
+            <p>Libraries: <small>
+                <a href="https://www.electronjs.org/">Electron</a>,
+                <a href="https://www.tiny.cloud/docs/">TinyMCE</a>,
+                <a href="https://v5.getbootstrap.com/">Bootstrap</a>,
+                <a href="https://codemirror.net/">CodeMirror</a>,
+                <a href="https://github.com/mwilliamson/mammoth.js/">Mammoth</a>,
+                <a href="https://github.com/yairEO/tagify">Tagify</a>,
+                <a href="https://github.com/louischatriot/nedb">NeDB</a>,
+                <a href="https://fontawesome.com/icons/">Font Awesome</a>,
+                <a href="https://github.com/Simonwep/pickr">pickr</a>,
+                <a href="https://github.com/beautify-web/js-beautify">JS Beautifier</a>,
+                <a href="https://github.com/SortableJS/sortablejs">SortableJS</a>
+            </small></p>
+            <p>License: <small><a href="https://choosealicense.com/licenses/mit/#">MIT License</a></small></p>
+            
+        </div>
+        
     </body>
     <script src="../js/windows/about.js"></script>
 </html>
