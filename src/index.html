@@ -53,6 +53,9 @@
      <link href="css/tagify/tagify.css" rel="stylesheet">
      <script src="js/tagify/tagify.min.js"></script>
 
+     <!-- sortableJS -->
+     <script src="js/sortablejs/sortable.umd.js"></script>
+
     <!-- Share style sheet -->
     <link rel="stylesheet" href="css/main.css" >
   </head>
@@ -71,21 +74,9 @@
         </div>
 
         <!-- Main Navigation -->
-        <div class="tabVertical content tab-content">
-            <div class="tab-pane fade show paneVertical active tab-oflowHide" id="mainTabHtml2Word" role="tabpanel" template-target="html2word"></div>
-            <div class="tab-pane fade paneVertical" id="mainTabBase64" role="tabpanel" template-target="base64"></div>
-            <div class="tab-pane fade paneVertical" id="mainTabContrast" role="tabpanel" template-target="contrast"></div>
-            <div class="tab-pane fade paneVertical" id="mainTabSnippet" role="tabpanel" template-target="snippet"></div>
-            <div class="tab-pane fade paneVertical" id="mainTabSettings" role="tabpanel" template-target="settings"></div>
-        </div>
+        <div class="tabVertical content tab-content" id="mainTab"></div>
 
-        <nav class="nav navVertical d-flex flex-column" id="mainNav">
-            <a class="nav-link navVerticalLink active" id="mainNavHtml2Word" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+1"><i class="fas fa-file-code"></i></a>
-            <a class="nav-link navVerticalLink" id="mainNavBase64" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+2"><i class="far fa-image"></i></a>
-            <a class="nav-link navVerticalLink" id="mainNavContrast" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+3"><i class="fas fa-adjust"></i></a>
-            <a class="nav-link navVerticalLink" id="mainNavSnippet" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+4"><i class="fas fa-table"></i></a>
-            <a class="nav-link navVerticalLink mt-auto" id="mainNavSettings" href="#" tabindex="-1"><i class="fas fa-cog"></i></a>
-        </nav>
+        <nav class="nav navVertical d-flex flex-column" id="mainNav"></nav>
 
         <!-- Bootstrap Modals -->
         <div template-target="modals"></div>

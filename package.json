@@ -25,7 +25,8 @@
     "electron": "^10.1.1",
     "js-beautify": "^1.13.0",
     "tinymce": "^5.4.2",
-    "@yaireo/tagify": "^3.18.0"
+    "@yaireo/tagify": "^3.18.0",
+    "sortablejs": "^1.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

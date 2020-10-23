@@ -240,3 +240,7 @@ h1, p{
 [data-toggle="tooltip"] * { 
     pointer-events: none; 
 }
+
+.sortableItem{
+    cursor: grab;
+}

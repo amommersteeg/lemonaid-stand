@@ -1,9 +1,18 @@
 <template template-target="settings">
     <h1>Settings</h1>
     <div>
-        <div class="mb-4">
+        <div class="mb-3">
+            <h3>Sort App Tabs</h3>
+            <p>Sort the order of the app tabs on the right. Drag the apps around to order them. Note the app needs to be reloaded to take effect.</p>
+            <div>
+                <ol id="sortingApps" data-settings="apps">
+                    <p>Loading list...</p>
+                </ol>
+            </div>
+        </div>
+        <div class="mb-3">
             <h3>Dark theme</h3>
-            <p>Enable dark theme. Note the app needs to be close to take effect.</p>
+            <p>Enable dark theme. Note the app needs to be reloaded to take effect.</p>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="settingsDarkTheme" data-settings="darkTheme" disabled>
                 <label class="form-check-label" for="settingsDarkTheme">

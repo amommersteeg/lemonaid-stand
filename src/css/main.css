@@ -249,4 +249,9 @@ h1, p {
 [data-toggle="tooltip"] * {
   pointer-events: none;
 }
+
+.sortableItem {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
 /*# sourceMappingURL=main.css.map */

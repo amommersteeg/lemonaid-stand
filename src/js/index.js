@@ -1,7 +1,8 @@
 // Load the required Node dependencies
+
 const mammoth = require("mammoth");
 const electron = require('electron');
-const {app, dialog, globalShortcut} = electron.remote;
+const {app, dialog, globalShortcut, webContents} = electron.remote;
 const fs = require('fs');
 const path = require("path");
 const Datastore = require('nedb');
@@ -36,29 +37,50 @@ let settingsGlobal = {
     },
     contrast: {
         defaultText: "Lemond-aid Stand is here to help.",
-    }
+    },
+    apps: [
+        {
+            id: "word2html",
+            title: "Word to HTML",
+            icon: "fas fa-file-code",
+        },
+        {
+            id: "contrast",
+            title: "Contrast",
+            icon: "fas fa-adjust"
+        },
+        {
+            id: "base64",
+            title: "Image to Base64",
+            icon: "far fa-image"
+        },
+        {
+            id: "snippet",
+            title: "Code Snippets",
+            icon: "fas fa-table"
+        },
+    ]
 
     
 }
 
 let settingDefaults = {};
 Object.assign(settingDefaults, settingsGlobal)
-
 /* * * Load Settings * * */
-db.settings = new Datastore({ filename: (__dirname + 'standSettings.db')});
+fs.closeSync(fs.openSync(__dirname + '/standSettings.db', 'a')) // create the file if it doesn't exist (flag a)
+db.settings = new Datastore({ filename: (__dirname + '/standSettings.db')});
 db.settings.loadDatabase(function (err) { 
     db.settings.find({}, function(err, docs){
         if(docs.length > 0){
+            console.log("Loading settings from file.")
             let doc = docs[0]
             Object.assign(settingsGlobal, doc)
-        }
-        // Load the partial javascript
-        LoadJS('/js/partials/word2html.js')
-        LoadJS('/js/partials/base64.js')
-        LoadJS('/js/partials/contrast.js')
-        LoadJS('/js/partials/snippet.js')
+        }    
+        loadContent();
     })
 });
+
+
 
 /**
  * 
@@ -80,6 +102,18 @@ function loadSettings(data){
             item.value = value;
         }
     })
+
+    // Enable SortableJS in settings
+    let sortableElem = document.getElementById('sortingApps');
+    let sortableList = ""
+    settingsGlobal.apps.forEach(app => {
+        sortableList = sortableList + `<li class="sortableItem" data-id='${app.id}' data-icon='${app.icon}'>${app.title}</li>`
+    })
+    sortableElem.innerHTML = sortableList;
+    let sortableApp = new Sortable(sortableElem, {
+
+    });
+
 }
 
 
@@ -92,37 +126,55 @@ function saveSettings(){
     let data = {
         _id: 1,
     }
-    Array.from(settings).forEach(item =>{
-        let type = item.type;
-        let key = item.getAttribute('data-settings');
-        let value = null;
-        if(type == "checkbox"){
-            value = item.checked;
-        }else if(type == "text"){
-            value = item.value;
-        }else if(type == "number"){
-            value = item.value;
-        }
-        var schema = data;                 // a moving reference to internal objects within obj
-        var pList = key.split('.');
-        var len = pList.length;
-        for(var i = 0; i < len-1; i++) {
-            var elem = pList[i];
-            if( !schema[elem] ) {
-                schema[elem] = {}
+    try{
+        Array.from(settings).forEach(item =>{
+            let type = item.type;
+            let key = item.getAttribute('data-settings');
+            let value = null;
+            if(type == "checkbox"){
+                value = item.checked;
+            }else if(type == "text"){
+                value = item.value;
+            }else if(type == "number"){
+                value = item.value;
+            }else if(item.tagName == "OL"){
+                list = [];
+                if(key == "apps"){
+                    item.childNodes.forEach( app => {
+                        list.push(
+                            {
+                                id: app.getAttribute('data-id'),
+                                title: app.innerText,
+                                icon: app.getAttribute('data-icon')
+
+                            }
+                        )
+                    })
+                }
+                value = list;
             }
-            schema = schema[elem];
-        }
-        schema[pList[len-1]] = value;
-
-    })
-
+            var schema = data;                 // a moving reference to internal objects within obj
+            var pList = key.split('.');
+            var len = pList.length;
+            for(var i = 0; i < len-1; i++) {
+                var elem = pList[i];
+                if( !schema[elem] ) {
+                    schema[elem] = {}
+                }
+                schema = schema[elem];
+            }
+            schema[pList[len-1]] = value;
+        })
+    }catch(err){
+        console.log(err)
+    }
     db.settings.update({ _id: 1 }, data , {multi: false, upsert: true}, function (err, numAffected) {
         if(numAffected == 1){
             Object.assign(settingsGlobal, data)
             document.getElementById('alertToastBody').innerHTML = "Settings saved.";
             alertToast.show();
         }
+        console.log(err)
     })
 }
 
@@ -139,43 +191,34 @@ function loadSettingDefaults(){
 
 
 /** 
-* Load html templates
+* Load html template
 * Node + JS
 * Loads html template from separate files and appends to DOM (index.html), synchronous/blocking
 * Set the 'template-target' attribute on the div container to add the template <div template-target="example">
 * Set the same 'template-target' in corresponding template tag <template template-target="example">
-* @param folderPath string, location of the template .html files name of the folder '/folder' or '/folder/folder2'
+* @param src string, location of the template .html file name
 * @returns nothing
 */
-function loadPartials(folderPath){
+function loadPartial(src){
     const fs = require("fs");
-    folderPath = __dirname + folderPath;
-    let files = fs.readdirSync(folderPath)
+    let html = fs.readFileSync(__dirname + src)
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(html, 'text/html');
+    let templates = doc.getElementsByTagName('template')
 
-    files.forEach(file => {
-        if(folderPath.substring(0, folderPath.length-1) != "/"){
-            folderPath = folderPath + "/"
-        }
-        let html = fs.readFileSync(folderPath + file)
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, 'text/html');
-        let templates = doc.getElementsByTagName('template')
-
-        Array.from(templates).forEach(template =>{ 
-            let target = template.getAttribute('template-target')
-                let parent = document.querySelector('[template-target="'+target+'"]')
+    Array.from(templates).forEach(template =>{ 
+        let target = template.getAttribute('template-target')
+            let parent = document.querySelector('[template-target="'+target+'"]')
+            try{
                 if(parent){
                     let clone = template.content.cloneNode(true);
                     parent.appendChild(clone)
-                }else{
-                    console.error("Can not find template-target " + target )
                 }
-        })
+            }catch(err){
+                console.error(err)
+            }
     })
 }
-
-loadPartials('/partials') //execute function
-
 
 /**
 * Loads js file
@@ -202,13 +245,18 @@ function LoadJS(src){
                 resolve();
                 //console.log(src + " is already loaded");
             }else{
-                var link = document.createElement( 'script' );
-                link.src = filePath;
-                document.head.appendChild( link );
-                link.onload = function() { 
-                    resolve(); 
-                    //console.log(src + " is loaded");
-                };
+                try{
+                    var link = document.createElement( 'script' );
+                    link.src = filePath;
+                    document.head.appendChild( link );
+                    link.onload = function() { 
+                        resolve(); 
+                        //console.log(src + " is loaded");
+                    };
+                }catch{
+                    console.log("Can't find" + src)
+                }
+                
             }
     } );
 }
@@ -234,17 +282,41 @@ toastElem.addEventListener('show.bs.toast', function () {
 
 
 /* * * Main Nav * * */
+// Setup nav
+function loadContent(){
+    let mainNav = document.getElementById("mainNav");
+    let mainTab = document.getElementById("mainTab");
+    mainNav.innerHTML = null;
+    mainTab.innerHTML = null;
 
-/** Event Listeners for Nav Buttons */
-document.getElementById("mainNavHtml2Word").addEventListener("click", function() { openTab(this, "mainTabHtml2Word")
-    tinymce.get('tinymce').focus();
-});
-document.getElementById("mainNavBase64").addEventListener("click", function() { openTab(this, "mainTabBase64")});
-document.getElementById("mainNavContrast").addEventListener("click", function() { openTab(this,  "mainTabContrast")});
-document.getElementById("mainNavSnippet").addEventListener("click", function() { openTab( this, "mainTabSnippet")});
-document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")
-    loadSettings(settingsGlobal)  
-});
+    settingsGlobal.apps.forEach(app => { 
+        mainNav.insertAdjacentHTML('beforeend', 
+        `<a class="nav-link navVerticalLink" id="${app.id}" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+1"><i class="${app.icon}"></i></a>`);
+
+        mainTab.insertAdjacentHTML('beforeend', 
+        `<div class="tab-pane fade paneVertical" id="${app.id}Tab" role="tabpanel" template-target="${app.id}"></div>`)
+
+        document.getElementById(app.id).addEventListener("click", function() { openTab(this, `${app.id + "Tab"}`)});
+        loadPartial(`/partials/${app.id}.html`)
+        LoadJS(`/js/partials/${app.id}.js`)
+    })
+
+    // Add settings
+    mainNav.insertAdjacentHTML('beforeend', 
+        '<a class="nav-link navVerticalLink mt-auto" id="mainNavSettings" href="#" tabindex="-1"><i class="fas fa-cog"></i></a>');
+
+    mainTab.insertAdjacentHTML('beforeend', 
+        '<div class="tab-pane fade paneVertical" id="mainTabSettings" role="tabpanel" template-target="settings"></div>');
+
+    document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")
+        loadSettings(settingsGlobal)
+    });
+    loadPartial(`/partials/settings.html`)
+    document.getElementById('settingsSaveBtn').addEventListener('click', saveSettings)
+    document.getElementById('settingsLoadDefaults').addEventListener('click', loadSettingDefaults)
+
+    mainNav.firstElementChild.click();
+}
 
 /**
 * Opens main tab
@@ -274,7 +346,7 @@ function openTab(that, tab) {
 /** Add shortcut keys the main nav
  *  Node
  */ 
-let navLinks = document.getElementById("mainNav").children
+let navLinks = mainNav.children
 for(let i=0; i<navLinks.length; i++){
     let key = 'Ctrl+' + (i+1);
     globalShortcut.register(key, () => {
@@ -344,10 +416,5 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
     trigger: "hover"
   })
 })
-
-
-document.getElementById('settingsSaveBtn').addEventListener('click', saveSettings)
-document.getElementById('settingsLoadDefaults').addEventListener('click', loadSettingDefaults)
-
 
 
