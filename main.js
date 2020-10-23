@@ -101,7 +101,7 @@ function createWindow() {
     height: 800,
     minWidth: 600,
     minHeight: 600,
-    icon: "scr/img/icon/logo2.png",
+    icon: "scr/img/icon/logo1.png",
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,
@@ -212,7 +212,7 @@ app.on('ready', () => {
   // timeout to show loading screen
   setTimeout(() => {
     createWindow();
-  }, 4000); // normally 4000
+  }, 2500); // normally 4000
 
 })
 
