@@ -74,7 +74,7 @@ function createHelpScreen() {
   /// create a browser window
   helpScreen = new BrowserWindow({
     frame: false,
-    width: 600,
+    width: 500,
     height: 600,
     title: '',
     center: true,
