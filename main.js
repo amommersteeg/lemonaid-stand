@@ -101,7 +101,7 @@ function createWindow() {
     height: 800,
     minWidth: 600,
     minHeight: 600,
-    icon: "scr/img/icon/logo1.png",
+    icon: "scr/img/icon/logo2.png",
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,

@@ -39,7 +39,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "src/img/icon/logo1.icns"
+        "icon": "src/img/icon/logo2.icns"
       },
       "makers": [
         {
