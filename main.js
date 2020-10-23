@@ -74,7 +74,7 @@ function createHelpScreen() {
   /// create a browser window
   helpScreen = new BrowserWindow({
     frame: false,
-    width: 500,
+    width: 600,
     height: 600,
     title: '',
     center: true,
@@ -175,6 +175,8 @@ function createWindow() {
   ])
 
   Menu.setApplicationMenu(menu); 
+
+  app.allowRendererProcessReuse = false;   //! A work around to allow for NeDB to be called on reload of render, https://github.com/louischatriot/nedb/issues/649
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
