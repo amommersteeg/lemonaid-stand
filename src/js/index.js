@@ -327,20 +327,24 @@ function loadContent(){
 * @returns nothing
 */
 function openTab(that, tab) {
-    let i, tabcontent, tablinks;
+    let tabContent, tabLink;
     let link = that.id
-    tabcontent = document.getElementsByClassName("paneVertical");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].classList.remove('active');
-      tabcontent[i].classList.remove('show');
+    tabContent = document.querySelector('.paneVertical.active')
+    let positionY = document.getElementById('mainTab').scrollTop;
+    if(tabContent){
+        tabContent.classList.remove('active');
+        tabContent.classList.remove('show');
+        localStorage.setItem(tabContent.id, positionY);
     }
-    tablinks = document.getElementsByClassName("navVerticalLink");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].classList.remove('active');
+    tabLink = document.querySelector('.navVerticalLink.active');
+    if(tabLink){
+        tabLink.classList.remove('active');
     }
+    
     document.getElementById(link).classList.add('active');
     document.getElementById(tab).classList.add('active');
     document.getElementById(tab).classList.add('show');
+    document.getElementById('mainTab').scrollTop = localStorage.getItem(tab);
 }
 
 /** Add shortcut keys the main nav

@@ -6,6 +6,10 @@
 @font-face {
   font-family: "Cabin";
   src: url("../fonts/Cabin-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Cabin-Bold";
   src: url("../fonts/Cabin-Bold.ttf");
 }
 
