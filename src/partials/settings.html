@@ -1,59 +1,89 @@
 <template template-target="settings">
-    <h1>Settings</h1>
-    <div>
-        <div class="mb-3">
-            <h3>Sort App Tabs</h3>
-            <p>Sort the order of the app tabs on the right. Drag the apps around to order them. Note the app needs to be reloaded to take effect.</p>
-            <div>
-                <ol id="sortingApps" data-settings="apps">
-                    <p>Loading list...</p>
-                </ol>
+    <div class="container">
+        <div class="d-flex flex-column align-items-center">
+            <div class="card card-noborder">
+                <h1>Settings</h1>
+            </div>
+            
+            <div class="card my-2">
+                <h3 class="card-header">Sort App Tabs</h3>
+                <div class="card-body">
+                    <p>Sort the order of the app tabs on the right. Drag the apps around to order them. Note the app needs to be reloaded to take effect.</p>
+                    <ol id="sortingApps" data-settings="apps">
+                        <p>Loading list...</p>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card my-2">
+                <h3 class="card-header">Dark theme</h3>
+                <div class="card-body">
+                    <p>Enable dark theme. Note the app needs to be reloaded to take effect.</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="settingsDarkTheme" data-settings="darkTheme" disabled>
+                        <label class="form-check-label" for="settingsDarkTheme">
+                            Enable Dark Theme. (in development)
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="mb-3">
-            <h3>Dark theme</h3>
-            <p>Enable dark theme. Note the app needs to be reloaded to take effect.</p>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="settingsDarkTheme" data-settings="darkTheme" disabled>
-                <label class="form-check-label" for="settingsDarkTheme">
-                  Enable Dark Theme. (in development)
-                </label>
+        <div class="d-flex flex-column align-items-center mt-2">
+            <div class="card card-noborder">
+                <h2>Code Snippets</h2>
             </div>
-        </div>
-
-        <h2>Code Snippets</h2>
-        <div class="mb-3">
-            <h3>Auto backup notes</h3>
-            <p>Code snippets are automatically saved to a .json file to the backup location below.</p>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="settingsAutobackup" data-settings="snippet.autoBackup">
-                <label class="form-check-label" for="settingsAutobackup">
-                  Enable auto backup.
-                </label>
+            
+            <div class="card my-2">
+                <h3 class="card-header">Auto backup notes</h3>
+                <div class="card-body">
+                    <p>Code snippets are automatically saved to a .json file to the backup location below.</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="settingsAutobackup" data-settings="snippet.autoBackup">
+                        <label class="form-check-label" for="settingsAutobackup">
+                            Enable auto backup.
+                        </label>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="mb-3">
-            <h3>Backup location</h3>
-            <p>Location where backup .json files are saved.</p>
-            <input type="text" class="form-control" data-settings="snippet.backupLocation">
-        </div>
-        <div class="mb-3">
-            <h3>Max number of cards</h3>
-            <p>The maximum number of code snippets loaded at one time</p>
-            <input type="number" class="form-control" data-settings="snippet.numCards">
+
+            <div class="card my-2">
+                <h3 class="card-header">Backup location</h3>
+                <div class="card-body">
+                    <p>Location where backup .json files are saved.</p>
+                    <input type="text" class="form-control" data-settings="snippet.backupLocation">
+                </div>
+            </div>
+
+            <div class="card my-2">
+                <h3 class="card-header">Max number of card</h3>
+                <div class="card-body">
+                    <p>The maximum number of code snippets loaded at one time</p>
+                    <input type="number" class="form-control" data-settings="snippet.numCards">
+                </div>
+            </div>
+
         </div>
 
-        <h2>Contrast</h2>
-        <div class="mb-3">
-            <h3>Default text</h3>
-            <p>The default text shown in foreground card text field.</p>
-            <input type="text" class="form-control" data-settings="contrast.defaultText">
+        <div class="d-flex flex-column align-items-center mt-2">
+            <div class="card card-noborder">
+                <h2>Contrast</h2>
+            </div>
+                
+            <div class="card my-2">
+                <h3 class="card-header">Default text</h3>
+                <div class="card-body">
+                    <p>The default text shown in foreground card text field.</p>
+                    <input type="text" class="form-control" data-settings="contrast.defaultText">
+                </div>
+            </div>
+
         </div>
 
-        <hr>
-        <div class="d-flex justify-content-end my-3">
-            <button class="btn btn-primary mr-2" id="settingsLoadDefaults">Load Defaults</button>
-            <button class="btn btn-primary" id="settingsSaveBtn">Save</button>
+            <hr>
+            <div class="d-flex justify-content-end my-3">
+                <button class="btn btn-primary mr-2" id="settingsLoadDefaults">Load Defaults</button>
+                <button class="btn btn-primary" id="settingsSaveBtn">Save</button>
+            </div>
         </div>
     </div>
     
