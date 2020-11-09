@@ -59,6 +59,11 @@ let settingsGlobal = {
             title: "Code Snippets",
             icon: "fas fa-table"
         },
+        {
+            id: "clipboard",
+            title: "Clipboard",
+            icon: "far fa-clipboard"
+        },
     ]
 
     
@@ -74,7 +79,24 @@ db.settings.loadDatabase(function (err) {
         if(docs.length > 0){
             console.log("Loading settings from file.")
             let doc = docs[0]
-            Object.assign(settingsGlobal, doc)
+            let tempSettings = {
+                ...settingsGlobal,
+                ...doc
+
+            }
+            settingsGlobal.apps.forEach(newApp =>{
+                let isNewApp = true;
+                for(let i=0; i<tempSettings.apps.length; i++){
+                    if(tempSettings.apps[i].id == newApp.id){
+                        isNewApp = false;
+                        break;
+                    }
+                }
+                if(isNewApp){
+                    tempSettings.apps.push(newApp);
+                }
+            })
+            Object.assign(settingsGlobal, tempSettings)
         }    
         loadContent();
     })
