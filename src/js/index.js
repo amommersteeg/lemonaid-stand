@@ -316,15 +316,21 @@ function loadContent(){
     let mainTab = document.getElementById("mainTab");
     mainNav.innerHTML = null;
     mainTab.innerHTML = null;
+    let numApps=0;
 
     settingsGlobal.apps.forEach(app => { 
+        numApps++;
+        let key = "Ctrl+"+numApps
         mainNav.insertAdjacentHTML('beforeend', 
-        `<a class="nav-link navVerticalLink" id="${app.id}" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Ctrl+1"><i class="${app.icon}"></i></a>`);
-
+        `<a class="nav-link navVerticalLink" id="${app.id}" href="#" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="${key}"><i class="${app.icon}"></i></a>`);
+        
         mainTab.insertAdjacentHTML('beforeend', 
         `<div class="tab-pane fade paneVertical" id="${app.id}Tab" role="tabpanel" template-target="${app.id}"></div>`)
 
         document.getElementById(app.id).addEventListener("click", function() { openTab(this, `${app.id + "Tab"}`)});
+        globalShortcut.register(key, () => {
+            document.getElementById(app.id).click();
+        })
         loadPartial(`/partials/${app.id}.html`)
         LoadJS(`/js/partials/${app.id}.js`)
     })
@@ -375,16 +381,6 @@ function openTab(that, tab) {
     document.getElementById('mainTab').scrollTop = localStorage.getItem(tab);
 }
 
-/** Add shortcut keys the main nav
- *  Node
- */ 
-let navLinks = mainNav.children
-for(let i=0; i<navLinks.length; i++){
-    let key = 'Ctrl+' + (i+1);
-    globalShortcut.register(key, () => {
-        navLinks[i].click();
-    })
-}
 
 /* * * Secondary Nav * * */
 
