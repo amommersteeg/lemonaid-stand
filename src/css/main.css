@@ -262,4 +262,12 @@ h1, p {
   cursor: -webkit-grab;
   cursor: grab;
 }
+
+.clipboardItem {
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: scroll;
+  border: 1px solid lightgray;
+  padding: 5px;
+}
 /*# sourceMappingURL=main.css.map */

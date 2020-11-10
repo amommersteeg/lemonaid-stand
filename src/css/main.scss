@@ -250,3 +250,12 @@ h1, p{
 .sortableItem{
     cursor: grab;
 }
+
+
+.clipboardItem{
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid lightgray;
+    padding: 5px;
+}

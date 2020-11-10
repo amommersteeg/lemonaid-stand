@@ -92,6 +92,7 @@ function createHelpScreen() {
     helpScreen = null
   })
 }
+
   
 function createWindow() {
 

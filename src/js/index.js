@@ -2,11 +2,12 @@
 
 const mammoth = require("mammoth");
 const electron = require('electron');
-const {app, dialog, globalShortcut, webContents} = electron.remote;
+const {app, BrowserWindow, dialog, globalShortcut, screen, webContents} = electron.remote
 const fs = require('fs');
 const path = require("path");
 const Datastore = require('nedb');
 const os = require('os');
+const { clipboard } = require("electron");
 
 /* * * Global Variables * * */
 
@@ -37,6 +38,12 @@ let settingsGlobal = {
     },
     contrast: {
         defaultText: "Lemond-aid Stand is here to help.",
+    },
+    clipboard: {
+        enableOnLoad: true,
+        numItems: 10,
+        numPins: 5
+
     },
     apps: [
         {
@@ -196,7 +203,6 @@ function saveSettings(){
             document.getElementById('alertToastBody').innerHTML = "Settings saved.";
             alertToast.show();
         }
-        console.log(err)
     })
 }
 
@@ -419,14 +425,68 @@ globalShortcut.register("Ctrl+Shift+Tab", () => {
                 }
                 tabs[nextTab].click()
                 break;
-            }
+            }globalShortcut
+        }
+    }
+})
+
+globalShortcut.register("Ctrl+Shift+C", () => {
+    // Loop through the click board starting from pin then top
+    let numItems = document.getElementById('clipboard-id').children.length;
+    let numPins = document.getElementById('clipboardPin-id').children.length;
+    if(numItems > 0 || numPins > 0){
+        if (clipboardWin) {
+            clipboardWin.focus();
+        }else{
+            createClipboardWin();
         }
     }
 })
 
 
-/* * * Shared Functions * * */
+let clipboardWin;
+function createClipboardWin(){
+    let display = screen.getPrimaryDisplay();
+    let screenWidth = display.bounds.width;
 
+    clipboardWin = new BrowserWindow({
+      frame: false,
+      resizable: false,
+      alwaysOnTop: true,
+      skipTaskbar: true,
+      minimizable: false,
+      fullscreenable: false,
+      x: screenWidth - 400 + 5,
+      y: 5,
+      width: 400,
+      opacity: 0.8,
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: true,
+        worldSafeExecuteJavaScript: true,
+        enableRemoteModule: true,
+      }
+    })
+    clipboardWin.loadFile('src/windows/clipboard.html')
+    clipboardWin.on('closed', function() {
+        clipboardWin = null;
+    })
+    clipboardWin.on('blur', function(){
+        clipboardWin.close();
+    })
+  }
+
+
+
+document.addEventListener("keydown", event => {
+    switch(event.key){
+        case "Escape":
+            electron.remote.getCurrentWindow().hide();
+    }
+})
+
+
+/* * * Shared Functions * * */
 function preventDefault(e) {
 	e.preventDefault();
   	e.stopPropagation();
