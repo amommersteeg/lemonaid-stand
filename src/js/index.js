@@ -477,7 +477,7 @@ function createClipboardWin(){
 document.addEventListener("keydown", event => {
     switch(event.key){
         case "Escape":
-            electron.remote.getCurrentWindow().hide();
+            electron.remote.getCurrentWindow().minimize();
     }
 })
 
