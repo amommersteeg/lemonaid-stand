@@ -28,10 +28,14 @@ getNums();
 
 function getClipboard(){
     let mainWin = BrowserWindow.fromId(2);
-    if(indexItems >= numItems){
+
+    if(indexItems >= numItems && numItems > 0){
         indexItems = 0;
         indexPins = 0;
+    }else if(indexPins >= numPins && numItems <= 0){
+        indexPins = 0;
     }
+
     if(indexPins < numPins){
         mainWin.webContents.executeJavaScript(
             `document.getElementById('clipboardPin-id').children[${indexPins}].querySelector('p').textContent`
@@ -41,6 +45,7 @@ function getClipboard(){
             document.getElementById('clipboard').setAttribute('data-index', indexPins);
             document.getElementById('clipboard').setAttribute('data-type', "pin");
             indexPins++;
+   
         })
 
     }else{
@@ -62,7 +67,7 @@ function getClipboard(){
 
 document.addEventListener("keyup", event => {
     let key = event.key;
-    console.log(key)
+
     if(key == "c" || key == "C"){
         getClipboard();
         // reset timeout
@@ -72,7 +77,6 @@ document.addEventListener("keyup", event => {
         let index = document.getElementById('clipboard').getAttribute('data-index');
         let type = document.getElementById('clipboard').getAttribute('data-type');
         let mainWin = BrowserWindow.fromId(2);
-        console.log(index)
         if(type == "item"){
             if(index != 0){
                 mainWin.webContents.executeJavaScript(
