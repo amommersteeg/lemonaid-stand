@@ -13,6 +13,11 @@
   src: url("../fonts/Cabin-Bold.ttf");
 }
 
+@font-face {
+  font-family: "Symbola";
+  src: url("../fonts/Symbola.ttf");
+}
+
 body {
   overflow: hidden;
 }
@@ -269,5 +274,35 @@ h1, p {
   overflow-y: scroll;
   border: 1px solid lightgray;
   padding: 5px;
+}
+
+.formula-list {
+  font-size: 20px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.formula-list a {
+  text-decoration: none;
+}
+
+.formula-tab-content {
+  min-height: 120px;
+}
+
+.mq-textcolor .mq-text-mode {
+  display: block;
+}
+
+.math-input {
+  width: 100%;
+  font-size: 20pt;
+  padding: 10px;
+}
+
+.latex-input {
+  width: 100%;
 }
 /*# sourceMappingURL=main.css.map */

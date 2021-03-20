@@ -5,12 +5,11 @@ tinymce.init({
     scroll: true,
     resize: false,
     auto_focus :'tinymce',
+
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: '',
     plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons', //quickbars
-    mobile: {
-        plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap linkchecker emoticons'  //quickbars
-    },
+
     menu: {
         file: { title: 'File', items: 'newdocument | preview | print ' },
         edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
@@ -34,7 +33,7 @@ tinymce.init({
     ],
     template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
     template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
-
+    
 
 
     // Have not updated from Default Settings

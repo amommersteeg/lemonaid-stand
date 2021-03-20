@@ -52,6 +52,11 @@ let settingsGlobal = {
             icon: "fas fa-file-code",
         },
         {
+            id: "formula",
+            title: "Formula Editor",
+            icon: "fas fa-square-root-alt"
+        },
+        {
             id: "contrast",
             title: "Contrast",
             icon: "fas fa-adjust"
@@ -317,6 +322,8 @@ function loadContent(){
     mainNav.innerHTML = null;
     mainTab.innerHTML = null;
     let numApps=0;
+
+    //LoadJS(/js/mathquill/mathquill.js') // load MathQuill
 
     settingsGlobal.apps.forEach(app => { 
         numApps++;
