@@ -35,6 +35,9 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
+  "build": {
+    "extraResources": ["./extraResources/**"]
+  },
   "author": "LAC",
   "license": "ISC",
   "config": {

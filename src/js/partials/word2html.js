@@ -210,3 +210,15 @@ document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
 //document.getElementById("codeUploadBtn").addEventListener("click", codeUploadFile);
 
 
+
+
+/* pandoc */
+var src="# Hello \n\nIt\'s bananas";
+var args = ['-f', 'markdown', '-t', 'html5'];
+
+pandoc(src,args)
+    .then((res)=>{
+        console.log(res);
+    }).catch(err=>{
+    console.error("oops",err);
+});
