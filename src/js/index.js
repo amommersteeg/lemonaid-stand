@@ -8,7 +8,6 @@ const path = require("path");
 const Datastore = require('nedb');
 const os = require('os');
 const { clipboard } = require("electron");
-const pandoc = require('/js/partials/node-pandoc-promise/pandoc.js')
 
 /* * * Global Variables * * */
 

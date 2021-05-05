@@ -16,6 +16,7 @@ module.exports = function (src, options = [], pandocPath) {
   if (typeof pandocPath === 'undefined') {
     //pandocPath = 'pandoc'
     pandocPath = __dirname + '/../extraResources/pandoc/mac/pandoc'
+    console.log(pandocPath)
     //pandocPath =  __dirname + '/../extraResources//pandoc/win/pandoc.exe'
   }
   return new Promise((resolve, reject) => {
