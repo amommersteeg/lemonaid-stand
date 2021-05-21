@@ -45,6 +45,9 @@ let settingsGlobal = {
         numPins: 5
 
     },
+    word: {
+        pandocLocation: "C:\\Program Files (x86)\\pandoc\\pandoc.exe"
+    },
     apps: [
         {
             id: "word2html",

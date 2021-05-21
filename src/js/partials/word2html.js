@@ -1,4 +1,5 @@
 const pandoc = require(__dirname + '/js/node-pandoc-promise/pandoc.js')
+
 /******** Word to HTML Code ********/
 tinymce.init({
     selector: '#tinymce',
@@ -217,7 +218,7 @@ document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
 var src="# Hello \n\nIt\'s bananas";
 var args = ['-f', 'markdown', '-t', 'html5'];
 
-pandoc(src,args)
+pandoc.pandocCall(src,args)
     .then((res)=>{
         console.log(res);
     }).catch(err=>{

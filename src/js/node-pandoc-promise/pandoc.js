@@ -1,21 +1,29 @@
 // Forked from https://github.com/asaf050/node-pandoc-promise  - MIT License
 // Modified to work with Electron & Lemon-Aid Stand
 
-// How to import binaries
-// Try first
-// https://stackoverflow.com/questions/46022443/electron-how-to-add-external-files
-
-// https://ganeshrvel.medium.com/bundle-a-precompiled-binary-or-native-file-into-an-electron-app-beacc44322a9
-// https://stackoverflow.com/questions/33152533/bundling-precompiled-binary-into-electron-app
+// Check for pandoc is installed
+// include instructions on how to install pandoc
+// message if not installed or executable can't be found
+// add option in settings for path to pandoc executable
 
 const stat = require('fs').stat;
 const spawn = require('child_process').spawn;
+const path = require('path');
 
 
-module.exports = function (src, options = [], pandocPath) {
+function pandocPath(){
+  // check the path and return path found
+    // check the setting path
+    // get os version
+      // check the os path (windows, mac)
+  
+} 
+
+
+function pandocCall(src, options = [], pandocPath) {
   if (typeof pandocPath === 'undefined') {
     //pandocPath = 'pandoc'
-    pandocPath = __dirname + '/../extraResources/pandoc/mac/pandoc'
+    pandocPath = path.join(__dirname, '/../extraResources/pandoc/mac/pandoc');
     console.log(pandocPath)
     //pandocPath =  __dirname + '/../extraResources//pandoc/win/pandoc.exe'
   }
@@ -78,3 +86,5 @@ module.exports = function (src, options = [], pandocPath) {
 
 
 };
+
+module.exports = {pandocCall};
