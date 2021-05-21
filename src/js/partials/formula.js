@@ -1368,8 +1368,7 @@ function initMathPanel(){
             event.preventDefault()
             tabTrigger.show()
         })
-    })
-    tabHtml.insertAdjacentHTML("beforeend", '<button style="height:95%" type="button" class="btn btn-primary" id="formulaCopyBtn">Copy Formula</button>')
+    }}
 }
 
 function insertSymbol(mathField, text, action){
