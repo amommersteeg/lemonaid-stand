@@ -129,36 +129,112 @@ function codeCopyAll(){
 
 
 function codeConvertFile(filePath) {
-    if(path.extname(filePath) == ".docx" || path.extname(filePath) == ".doc"){
-        mammoth.convertToHtml({path: filePath})
-        .then(function(result){
-            var html = result.value; // The generated HTML
-            //console.log(html);
-            let cleanHTML = codeBeautify(html)
+    pandocLoc = settingsGlobal.word.pandocLocation;
+    // Add pandoc code here
+
+    // if in app check convert to html and add to codeEditor
+    // else if convert file read the output type
+        // when convert is done ask where to save file
+
+    if(document.getElementById('flexRadioDefault1').checked == true){
+        let args = [ '-t', 'html5'];
+        pandoc.pandocCall(filePath,args,pandocLoc)
+        .then((res)=>{
+            console.log(res);
+            let cleanHTML = codeBeautify(res)
             codeEditor.getDoc().setValue(cleanHTML);
             setTimeout(function(){
                 codeEditor.refresh()
             }, 600);
             copyText(document.getElementById("nav-word-tab"))
-            var messages = result.messages;
-            document.getElementById('codeUploadMessage').innerHTML = "";
-            if(messages.length > 0){
-                let messageText = "";
-                for(let i=0; i<messages.length; i++){
-                    messageText += messages[i] + '\n';
-                }
-                document.getElementById('codeUploadMessage').innerHTML = messageText;
-            }
             document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
             alertToast.show();
             let htmlTab = document.getElementById('nav-html-tab')
             let tab = new bootstrap.Tab(htmlTab)
             tab.show()
+        }).catch(err=>{
+            console.error("oops",err);
+            document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
         })
-        .done();
+
+    }else if(document.getElementById('flexRadioDefault2').checked == true){
+        let outputType = document.getElementById('codeConvertOptions').value;
+
+        let args = ['-t', outputType];
+        if(outputType == "md"){
+            args = ['-t', 'gfm'];
+        }
+        let filename = filePath.split('.').slice(0, -1).join('.');
+        console.log(args)
+        
+        pandoc.pandocCall(filePath,args,pandocLoc)
+        .then((res)=>{
+            console.log(res);
+            dialog.showSaveDialog(electron.remote.getCurrentWindow(),{
+                title: "Save converted file",
+                defaultPath: filename + "." + outputType,
+                buttonLabel: "Save File",
+                filters: [
+                    {name: 'All Files', extensions: ['*']}
+                ]
+            
+            })
+            .then(result => {
+                // checks if window was closed
+                if (result.canceled) {
+                    console.log("No file selected!")
+                } else {
+                    fs.writeFile(result.filePath, res, function (err) {
+                        if (err){
+                            console.error("oops",err);
+                            document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
+                        }
+                    });
+                    document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
+                    alertToast.show();
+                }
+            })
+
+
+        }).catch(err=>{
+            console.error("oops",err);
+            document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
+        });
     }else{
-        document.getElementById('codeUploadMessage').innerHTML = "Error: Must be a .docx or .doc Word file";
+        console.log("Error")
     }
+
+    
+    // if(path.extname(filePath) == ".docx" || path.extname(filePath) == ".doc"){
+    //     mammoth.convertToHtml({path: filePath})
+    //     .then(function(result){
+    //         var html = result.value; // The generated HTML
+    //         //console.log(html);
+    //         let cleanHTML = codeBeautify(html)
+    //         codeEditor.getDoc().setValue(cleanHTML);
+    //         setTimeout(function(){
+    //             codeEditor.refresh()
+    //         }, 600);
+    //         copyText(document.getElementById("nav-word-tab"))
+    //         var messages = result.messages;
+    //         document.getElementById('codeUploadMessage').innerHTML = "";
+    //         if(messages.length > 0){
+    //             let messageText = "";
+    //             for(let i=0; i<messages.length; i++){
+    //                 messageText += messages[i] + '\n';
+    //             }
+    //             document.getElementById('codeUploadMessage').innerHTML = messageText;
+    //         }
+    //         document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
+    //         alertToast.show();
+    //         let htmlTab = document.getElementById('nav-html-tab')
+    //         let tab = new bootstrap.Tab(htmlTab)
+    //         tab.show()
+    //     })
+    //     .done();
+    // }else{
+    //     document.getElementById('codeUploadMessage').innerHTML = "Error: Must be a .docx or .doc Word file";
+    // }
 }
 
 let codeFakeInput = document.createElement("button");
@@ -172,6 +248,8 @@ codeFakeInput.addEventListener("click", function(event) {
         properties: ['openFile'],
         filters: [
             { name: 'Word', extensions: ['docx', 'doc' ]},
+            { name: "Markdown", extensions: ['md']},
+            { name: "HTML", extensions: ['html']},
         ]
     
     })
@@ -200,27 +278,32 @@ codeUploadRegion.addEventListener('dragover', preventDefault, false)
 codeUploadRegion.addEventListener('dragenter', preventDefault, false)
 codeUploadRegion.addEventListener('dragleave', preventDefault, false)
 
+function checkPandoc(){
+    pandocLoc = settingsGlobal.word.pandocLocation;
+    if(fs.existsSync(pandocLoc)){
+        console.log("Found Pandoc");
+        document.getElementById('codeConvertOptions').disabled = false;
+        document.getElementById('flexRadioDefault1').disabled = false;
+        document.getElementById('flexRadioDefault2').disabled = false;
+        document.getElementById('codeUploadRegion').style.pointerEvents = "auto";
+        document.getElementById('codeConvertWarning').style.display = "none";
+    }else{
+        console.log("Can't find Pandoc");
+        document.getElementById('codeConvertOptions').disabled = true;
+        document.getElementById('flexRadioDefault1').disabled = true;
+        document.getElementById('flexRadioDefault2').disabled = true;
+        document.getElementById('codeUploadRegion').style.pointerEvents = "none";
+        document.getElementById('codeConvertWarning').style.display = "block";
+    }  
+}
 
 
 document.getElementById("nav-word-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-word-tab")) });
 document.getElementById("nav-html-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-html-tab")) });
+document.getElementById("nav-upload-tab").addEventListener("click", function(){ checkPandoc() });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
 document.getElementById("codeRedoBtn").addEventListener("click", function(){ codeUndoRedo(false) });
 document.getElementById("codeWrapLineBtn").addEventListener("click", function(){ codeWrapLine(document.getElementById("codeWrapLineBtn")) });
 document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
 //document.getElementById("codeUploadBtn").addEventListener("click", codeUploadFile);
-
-
-
-
-/* pandoc */
-var src="# Hello \n\nIt\'s bananas";
-var args = ['-f', 'markdown', '-t', 'html5'];
-
-pandoc.pandocCall(src,args)
-    .then((res)=>{
-        console.log(res);
-    }).catch(err=>{
-    console.error("oops",err);
-});
