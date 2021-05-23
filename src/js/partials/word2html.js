@@ -130,17 +130,11 @@ function codeCopyAll(){
 
 function codeConvertFile(filePath) {
     pandocLoc = settingsGlobal.word.pandocLocation;
-    // Add pandoc code here
-
-    // if in app check convert to html and add to codeEditor
-    // else if convert file read the output type
-        // when convert is done ask where to save file
 
     if(document.getElementById('flexRadioDefault1').checked == true){
         let args = [ '-t', 'html5'];
         pandoc.pandocCall(filePath,args,pandocLoc)
         .then((res)=>{
-            console.log(res);
             let cleanHTML = codeBeautify(res)
             codeEditor.getDoc().setValue(cleanHTML);
             setTimeout(function(){
@@ -158,44 +152,38 @@ function codeConvertFile(filePath) {
         })
 
     }else if(document.getElementById('flexRadioDefault2').checked == true){
-        let outputType = document.getElementById('codeConvertOptions').value;
-
-        let args = ['-t', outputType];
-        if(outputType == "md"){
-            args = ['-t', 'gfm'];
-        }
         let filename = filePath.split('.').slice(0, -1).join('.');
-        console.log(args)
+        let outputType = document.getElementById('codeConvertOptions').value;
+        dialog.showSaveDialog(electron.remote.getCurrentWindow(),{
+            title: "Save converted file",
+            defaultPath: filename + "." + outputType,
+            buttonLabel: "Save File",
+            filters: [
+                {name: 'All Files', extensions: ['*']}
+            ]
         
-        pandoc.pandocCall(filePath,args,pandocLoc)
-        .then((res)=>{
-            console.log(res);
-            dialog.showSaveDialog(electron.remote.getCurrentWindow(),{
-                title: "Save converted file",
-                defaultPath: filename + "." + outputType,
-                buttonLabel: "Save File",
-                filters: [
-                    {name: 'All Files', extensions: ['*']}
-                ]
-            
-            })
-            .then(result => {
-                // checks if window was closed
-                if (result.canceled) {
-                    console.log("No file selected!")
-                } else {
-                    fs.writeFile(result.filePath, res, function (err) {
-                        if (err){
-                            console.error("oops",err);
-                            document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
-                        }
-                    });
+        }).then(result => {
+            // checks if window was closed
+            if (result.canceled) {
+                console.log("No file selected!")
+            } else {
+                let args = ['-t', outputType];
+                if(outputType == "md"){
+                    args = ['-t', 'gfm','-o', result.filePath];
+                }else if (outputType == "docx"){
+                    args = ['-t', 'docx', '-o', result.filePath];
+                }else if (outputType == "html"){
+                    args = ['-t', 'html', '-o', result.filePath];
+                }
+                pandoc.pandocCall(filePath,args,pandocLoc)
+                .then((res)=>{
                     document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
                     alertToast.show();
-                }
-            })
-
-
+                }).catch(err=>{
+                    console.error("oops",err);
+                    document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
+                });
+            }
         }).catch(err=>{
             console.error("oops",err);
             document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
@@ -215,9 +203,10 @@ codeFakeInput.addEventListener("click", function(event) {
     dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
         properties: ['openFile'],
         filters: [
-            { name: 'Word', extensions: ['docx', 'doc' ]},
-            { name: "Markdown", extensions: ['md']},
-            { name: "HTML", extensions: ['html']},
+            {name: 'All Files', extensions: ['*']}
+            // { name: 'Word', extensions: ['docx', 'doc' ]},
+            // { name: "Markdown", extensions: ['md']},
+            // { name: "HTML", extensions: ['html']},
         ]
     
     })
