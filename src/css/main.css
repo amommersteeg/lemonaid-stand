@@ -150,6 +150,15 @@ h1, p {
           box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
+.codeConvert {
+  margin-left: 30px;
+  width: 200px;
+}
+
+.codeWarning {
+  color: red;
+}
+
 .CodeMirror {
   border: 1px solid #eee;
   height: calc(100% - 50px);
@@ -300,10 +309,12 @@ h1, p {
   width: 100%;
   font-size: 20pt;
   padding: 10px;
+  border: 1px solid lightgray;
 }
 
 .latex-input {
   width: 100%;
+  border: 1px solid lightgray;
 }
 
 .formulaBtn {

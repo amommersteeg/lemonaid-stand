@@ -46,7 +46,8 @@ let settingsGlobal = {
 
     },
     word: {
-        pandocLocation: "C:\\Program Files (x86)\\pandoc\\pandoc.exe"
+        //pandocLocation: "C:\\Program Files (x86)\\pandoc\\pandoc.exe"
+        pandocLocation: "/Users/alexmommersteeg/Alex Working/Lemon-aid Stand/pandoc/mac/pandoc"
     },
     apps: [
         {

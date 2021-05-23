@@ -1368,7 +1368,7 @@ function initMathPanel(){
             event.preventDefault()
             tabTrigger.show()
         })
-    }}
+    })
 }
 
 function insertSymbol(mathField, text, action){

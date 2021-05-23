@@ -10,23 +10,8 @@ const stat = require('fs').stat;
 const spawn = require('child_process').spawn;
 const path = require('path');
 
-
-function pandocPath(){
-  // check the path and return path found
-    // check the setting path
-    // get os version
-      // check the os path (windows, mac)
-  
-} 
-
-
 function pandocCall(src, options = [], pandocPath) {
-  if (typeof pandocPath === 'undefined') {
-    //pandocPath = 'pandoc'
-    pandocPath = path.join(__dirname, '/../extraResources/pandoc/mac/pandoc');
-    console.log(pandocPath)
-    //pandocPath =  __dirname + '/../extraResources//pandoc/win/pandoc.exe'
-  }
+  
   return new Promise((resolve, reject) => {
 
     let pdSpawn;
