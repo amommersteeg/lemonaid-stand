@@ -203,38 +203,6 @@ function codeConvertFile(filePath) {
     }else{
         console.log("Error")
     }
-
-    
-    // if(path.extname(filePath) == ".docx" || path.extname(filePath) == ".doc"){
-    //     mammoth.convertToHtml({path: filePath})
-    //     .then(function(result){
-    //         var html = result.value; // The generated HTML
-    //         //console.log(html);
-    //         let cleanHTML = codeBeautify(html)
-    //         codeEditor.getDoc().setValue(cleanHTML);
-    //         setTimeout(function(){
-    //             codeEditor.refresh()
-    //         }, 600);
-    //         copyText(document.getElementById("nav-word-tab"))
-    //         var messages = result.messages;
-    //         document.getElementById('codeUploadMessage').innerHTML = "";
-    //         if(messages.length > 0){
-    //             let messageText = "";
-    //             for(let i=0; i<messages.length; i++){
-    //                 messageText += messages[i] + '\n';
-    //             }
-    //             document.getElementById('codeUploadMessage').innerHTML = messageText;
-    //         }
-    //         document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
-    //         alertToast.show();
-    //         let htmlTab = document.getElementById('nav-html-tab')
-    //         let tab = new bootstrap.Tab(htmlTab)
-    //         tab.show()
-    //     })
-    //     .done();
-    // }else{
-    //     document.getElementById('codeUploadMessage').innerHTML = "Error: Must be a .docx or .doc Word file";
-    // }
 }
 
 let codeFakeInput = document.createElement("button");
