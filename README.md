@@ -3,9 +3,11 @@ All-in one toolbox for courseware developers.
 
 ## Components
 * Word (WYSIWYG) to HTML editor
+* Convert document files
 * Formula Editor
 * Image (jpg or png) to Base 64 Image
 * Webaim contrast checker
+* Clipboard
 * Note & Code Snippet Table
 
 ## Details
@@ -24,17 +26,19 @@ In the `releases` folder are complied versions for Windows and Mac computers (po
     * There is little to no error checking, so things may not work or crash completely.
     * Every time the app opens it will create a json backup of the Note & Code Snippet Table. Since that app hasn't really undergone testing, this allows for any lost notes to be recovered.
 
-## Roadmap
 * 0.2.0
-    * Add module for formulas
-    * Refactor the project's code into separate files to allow for better collaboration. 
-    * Add styling to the components.
-    * Add creating of partial html components when uploading HTML and exporting using Mammoth.
-    * And more.
+    * Add module for formulas.
+    * Add Pandoc to convert files.
+## Roadmap
+* Refactor the project's code into separate files to allow for better collaboration. 
+* Add styling to the components.
+* And more.
 
 ### Known Bugs
     * 
 
+## How to develop
+* Open terminal in Lemon-aid Stand directory and enter `npm start` 
 
 ## Helpfully Links
 ### Electron
@@ -52,13 +56,13 @@ https://webaim.org/resources/contrastchecker/
 https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
 
 
-
 ## Libraries Used
 This project is using: 
 * [TinyMCE v5.4.2](https://www.tiny.cloud/docs/)
 * [Bootstrap v5.0.0-alpha](https://v5.getbootstrap.com/docs/5.0/getting-started/introduction/)
 * [CodeMirror v5.57.0](https://codemirror.net/)
-* [Mammoth v1.4.11](https://github.com/mwilliamson/mammoth.js/)
+* [Pandoc](https://pandoc.org/)
+* [node-pandoc-promise](https://github.com/asaf050/node-pandoc-promise#readme)
 * [Electron v10.1.1](https://www.electronjs.org/docs)
 * [Tagify v3.18.0](https://github.com/yairEO/tagify)
 * [nedb v1.8.0](https://github.com/louischatriot/nedb)
