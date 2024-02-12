@@ -37,7 +37,6 @@ function preventDefault(e) {
 
 /******** Vertical Navigation Code  ********/
 var mammoth = require("mammoth");
-const electron = require('electron');
 const remote = require('@electron/remote');
 const fs = require('fs');
 const path = require("path");
@@ -229,7 +228,7 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", function(event) {
-    remote.dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(),{
         properties: ['openFile'],
         filters: [
             { name: 'Word', extensions: ['docx', 'doc' ]},
@@ -1288,7 +1287,7 @@ function snippetExport(){
         ]
     }
 
-    remote.dialog.showSaveDialog(electron.remote.getCurrentWindow(), options)
+    remote.dialog.showSaveDialog(remote.getCurrentWindow(), options)
     .then( results =>{ 
         db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
             // console.log(err)
@@ -1313,7 +1312,7 @@ function snippetExport(){
 }
 
 function snippetImport(){
-    remote.dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(),{
         title: "Import notes file",
         properties: ['openFile'],
         filters: [
