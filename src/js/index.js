@@ -656,11 +656,11 @@ db.settings.loadDatabase(function (err) {    // Callback is optional
             snippetTagify.settings.whitelist = doc.tags;
             snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
             snippetLoadFilterTags(doc.tags) 
-            console.log(snippetTagify.settings.whitelist)
+            // console.log(snippetTagify.settings.whitelist)
         }
     });
     db.settings.find({}, function (err, docs) {
-        console.log(docs)
+        // console.log(docs)
     })
 });
 
@@ -709,10 +709,10 @@ function snippetLoadFilterTags(tags){
 
 function snippetLoadNotes(searchParam, skip, limit, clearParent=false){
     SEARCHPARAM = searchParam;
-    console.log("Search Param");
-    console.log(searchParam)
+    // console.log("Search Param");
+    // console.log(searchParam)
     db.notes.find(searchParam).sort({ createdOn: -1 }).skip(skip).limit(limit).exec(function (err, docs) {
-        console.log(docs)
+        // console.log(docs)
         if(docs.length > 0){
             
             let parent = document.getElementById('snippetNoteList')
@@ -1187,13 +1187,13 @@ function snippetFavNote(event){
 function snippetReplaceTag(){
     let old = snippetReplaceTagify.value[0].value;
     let replacement = document.getElementById('snippetTagReplacement').value;
-    console.log(old + " -> " + replacement)
+    // console.log(old + " -> " + replacement)
     
     if(replacement == "" && old != ""){
         //console.log("remove tag")
         db.notes.update({ tags: old }, { $pull: { tags: old } }, {multi: true }, function (err, numReplaced) {
-            console.log(err)
-            console.log(numReplaced)
+            // console.log(err)
+            // console.log(numReplaced)
             document.getElementById('snippetNoteList').innerHTML = '';
             snippetLoadNotes({}, 0, NUMCARDS)
         });
@@ -1291,8 +1291,8 @@ function snippetExport(){
     remote.dialog.showSaveDialog(electron.remote.getCurrentWindow(), options)
     .then( results =>{ 
         db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
-            console.log(err)
-            console.log(docs)
+            // console.log(err)
+            // console.log(docs)
             let json = {
                 "name": "Lemon-Aid Stand Notes",
                 "version": remote.app.getVersion(),
@@ -1301,7 +1301,7 @@ function snippetExport(){
             }
             let fileData = JSON.stringify(json)
             fs.writeFile(results.filePath, fileData, function(err) {
-                console.log(err)
+                // console.log(err)
                 if(err == null){
                     document.getElementById('toastBody').innerHTML = "Notes exported";
                     toast.show();
@@ -1325,13 +1325,13 @@ function snippetImport(){
         fs.readFile(results.filePaths[0], (err, data) => {
             if (err) throw err;
             let json = JSON.parse(data);
-            console.log(json);
+            // console.log(json);
             let tags = [];
             let numNotes = json.notes.length
             let numAdded = 0; 
             json.notes.forEach(note =>{
                 db.notes.insert(note, function (err) {
-                    console.log(err)
+                    // console.log(err)
                     if(err == null){
                         numAdded += 1;
                     }
@@ -1388,7 +1388,7 @@ document.getElementById('searchBar').addEventListener("input", function (evt) {
 
 
 document.getElementById('snippetFavFilterBtn').addEventListener('click', function(){
-    console.log(SEARCHPARAM)
+    // console.log(SEARCHPARAM)
     let search = SEARCHPARAM
     if(this.getAttribute('data-toggle') == "true"){
         this.setAttribute('data-toggle', "false")
