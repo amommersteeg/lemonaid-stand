@@ -4,6 +4,7 @@ node_modules
 # Lemon-aid Stand
 *.docx
 *.db
+pandoc
 Lemon-Aid Stand Note - Autobackup.*.json
 
 # Vite

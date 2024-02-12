@@ -1,0 +1,310 @@
+@font-face {
+    font-family: "Annie Use Your Telescope";
+    src: url("../fonts/AnnieUseYourTelescope-Regular.ttf");
+
+}
+@font-face {
+    font-family: "Cabin";
+    src: url("../fonts/Cabin-Regular.ttf");
+}
+@font-face {
+    font-family: "Cabin-Bold";
+    src: url("../fonts/Cabin-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Symbola";
+    src: url("../fonts/Symbola.ttf");
+}
+body{
+    overflow: hidden;
+}
+
+h1, p{
+    font-family: 'Cabin', sans-serif;
+}
+
+
+/* Modifications to Bootstrap */
+
+.card{
+    max-width: 600px;
+    width: 80vw;
+}
+
+.card-noborder{
+    border: none;
+}
+
+.modal-fullscreen-lg-down{
+    padding: 10px;
+    border-radius: .3rem;
+    height: auto;
+}
+
+@media (max-width: 991.98px){
+    .modal-fullscreen-lg-down .modal-content{
+        border-radius: .3rem;
+        border: 1px solid rgba(0,0,0,.2);
+    }
+}
+
+
+.toast{
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    min-width: 200px;
+    z-index: 100;
+    display: none;
+}
+
+.toast.active{
+    display: block;
+}
+
+
+
+
+/* Custom CSS */
+
+.content{
+    position: absolute;   
+    width: 100vw;
+    height: 100vh;
+    z-index: 90;
+    overflow-y: scroll;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
+.navVertical{
+    position: fixed;
+    right: 0;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-left: none;
+    height: 100vh;
+}
+
+
+.navVertical a{
+    height: 60px;
+    width: 60px;
+    padding: 20px;
+}
+
+.navVertical .active{
+    background-color: white;
+}
+
+.tabVertical{
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: calc(100vw - 60px);
+    border-right: none;
+}
+
+.paneVertical{
+    height: 100%;
+    opacity: 0;
+    animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.paneVertical.show{
+    opacity: 1;
+}
+
+.tab-oflowHide{
+    overflow: hidden;
+}
+
+.contentHeader{
+    height: 100px;
+}
+
+.contentContainer{
+    height: calc(100vh - 120px);
+    position: relative;
+	margin-bottom: 1.5rem;
+}
+
+.codeContainer{
+	border-radius: 3px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, .3);
+}
+
+.codeConvert{
+    margin-left: 30px;
+    width: 200px;
+}
+
+.codeWarning{
+    color: red;
+}
+
+
+.CodeMirror {
+    border: 1px solid #eee;
+    height: calc(100% - 50px);
+  }
+  
+
+.dropRegion {
+	background-color: #fff;
+	border-radius:20px;
+	box-shadow:0 0 35px rgba(0,0,0,0.05);
+	padding:60px 40px;
+	text-align: center;
+	cursor:pointer;
+    transition:.3s;
+    margin: 20px auto;
+    max-width: 750px;
+}
+
+.dropRegion:hover {
+	box-shadow:0 0 45px rgba(0,0,0,0.1);
+}
+
+.dropRegionUploadMsg{
+    margin: auto;
+    height: auto;
+    max-width: 750px;
+    padding:0;
+}
+
+.base64ImageView{
+    width: auto;
+    height: auto;
+    max-height: 50vh;
+    object-fit: scale-down;
+}
+
+.contrastColorBox{
+    width: 100%;
+    height: 100px;
+}
+
+.contrastColorBox-foreground{
+    height: 50px;
+    width: 50px;
+}
+
+.contrastColorText{
+    width: auto;
+    height: fit-content;
+}
+
+.contrastPreview{
+    height: 60px;
+    letter-spacing: .1em;
+}
+
+.contrastPreviewText-normal{
+    font-size: 14pt;
+}
+
+.contrastPreviewText-large{
+    font-size: 18pt;
+}
+
+.contrastPreviewText-sans{
+    font-family: sans-serif;
+}
+
+.contrastPreviewText-serif{
+    font-family: serif;
+}
+
+.contrastRatioBox{
+    border: solid 1px lightgray;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.contrastRatio{
+    font-size: 24px;
+}
+
+
+.snippetToolbar{
+    background-color: white;
+    width: 100%;
+}
+
+.snippetToolbarContent{
+    margin: auto;
+    max-width: 500px;
+
+}
+
+
+.listNoStyle{
+    list-style: none;
+    padding-left: 0;
+}
+
+.clearSearch{
+    /*cursor: pointer;
+    justify-content: center;
+    position: absolute;*/
+}
+
+[data-toggle="tooltip"] * { 
+    pointer-events: none; 
+}
+
+.sortableItem{
+    cursor: grab;
+}
+
+
+.clipboardItem{
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid lightgray;
+    padding: 5px;
+}
+
+
+.formula-list{
+    font-size: 20px;
+    a{
+        text-decoration: none;  
+    }
+    user-select: none;
+}
+
+
+.formula-tab-content{
+    min-height: 120px;
+}
+
+.mq-textcolor .mq-text-mode {
+    display: block;
+}   
+
+.math-input{
+    width: 100%;
+    font-size:20pt;
+    padding: 10px;
+    border: 1px solid lightgray;
+}
+
+.latex-input{
+    width: 100%;
+    border: 1px solid lightgray;
+}
+
+.formulaBtn{
+    height: 95%;
+}

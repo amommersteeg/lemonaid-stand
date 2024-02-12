@@ -1,0 +1,52 @@
+<template template-target="word2html">
+    <div class="contentHeader">
+        <h1>Word to HTML</h1>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link active" id="nav-word-tab" data-toggle="tab" href="#nav-word" role="tab" aria-controls="nav-word" aria-selected="true">Word</a>
+                <a class="nav-link" id="nav-html-tab" data-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-html" aria-selected="false" >HTML</a>
+                <a class="nav-link" id="nav-upload-tab" data-toggle="tab" href="#nav-upload" role="tab" aria-controls="nav-upload" aria-selected="false" >Upload</a>
+            </div>
+        </nav>
+    </div>           
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane contentContainer fade show active" id="nav-word" role="tabpanel" aria-labelledby="nav-word-tab">
+            <textarea id="tinymce">Hello, World!</textarea>
+        </div>
+        <div class="tab-pane contentContainer fade" id="nav-html" role="tabpanel" aria-labelledby="nav-html-tab">
+            <div class="btn-group" role="group" aria-label="Code Editor Options">
+                <button type="button" class="btn btn-outline-secondary" id="codeUndoBtn"><i class="fas fa-undo"></i></button>
+                <button type="button" class="btn btn-outline-secondary" id="codeRedoBtn"><i class="fas fa-redo"></i></button>
+                <button type="button" class="btn btn-outline-secondary" id="codeWrapLineBtn">Line Wrap</button>
+                <button type="button" class="btn btn-outline-secondary" id="codeCopyBtn">Copy All</button>
+            </div>
+            <textarea id="codemirror"></textarea>
+            <a href="https://codemirror.net/" target="_blank">Powered by CodeMirror</a>
+        </div>
+        <div class="tab-pane contentContainer fade" id="nav-upload" role="tabpanel" aria-labelledby="nav-upload-tab">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                <label class="form-check-label" for="flexRadioDefault1">Show in app</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                <label class="form-check-label" for="flexRadioDefault2">Convert file</label>
+            </div>
+            <select class="form-select codeConvert" id="codeConvertOptions">
+                <option selected value="html">HTML</option>
+                <option value="docx">Word</option>
+                <option value="md">Markdown</option>
+            </select>
+            <div class="dropRegion" id="codeUploadRegion">
+                <div class="dropMessage">
+                    Drag & Drop file or click to upload
+                </div>
+            </div>
+            <p class="codeWarning" id="codeConvertWarning">Can not locate Pandoc installation, please check settings.</p>
+            <!--<button class="btn btn-outline-secondary" id="codeUploadBtn">Upload & Convert</button>-->
+            <p id="codeUploadMessage"></p>
+            <a href="https://pandoc.org/" target="_blank">Powered by Pandoc</a>
+        </div>
+    </div>
+</template>
