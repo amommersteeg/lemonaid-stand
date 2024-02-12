@@ -70,6 +70,8 @@ tinymce.init({
     height: "100%",
     scroll: true,
     resize: false,
+    promotion: false,
+    
     plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons', //quickbars
     mobile: {
         plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap linkchecker emoticons'  //quickbars
