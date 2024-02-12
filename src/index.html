@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
 
-    <!--
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    -->
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" >
-    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="js/tinymce/tinymce.min.js"></script>
 
@@ -60,11 +57,9 @@
         <!-- Bootstrap Toast -->
         <div class="toast m-2" class="toast" id="notiToast">
             <div class="toast-header">
-            <i class="far fa-lemon">&#x00A0;</i>
-            <strong class="mr-auto">25&#x00A2;</strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <i class="far fa-lemon">&#x00A0;</i>
+                <strong class="me-auto">25&#x00A2;</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body" id="toastBody"></div>
         </div>
@@ -76,11 +71,17 @@
                 <div class="contentHeader">
                     <h1>Word to HTML</h1>
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-link active" id="nav-word-tab" data-toggle="tab" href="#nav-word" role="tab" aria-controls="nav-word" aria-selected="true">Word</a>
-                            <a class="nav-link" id="nav-html-tab" data-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-html" aria-selected="false" >HTML</a>
-                            <a class="nav-link" id="nav-html-tab" data-toggle="tab" href="#nav-upload" role="tab" aria-controls="nav-upload" aria-selected="false" >Upload</a>
-                        </div>
+                        <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="nav-word-tab" data-bs-toggle="tab" href="#nav-word" role="tab" aria-controls="nav-word" aria-selected="true">Word</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-html-tab" data-bs-toggle="tab" href="#nav-html" role="tab" aria-controls="nav-html" aria-selected="false" >HTML</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-html-tab" data-bs-toggle="tab" href="#nav-upload" role="tab" aria-controls="nav-upload" aria-selected="false" >Upload</a>
+                            </li>
+                        </ul>
                     </nav>
                 </div>           
 
@@ -145,7 +146,7 @@
                 <div>
                     <h1>Foreground Colors</h1>
                     <div id="foreground"></div>
-                    <button id="foregroundBtn">Add another color</button>
+                    <button class="btn btn-secondary" id="foregroundBtn">Add another color</button>
                 </div>
             </div>
 
@@ -157,13 +158,13 @@
                             <input type="text" id="searchBar" class="form-control" placeholder="Search by name, description, language..." aria-label="Text input with segmented dropdown button">
                             <button class="btn btn-outline-secondary d-none" id="searchBarClear"><i class="far fa-times-circle"></i></button>
                             <button type="button" class="btn btn-outline-secondary snippetAddBtn"><i class="fas fa-plus"></i></button>
-                            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right">
                             <li><a class="dropdown-item snippetAddBtn" href="#" >Add Note</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#snippetTagReplace">Replace/Remove Tag</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-target="#snippetTagReplace">Replace/Remove Tag</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#" id="snippetImportBtn">Import Notes</a></li>
                             <li><a class="dropdown-item" href="#" id="snippetExportBtn">Export Notes</a></li>
@@ -182,7 +183,7 @@
                             <select class="form-select form-select-sm ml-2" id="snipperTagFilter" aria-label=".form-select-sm example">
                                 <option value="tag" selected>Tag - Clear</option>
                             </select>
-                            <button type="button" class="btn btn-outline-secondary ml-2" id="snippetFavFilterBtn" data-toggle="false"><i class="far fa-heart"></i></button>
+                            <button type="button" class="btn btn-outline-secondary ml-2" id="snippetFavFilterBtn" data-bs-toggle="false"><i class="far fa-heart"></i></button>
                             <button class="btn btn-outline-secondary" id="snippetFilterClear"><i class="far fa-times-circle"></i></button>
                             
                         </div>
@@ -204,9 +205,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button></button>
                     </div>
                     <div class="modal-body mb-2">
                         <div class="d-flex justify-content-between align-items-end mx-1">
@@ -229,9 +228,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="snippetEditModalLabel">Edit Note</h5>
-                    <button type="button" class="close" id="snippetEditModalClose" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" id="snippetEditModalClose" data-bs-dismiss="modal"aria-label="Close"></button>
                     </div>
                     <div class="modal-body mb-2">
                         <div class="mb-3 row">
@@ -270,16 +267,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="snippetDeleteCodeLabel">Delete Note</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p>Would you like to delete the note <span id="snippetDeleteInner"></span>?</p>
                     </div>
                     <div class="modal-footer d-flex justify-content-between">
-                        <button class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
-                        <button class="btn btn-secondary" data-dismiss="modal" id="snippetDeleteBtn" data-target="">Delete</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal"id="snippetDeleteBtn" data-target="">Delete</button>
                     </div>
                 </div>
             </div>
@@ -291,9 +286,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="snippetTagReplaceLabel">Replace Tag</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="snippetTagReplaceCloseBtn">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close" id="snippetTagReplaceCloseBtn"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -311,7 +304,7 @@
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-between">
-                        <button class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button class="btn btn-secondary" id="snippetTagReplaceBtn">Replace</button>
                     </div>
                 </div>

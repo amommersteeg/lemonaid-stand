@@ -612,7 +612,7 @@ let AUTOBACKUP = true;
 let SEARCHPARAM;
 
 /*function loadTooltips(){
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
@@ -829,9 +829,9 @@ function snippetNoteComponent(note) {
                 <div class="d-flex flex-row justify-content-between mb-1">
                     <h5 class="card-title snippetNoteTitle">${note.title}</h5>
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-secondary snippetNoteFav" data-fav=${favData} data-toggle="tooltip" data-placement="bottom" title="${favTooltip}">${favIcon}</button>
-                        <button type="button" class="btn btn-secondary snippetNoteEdit" data-toggle="tooltip" data-placement="bottom" title="Edit Note"><i class="fas fa-pencil-alt"></i></button>
-                        <button type="button" class="btn btn-secondary snippetNoteDelete" data-toggle="tooltip" data-placement="bottom" title="Delete Note"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-secondary snippetNoteFav" data-fav=${favData} data-bs-toggle="tooltip" data-placement="bottom" title="${favTooltip}">${favIcon}</button>
+                        <button type="button" class="btn btn-secondary snippetNoteEdit" data-bs-toggle="tooltip" data-placement="bottom" title="Edit Note"><i class="fas fa-pencil-alt"></i></button>
+                        <button type="button" class="btn btn-secondary snippetNoteDelete" data-bs-toggle="tooltip" data-placement="bottom" title="Delete Note"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             

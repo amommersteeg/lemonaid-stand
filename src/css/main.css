@@ -8,6 +8,14 @@ body{
     width: 600px;
 }
 
+.close {
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
 .modal-fullscreen-lg-down{
     padding: 10px;
     border-radius: .3rem;
