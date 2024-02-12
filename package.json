@@ -1,7 +1,7 @@
 {
   "name": "lemon-aid-stand",
   "productName": "Lemon-Aid Stand",
-  "version": "0.2.0-dev",
+  "version": "0.3.0",
   "description": "All-in one toolbox for courseware developers",
   "main": ".vite/build/main.js",
   "dependencies": {
