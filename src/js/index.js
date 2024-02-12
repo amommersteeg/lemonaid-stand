@@ -682,7 +682,7 @@ db.notes.loadDatabase(function (err){
             let fileData = JSON.stringify(json)
             let filepath = __dirname + "/Lemon-Aid Stand Note - Autobackup." + Date.now() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
-                console.log(err)
+                // console.log(err)
                 if(err == null){
                     document.getElementById('toastBody').innerHTML = "Notes autobacked up";
                     toast.show();

@@ -14,7 +14,7 @@
     "codemirror": "^5.57.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^6.0.0",
-    "js-beautify": "^1.13.0",
+    "js-beautify": "^1.14.11",
     "mammoth": "^1.4.11",
     "nedb": "^1.8.0",
     "tinymce": "^5.4.2"
