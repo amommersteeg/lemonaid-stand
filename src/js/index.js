@@ -37,8 +37,7 @@ function preventDefault(e) {
 
 /******** Vertical Navigation Code  ********/
 var mammoth = require("mammoth");
-const electron = require('electron');
-const {app, dialog } = electron.remote;
+const remote = require('@electron/remote');
 const fs = require('fs');
 const path = require("path");
 
@@ -71,6 +70,8 @@ tinymce.init({
     height: "100%",
     scroll: true,
     resize: false,
+    promotion: false,
+    
     plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons', //quickbars
     mobile: {
         plugins: 'paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount  textpattern noneditable help charmap linkchecker emoticons'  //quickbars
@@ -229,7 +230,7 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", function(event) {
-    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(),{
         properties: ['openFile'],
         filters: [
             { name: 'Word', extensions: ['docx', 'doc' ]},
@@ -612,7 +613,7 @@ let AUTOBACKUP = true;
 let SEARCHPARAM;
 
 /*function loadTooltips(){
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
@@ -656,11 +657,11 @@ db.settings.loadDatabase(function (err) {    // Callback is optional
             snippetTagify.settings.whitelist = doc.tags;
             snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
             snippetLoadFilterTags(doc.tags) 
-            console.log(snippetTagify.settings.whitelist)
+            // console.log(snippetTagify.settings.whitelist)
         }
     });
     db.settings.find({}, function (err, docs) {
-        console.log(docs)
+        // console.log(docs)
     })
 });
 
@@ -675,14 +676,14 @@ db.notes.loadDatabase(function (err){
         db.notes.find({}, function (err, docs) {
             let json = {
                 "name": "Lemon-Aid Stand Notes - Autobackup",
-                "version": app.getVersion(),
+                "version": remote.app.getVersion(),
                 "exportDate": new Date(),
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
             let filepath = __dirname + "/Lemon-Aid Stand Note - Autobackup." + Date.now() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
-                console.log(err)
+                // console.log(err)
                 if(err == null){
                     document.getElementById('toastBody').innerHTML = "Notes autobacked up";
                     toast.show();
@@ -709,10 +710,10 @@ function snippetLoadFilterTags(tags){
 
 function snippetLoadNotes(searchParam, skip, limit, clearParent=false){
     SEARCHPARAM = searchParam;
-    console.log("Search Param");
-    console.log(searchParam)
+    // console.log("Search Param");
+    // console.log(searchParam)
     db.notes.find(searchParam).sort({ createdOn: -1 }).skip(skip).limit(limit).exec(function (err, docs) {
-        console.log(docs)
+        // console.log(docs)
         if(docs.length > 0){
             
             let parent = document.getElementById('snippetNoteList')
@@ -829,9 +830,9 @@ function snippetNoteComponent(note) {
                 <div class="d-flex flex-row justify-content-between mb-1">
                     <h5 class="card-title snippetNoteTitle">${note.title}</h5>
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-secondary snippetNoteFav" data-fav=${favData} data-toggle="tooltip" data-placement="bottom" title="${favTooltip}">${favIcon}</button>
-                        <button type="button" class="btn btn-secondary snippetNoteEdit" data-toggle="tooltip" data-placement="bottom" title="Edit Note"><i class="fas fa-pencil-alt"></i></button>
-                        <button type="button" class="btn btn-secondary snippetNoteDelete" data-toggle="tooltip" data-placement="bottom" title="Delete Note"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="btn btn-secondary snippetNoteFav" data-fav=${favData} data-bs-toggle="tooltip" data-placement="bottom" title="${favTooltip}">${favIcon}</button>
+                        <button type="button" class="btn btn-secondary snippetNoteEdit" data-bs-toggle="tooltip" data-placement="bottom" title="Edit Note"><i class="fas fa-pencil-alt"></i></button>
+                        <button type="button" class="btn btn-secondary snippetNoteDelete" data-bs-toggle="tooltip" data-placement="bottom" title="Delete Note"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             
@@ -1187,13 +1188,13 @@ function snippetFavNote(event){
 function snippetReplaceTag(){
     let old = snippetReplaceTagify.value[0].value;
     let replacement = document.getElementById('snippetTagReplacement').value;
-    console.log(old + " -> " + replacement)
+    // console.log(old + " -> " + replacement)
     
     if(replacement == "" && old != ""){
         //console.log("remove tag")
         db.notes.update({ tags: old }, { $pull: { tags: old } }, {multi: true }, function (err, numReplaced) {
-            console.log(err)
-            console.log(numReplaced)
+            // console.log(err)
+            // console.log(numReplaced)
             document.getElementById('snippetNoteList').innerHTML = '';
             snippetLoadNotes({}, 0, NUMCARDS)
         });
@@ -1288,20 +1289,20 @@ function snippetExport(){
         ]
     }
 
-    dialog.showSaveDialog(electron.remote.getCurrentWindow(), options)
+    remote.dialog.showSaveDialog(remote.getCurrentWindow(), options)
     .then( results =>{ 
         db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
-            console.log(err)
-            console.log(docs)
+            // console.log(err)
+            // console.log(docs)
             let json = {
                 "name": "Lemon-Aid Stand Notes",
-                "version": app.getVersion(),
+                "version": remote.app.getVersion(),
                 "exportDate": new Date(),
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
             fs.writeFile(results.filePath, fileData, function(err) {
-                console.log(err)
+                // console.log(err)
                 if(err == null){
                     document.getElementById('toastBody').innerHTML = "Notes exported";
                     toast.show();
@@ -1313,7 +1314,7 @@ function snippetExport(){
 }
 
 function snippetImport(){
-    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(),{
         title: "Import notes file",
         properties: ['openFile'],
         filters: [
@@ -1325,13 +1326,13 @@ function snippetImport(){
         fs.readFile(results.filePaths[0], (err, data) => {
             if (err) throw err;
             let json = JSON.parse(data);
-            console.log(json);
+            // console.log(json);
             let tags = [];
             let numNotes = json.notes.length
             let numAdded = 0; 
             json.notes.forEach(note =>{
                 db.notes.insert(note, function (err) {
-                    console.log(err)
+                    // console.log(err)
                     if(err == null){
                         numAdded += 1;
                     }
@@ -1388,7 +1389,7 @@ document.getElementById('searchBar').addEventListener("input", function (evt) {
 
 
 document.getElementById('snippetFavFilterBtn').addEventListener('click', function(){
-    console.log(SEARCHPARAM)
+    // console.log(SEARCHPARAM)
     let search = SEARCHPARAM
     if(this.getAttribute('data-toggle') == "true"){
         this.setAttribute('data-toggle', "false")

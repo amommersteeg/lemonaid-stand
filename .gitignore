@@ -1,7 +1,17 @@
+# node
 node_modules
-out
-releases
+
+# Lemon-aid Stand
 *.docx
-.DS_Store
 *.db
 Lemon-Aid Stand Note - Autobackup.*.json
+
+# Vite
+.vite/
+
+# Electron-Forge
+out/
+releases/
+
+# Mac
+.DS_Store

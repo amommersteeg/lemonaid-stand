@@ -1,0 +1,13 @@
+.cm-s-snippet.CodeMirror { 
+    height: auto;
+}
+.cm-s-snippet .CodeMirror-scroll { 
+    max-height: 100px;
+}
+
+.cm-s-snippetView.CodeMirror { 
+    height: auto;
+}
+.cm-s-snippetView .CodeMirror-scroll { 
+    max-height: auto;
+}
