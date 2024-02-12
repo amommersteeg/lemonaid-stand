@@ -38,7 +38,7 @@ function preventDefault(e) {
 /******** Vertical Navigation Code  ********/
 var mammoth = require("mammoth");
 const electron = require('electron');
-const {app, dialog } = electron.remote;
+const remote = require('@electron/remote');
 const fs = require('fs');
 const path = require("path");
 
@@ -229,7 +229,7 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", function(event) {
-    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    remote.dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
         properties: ['openFile'],
         filters: [
             { name: 'Word', extensions: ['docx', 'doc' ]},
@@ -675,7 +675,7 @@ db.notes.loadDatabase(function (err){
         db.notes.find({}, function (err, docs) {
             let json = {
                 "name": "Lemon-Aid Stand Notes - Autobackup",
-                "version": app.getVersion(),
+                "version": remote.app.getVersion(),
                 "exportDate": new Date(),
                 "notes": docs
             }
@@ -1288,14 +1288,14 @@ function snippetExport(){
         ]
     }
 
-    dialog.showSaveDialog(electron.remote.getCurrentWindow(), options)
+    remote.dialog.showSaveDialog(electron.remote.getCurrentWindow(), options)
     .then( results =>{ 
         db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
             console.log(err)
             console.log(docs)
             let json = {
                 "name": "Lemon-Aid Stand Notes",
-                "version": app.getVersion(),
+                "version": remote.app.getVersion(),
                 "exportDate": new Date(),
                 "notes": docs
             }
@@ -1313,7 +1313,7 @@ function snippetExport(){
 }
 
 function snippetImport(){
-    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    remote.dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
         title: "Import notes file",
         properties: ['openFile'],
         filters: [

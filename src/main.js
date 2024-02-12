@@ -1,15 +1,11 @@
-const { app, shell, BrowserWindow, Menu } = require('electron')
-const isMac = process.platform === 'darwin'
+const { app, shell, BrowserWindow, Menu } = require('electron');
+const remoteMain = require('@electron/remote/main');
+const isMac = process.platform === 'darwin';
 
+remoteMain.initialize();
 let loadingScreen;
 let mainWindow;
 let aboutScreen;
-/*app.setAboutPanelOptions({
-  applicationName: "Lemon-Aid Stand",
-  applicationVersion: "v0.1.0-dev",
-  authors: "LAC",
-  iconPath: "src/img/icon.lemon.png"
-})*/
 
 const createLoadingScreen = () => {
   /// create a browser window
@@ -59,7 +55,7 @@ function createAboutScreen() {
     webPreferences: {
       nodeIntegration: true,
       worldSafeExecuteJavaScript: true,
-      enableRemoteModule: true,
+      contextIsolation: false,
     }
   })
   aboutScreen.loadFile('src/about.html')
@@ -77,9 +73,8 @@ function createWindow() {
     webPreferences: {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,
-      enableRemoteModule: true,
       fullscreenable: true,
-      //fullscreen: true,
+      contextIsolation: false
     },
     show: false
     /// set show to false, the window will be visible when to loading screen will be remove
@@ -138,6 +133,8 @@ function createWindow() {
 
   Menu.setApplicationMenu(menu); 
 
+  remoteMain.enable(mainWindow.webContents);
+
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
 
@@ -159,6 +156,7 @@ function createWindow() {
     }
     mainWindow.show();
   });
+
 
 
 }
