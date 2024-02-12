@@ -7,7 +7,6 @@
   "dependencies": {
     "@electron/remote": "^2.1.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
-    "@popperjs/core": "^2.4.4",
     "@simonwep/pickr": "^1.8.2",
     "@yaireo/tagify": "^4.20.0",
     "bootstrap": "^5.3.2",
