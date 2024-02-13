@@ -8,7 +8,7 @@ pandoc
 Lemon-Aid Stand Note - Autobackup.*.json
 
 # Vite
-# .vite/
+.vite/
 
 # Electron-Forge
 out/

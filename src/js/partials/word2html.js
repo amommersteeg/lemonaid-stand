@@ -1,3 +1,6 @@
+const path = require('node:path');
+const mammoth = require("mammoth");
+
 /******** Word to HTML Code ********/
 tinymce.init({
     selector: '#tinymce',
@@ -113,13 +116,13 @@ function codeConvertFile(filePath) {
         mammoth.convertToHtml({path: filePath})
         .then(function(result){
             var html = result.value; // The generated HTML
-            //console.log(html);
+            console.log(html);
             let cleanHTML = codeBeautify(html)
             codeEditor.getDoc().setValue(cleanHTML);
             setTimeout(function(){
                 codeEditor.refresh()
             }, 600);
-            copyText(document.getElementById("nav-word-tab"))
+            copyText(document.getElementById("nav-word-tab"));
             var messages = result.messages;
             document.getElementById('codeUploadMessage').innerHTML = "";
             if(messages.length > 0){
@@ -129,8 +132,8 @@ function codeConvertFile(filePath) {
                 }
                 document.getElementById('codeUploadMessage').innerHTML = messageText;
             }
-            document.getElementById('toastBody').innerHTML = "File Conversion Complete";
-            toast.show();
+            document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
+            alertToast.show();
             let htmlTab = document.getElementById('nav-html-tab')
             let tab = new bootstrap.Tab(htmlTab)
             tab.show()
@@ -147,28 +150,9 @@ codeUploadRegion.addEventListener('click', function() {
 	codeFakeInput.click();
 });
 
-codeFakeInput.addEventListener("click", function(event) {
-    dialog.showOpenDialog(remote.getCurrentWindow(),{
-        properties: ['openFile'],
-        filters: [
-            {name: 'All Files', extensions: ['*']}
-            // { name: 'Word', extensions: ['docx', 'doc' ]},
-            // { name: "Markdown", extensions: ['md']},
-            // { name: "HTML", extensions: ['html']},
-        ]
-    
-    })
-    .then(result => {
-
-        // checks if window was closed
-        if (result.canceled) {
-            console.log("No file selected!")
-        } else {
-            // convert process
-            const filePath = result.filePaths[0];
-            codeConvertFile(filePath);
-        }
-    })
+codeFakeInput.addEventListener("click", async function(event) {
+    const filePath = await window.Word2Html.openDialog();
+    if(filePath) codeConvertFile(filePath);
 });
 
 codeUploadRegion.addEventListener('drop', (event) => { 
@@ -178,7 +162,7 @@ codeUploadRegion.addEventListener('drop', (event) => {
         codeConvertFile(f.path)
       } 
 }); 
-  
+
 codeUploadRegion.addEventListener('dragover', preventDefault, false)
 codeUploadRegion.addEventListener('dragenter', preventDefault, false)
 codeUploadRegion.addEventListener('dragleave', preventDefault, false)

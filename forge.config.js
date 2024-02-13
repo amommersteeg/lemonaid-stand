@@ -29,6 +29,10 @@ module.exports = {
           {
             entry: 'src/main.js',
             config: 'vite.main.config.mjs'
+          },
+          {
+            entry: 'src/preload.js',
+            config: 'vite.preload.config.mjs',
           }
         ],
         renderer: [

@@ -1,6 +1,7 @@
-const { app, shell, BrowserWindow, Menu } = require('electron');
+const { app, shell, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
 const remoteMain = require('@electron/remote/main');
 const isMac = process.platform === 'darwin';
+const path = require('node:path');
 
 remoteMain.initialize();
 let loadingScreen;
@@ -74,7 +75,8 @@ function createWindow() {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,
       fullscreenable: true,
-      contextIsolation: false
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
     },
     show: false
     /// set show to false, the window will be visible when to loading screen will be remove
@@ -157,8 +159,23 @@ function createWindow() {
     mainWindow.show();
   });
 
-
-
+  ipcMain.handle('Word2HtmlDialog', async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+          properties: ['openFile'],
+          filters: [
+              {name: 'All Files', extensions: ['*']}
+              // { name: 'Word', extensions: ['docx', 'doc' ]},
+              // { name: "Markdown", extensions: ['md']},
+              // { name: "HTML", extensions: ['html']},
+          ]
+      })
+      if (!canceled) {
+        return filePaths[0];
+      } else {
+        return null;
+      }
+  });
+  
 }
 
 // This method will be called when Electron has finished

@@ -172,7 +172,7 @@ h1, p {
   height: calc(100% - 50px);
 }
 
-.dropRegion {
+.drop-region {
   background-color: #fff;
   border-radius: 20px;
   -webkit-box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
@@ -186,12 +186,12 @@ h1, p {
   max-width: 750px;
 }
 
-.dropRegion:hover {
+.drop-region:hover {
   -webkit-box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
 }
 
-.dropRegionUploadMsg {
+.drop-region-uploadMsg {
   margin: auto;
   height: auto;
   max-width: 750px;
