@@ -274,37 +274,3 @@ h1, p{
     border: 1px solid lightgray;
     padding: 5px;
 }
-
-
-.formula-list{
-    font-size: 20px;
-    a{
-        text-decoration: none;  
-    }
-    user-select: none;
-}
-
-
-.formula-tab-content{
-    min-height: 120px;
-}
-
-.mq-textcolor .mq-text-mode {
-    display: block;
-}   
-
-.math-input{
-    width: 100%;
-    font-size:20pt;
-    padding: 10px;
-    border: 1px solid lightgray;
-}
-
-.latex-input{
-    width: 100%;
-    border: 1px solid lightgray;
-}
-
-.formulaBtn{
-    height: 95%;
-}
