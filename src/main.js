@@ -1,4 +1,4 @@
-const { app, shell, BrowserWindow, Menu, dialog, ipcMain, globalShortcut  } = require('electron');
+const { app, shell, BrowserWindow, Menu, dialog, ipcMain, screen, globalShortcut  } = require('electron');
 const remoteMain = require('@electron/remote/main');
 const isMac = process.platform === 'darwin';
 const path = require('node:path');
@@ -7,6 +7,8 @@ remoteMain.initialize();
 let loadingScreen;
 let mainWindow;
 let aboutScreen;
+let helpScreen;
+let clipboardWin;
 
 const createLoadingScreen = () => {
   /// create a browser window
@@ -37,33 +39,6 @@ const createLoadingScreen = () => {
   });
 }
 
-function createAboutScreen() {
-  if (aboutScreen) {
-    aboutScreen.focus()
-    return
-  }
-  /// create a browser window
-  aboutScreen = new BrowserWindow({
-    parent: mainWindow,
-    modal: true,
-    width: 400,
-    height: 400,
-    title: '',
-    center: true,
-    minimizable: false,
-    fullscreenable: false,
-    resizable: false,
-    webPreferences: {
-      nodeIntegration: true,
-      worldSafeExecuteJavaScript: true,
-      contextIsolation: false,
-    }
-  })
-  aboutScreen.loadFile('src/windows/about.html')
-  aboutScreen.on('closed', function() {
-    aboutScreen = null
-  })
-}
   
 function createWindow() {
   // Create the browser window.
@@ -122,6 +97,11 @@ function createWindow() {
       submenu: [
         { role: 'toggleDevTools'},
         { type: 'separator' },
+        { label: 'Tips and Tricks',
+          click() {
+            createHelpScreen()
+          }
+        },
         { 
           label: 'Contact',
           click: async () => {
@@ -195,6 +175,17 @@ app.on('ready', () => {
   /// add a little timeout for tutorial purposes, remember to remove this
   globalShortcut.register("Ctrl+Shift+C", () => {
     console.log('Electron loves global shortcuts!')
+    createClipboardWin();
+      // Loop through the click board starting from pin then top
+      // let numItems = document.getElementById('clipboard-id').children.length;
+      // let numPins = document.getElementById('clipboardPin-id').children.length;
+      // if(numItems > 0 || numPins > 0){
+      //     if (clipboardWin) {
+      //         clipboardWin.focus();
+      //     }else{
+      //         createClipboardWin();
+      //     }
+      // }
   })
   setTimeout(() => {
     createWindow();
@@ -218,3 +209,110 @@ app.on('will-quit', () => {
   // Unregister all shortcuts.
   globalShortcut.unregisterAll()
 })
+
+
+function createClipboardWin(){
+    let display = screen.getPrimaryDisplay();
+    let screenWidth = display.bounds.width;
+
+    clipboardWin = new BrowserWindow({
+      frame: false,
+      resizable: false,
+      alwaysOnTop: true,
+      skipTaskbar: true,
+      minimizable: false,
+      fullscreenable: false,
+      x: screenWidth - 400 + 5,
+      y: 5,
+      width: 400,
+      opacity: 0.8,
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: true,
+        worldSafeExecuteJavaScript: true,
+        enableRemoteModule: true,
+        contextIsolation: false,
+      }
+    })
+    clipboardWin.loadFile('src/windows/clipboard.html')
+    clipboardWin.on('closed', function() {
+        clipboardWin = null;
+    })
+    clipboardWin.on('blur', function(){
+        clipboardWin.close();
+    })
+}
+
+function createAboutScreen() {
+  if (aboutScreen) {
+    aboutScreen.focus()
+    return
+  }
+  /// create a browser window
+  aboutScreen = new BrowserWindow({
+    parent: mainWindow,
+    frame: false,
+    width: 400,
+    height: 350,
+    title: '',
+    center: true,
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+  aboutScreen.loadFile('src/windows/about.html')
+  aboutScreen.on('closed', function() {
+    ipcMain.removeHandler("closeWindow");
+    ipcMain.removeHandler("getVersion");
+    aboutScreen = null
+  })
+
+  ipcMain.handle('getVersion', async (event, options) => {
+    return app.getVersion();
+  });
+
+  ipcMain.handle('closeWindow', () => {
+    aboutScreen.close();
+  })
+}
+
+function createHelpScreen() {
+  if (helpScreen) {
+    helpScreen.focus()
+    return
+  }
+  /// create a browser window
+  helpScreen = new BrowserWindow({
+    frame: false,
+    width: 500,
+    height: 600,
+    title: '',
+    center: true,
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+  helpScreen.loadFile('src/windows/help.html')
+  helpScreen.on('closed', function() {
+    ipcMain.removeHandler("closeWindow")
+    helpScreen = null
+  })
+
+  ipcMain.handle('closeWindow', () => {
+    helpScreen.close();
+  })
+}

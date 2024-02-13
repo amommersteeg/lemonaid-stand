@@ -1,9 +1,9 @@
-const remote = require('electron').remote;
-
 document.getElementById("closeBtn").addEventListener("click", function (e) {
-               var window = remote.getCurrentWindow();
-               window.close();
-               console.log(window)
+    window.screen.closeWindow();
 }); 
 
-document.getElementById('aboutVersion').innerHTML = remote.app.getVersion();
+async function getVersion() {
+    document.getElementById('aboutVersion').innerHTML = await window.appVersion.getVersion();
+}
+
+getVersion();
