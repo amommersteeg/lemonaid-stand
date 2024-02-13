@@ -252,7 +252,6 @@ function loadPartial(src){
 */
 function LoadJS(src){
     filePath = __dirname + src;
-    console.log(filePath)
 
     return new Promise( function( resolve, reject ) {
         let scripts = document.getElementsByTagName("script");

@@ -30,19 +30,16 @@
                 <label class="form-check-label" for="flexRadioDefault1">Show in app</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                <label class="form-check-label" for="flexRadioDefault2">Convert file</label>
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" disabled>
+                <label class="form-check-label" for="flexRadioDefault2">Generate partial files (in development)</label>
             </div>
-            <select class="form-select codeConvert" id="codeConvertOptions">
-                <option selected value="html">HTML</option>
-                <option value="docx">Word</option>
-                <option value="md">Markdown</option>
-            </select>
-            <div class="dropRegion" id="codeUploadRegion">
-                <div class="dropMessage">
-                    Drag & Drop file or click to upload
+            <div class="drop-region" id="codeUploadRegion">
+                <div class="drop-message">
+                    Drag & Drop Word file or click to upload
                 </div>
             </div>
+            <!--<button class="btn btn-outline-secondary" id="codeUploadBtn">Upload & Convert</button>-->
+            <p id="codeUploadMessage"></p>
         </div>
     </div>
 </template>

@@ -2,6 +2,8 @@
 // not working with Linux, refer to API to add feature.
 // look at adding image, html, rtf, url;
 
+const { clipboard } = require('electron');
+
 let enableCopy = settingsGlobal.clipboard.enableOnLoad; 
 let copyIntervalId;
 let lastText;

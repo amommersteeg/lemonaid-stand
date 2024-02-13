@@ -6,7 +6,7 @@ tinymce.init({
     resize: false,
     auto_focus :'tinymce',
     promotion: false,
-    plugins: 'preview importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap nonbreaking insertdatetime advlist lists wordcount help charmap emoticons', //quickbars
+    plugins: 'preview importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media table charmap nonbreaking insertdatetime advlist lists wordcount help charmap emoticons', //quickbars
     menubar: 'edit insert view format table tools help',
     menu: {
         edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
@@ -58,8 +58,8 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
 
 function copyText(that){
     let panel = document.querySelector('#nav-tabContent > .active')
-    if(!(that.id == (panel.id + "-tab"))){
-        if(that.id == "nav-html-tab"){
+    if((that.id === (panel.id + "-tab"))){
+        if(that.id === "nav-html-tab"){
             let content = tinymce.get('tinymce').getContent();
             let cleanContent = codeBeautify(content)
             codeEditor.getDoc().setValue(cleanContent);
@@ -67,7 +67,7 @@ function copyText(that){
                 codeEditor.refresh()
                 codeEditor.focus()
             }, 500);
-        }else if(that.id == "nav-word-tab"){
+        }else if(that.id === "nav-word-tab"){
             let content = codeEditor.getDoc().getValue();
             tinymce.get('tinymce').setContent(content);
             tinymce.get('tinymce').focus()
@@ -183,32 +183,10 @@ codeUploadRegion.addEventListener('dragover', preventDefault, false)
 codeUploadRegion.addEventListener('dragenter', preventDefault, false)
 codeUploadRegion.addEventListener('dragleave', preventDefault, false)
 
-function checkPandoc(){
-    pandocLoc = settingsGlobal.word.pandocLocation;
-    if(fs.existsSync(pandocLoc)){
-        console.log("Found Pandoc");
-        document.getElementById('codeConvertOptions').disabled = false;
-        document.getElementById('flexRadioDefault1').disabled = false;
-        document.getElementById('flexRadioDefault2').disabled = false;
-        document.getElementById('codeUploadRegion').style.pointerEvents = "auto";
-        document.getElementById('codeConvertWarning').style.display = "none";
-    }else{
-        console.log("Can't find Pandoc");
-        document.getElementById('codeConvertOptions').disabled = true;
-        document.getElementById('flexRadioDefault1').disabled = true;
-        document.getElementById('flexRadioDefault2').disabled = true;
-        document.getElementById('codeUploadRegion').style.pointerEvents = "none";
-        document.getElementById('codeConvertWarning').style.display = "block";
-    }  
-}
-
-
 document.getElementById("nav-word-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-word-tab")) });
 document.getElementById("nav-html-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-html-tab")) });
-document.getElementById("nav-upload-tab").addEventListener("click", function(){ checkPandoc() });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
 document.getElementById("codeRedoBtn").addEventListener("click", function(){ codeUndoRedo(false) });
 document.getElementById("codeWrapLineBtn").addEventListener("click", function(){ codeWrapLine(document.getElementById("codeWrapLineBtn")) });
 document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
-//document.getElementById("codeUploadBtn").addEventListener("click", codeUploadFile);

@@ -20,13 +20,6 @@
 
 let SEARCHPARAM;
 
-/*function loadTooltips(){
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-}*/
-
 let snippetTagifyElement = document.getElementById('snippetEditTags')
 let snippetTagify = new Tagify(snippetTagifyElement, {
     whitelist: ["Unicode", ],
@@ -83,7 +76,7 @@ db.notes.loadDatabase(function (err){
         db.notes.find({}, function (err, docs) {
             let json = {
                 "name": "Lemon-Aid Stand Notes - Autobackup",
-                "version": app.getVersion(),
+                // "version": app.getVersion(),
                 "exportDate": new Date(),
                 "notes": docs
             }
@@ -703,7 +696,7 @@ function snippetExport(){
             console.log(docs)
             let json = {
                 "name": "Lemon-Aid Stand Notes",
-                "version": app.getVersion(),
+                // "version": app.getVersion(),
                 "exportDate": new Date(),
                 "notes": docs
             }
