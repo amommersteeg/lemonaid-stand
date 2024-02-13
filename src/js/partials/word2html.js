@@ -1,5 +1,3 @@
-const pandoc = require(__dirname + '/js/node-pandoc/pandoc.js');
-
 /******** Word to HTML Code ********/
 tinymce.init({
     selector: '#tinymce',
@@ -127,69 +125,36 @@ function codeCopyAll(){
     alertToast.show();
 }
 
-
 function codeConvertFile(filePath) {
-    pandocLoc = settingsGlobal.word.pandocLocation;
-
-    if(document.getElementById('flexRadioDefault1').checked == true){
-        let args = [ '-t', 'html5'];
-        pandoc.pandocCall(filePath,args,pandocLoc)
-        .then((res)=>{
-            let cleanHTML = codeBeautify(res)
+    if(path.extname(filePath) == ".docx" || path.extname(filePath) == ".doc"){
+        mammoth.convertToHtml({path: filePath})
+        .then(function(result){
+            var html = result.value; // The generated HTML
+            //console.log(html);
+            let cleanHTML = codeBeautify(html)
             codeEditor.getDoc().setValue(cleanHTML);
             setTimeout(function(){
                 codeEditor.refresh()
             }, 600);
             copyText(document.getElementById("nav-word-tab"))
-            document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
-            alertToast.show();
+            var messages = result.messages;
+            document.getElementById('codeUploadMessage').innerHTML = "";
+            if(messages.length > 0){
+                let messageText = "";
+                for(let i=0; i<messages.length; i++){
+                    messageText += messages[i] + '\n';
+                }
+                document.getElementById('codeUploadMessage').innerHTML = messageText;
+            }
+            document.getElementById('toastBody').innerHTML = "File Conversion Complete";
+            toast.show();
             let htmlTab = document.getElementById('nav-html-tab')
             let tab = new bootstrap.Tab(htmlTab)
             tab.show()
-        }).catch(err=>{
-            console.error("oops",err);
-            document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
         })
-
-    }else if(document.getElementById('flexRadioDefault2').checked == true){
-        let filename = filePath.split('.').slice(0, -1).join('.');
-        let outputType = document.getElementById('codeConvertOptions').value;
-        dialog.showSaveDialog(remote.getCurrentWindow(),{
-            title: "Save converted file",
-            defaultPath: filename + "." + outputType,
-            buttonLabel: "Save File",
-            filters: [
-                {name: 'All Files', extensions: ['*']}
-            ]
-        
-        }).then(result => {
-            // checks if window was closed
-            if (result.canceled) {
-                console.log("No file selected!")
-            } else {
-                let args = ['-t', outputType];
-                if(outputType == "md"){
-                    args = ['-t', 'gfm','-o', result.filePath];
-                }else if (outputType == "docx"){
-                    args = ['-t', 'docx', '-o', result.filePath];
-                }else if (outputType == "html"){
-                    args = ['-t', 'html', '-o', result.filePath];
-                }
-                pandoc.pandocCall(filePath,args,pandocLoc)
-                .then((res)=>{
-                    document.getElementById('alertToastBody').innerHTML = "File Conversion Complete";
-                    alertToast.show();
-                }).catch(err=>{
-                    console.error("oops",err);
-                    document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
-                });
-            }
-        }).catch(err=>{
-            console.error("oops",err);
-            document.getElementById('codeUploadMessage').innerHTML = "Error: Must be something work with file" + err;
-        });
+        .done();
     }else{
-        console.log("Error")
+        document.getElementById('codeUploadMessage').innerHTML = "Error: Must be a .docx or .doc Word file";
     }
 }
 

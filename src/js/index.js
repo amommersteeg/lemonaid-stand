@@ -40,10 +40,6 @@ let settingsGlobal = {
         numPins: 5
 
     },
-    word: {
-        pandocLocation: "C:\\Program Files (x86)\\pandoc\\pandoc.exe"
-        //pandocLocation: "/Users/alexmommersteeg/Alex Working/Lemon-aid Stand/pandoc/mac/pandoc"
-    },
     apps: [
         {
             id: "word2html",
