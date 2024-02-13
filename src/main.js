@@ -29,7 +29,7 @@ const createLoadingScreen = () => {
   ])
   Menu.setApplicationMenu(menu); 
   loadingScreen.setResizable(false);
-  loadingScreen.loadFile('src/loadingscreen.html')
+  loadingScreen.loadFile('src/windows/loadingscreen.html')
   loadingScreen.on('closed', () => loadingScreen = null);
   loadingScreen.webContents.on('did-finish-load', () => {
     loadingScreen.show();
@@ -58,7 +58,7 @@ function createAboutScreen() {
       contextIsolation: false,
     }
   })
-  aboutScreen.loadFile('src/about.html')
+  aboutScreen.loadFile('src/windows/about.html')
   aboutScreen.on('closed', function() {
     aboutScreen = null
   })

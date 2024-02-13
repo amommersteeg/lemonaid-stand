@@ -1,5 +1,3 @@
-const remote = require('@electron/remote/main');
-
 /********  Code Snippet Table Code  ************/
 /* Data structure 
 * undefined will not be saved, empty items need to be set as Null

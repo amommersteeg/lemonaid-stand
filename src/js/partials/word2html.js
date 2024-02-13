@@ -1,5 +1,4 @@
 const pandoc = require(__dirname + '/js/node-pandoc/pandoc.js');
-const remote = require('@electron/remote/main');
 
 /******** Word to HTML Code ********/
 tinymce.init({

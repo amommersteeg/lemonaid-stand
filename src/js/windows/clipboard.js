@@ -1,6 +1,6 @@
-const {clipboard, remote} = require('electron');
-const {BrowserWindow} = remote
-
+// const {clipboard, remote} = require('electron');
+// const { app, shell, BrowserWindow, Menu } = require('electron');
+const { clipboard } = require("electron");
 
 let indexItems = 0;
 let indexPins = 0;
