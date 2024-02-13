@@ -5,36 +5,21 @@ tinymce.init({
     scroll: true,
     resize: false,
     auto_focus :'tinymce',
-
-    quickbars_insert_toolbar: '',
-    quickbars_selection_toolbar: '',
-    plugins: 'print preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr nonbreaking insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons', //quickbars
-
+    promotion: false,
+    plugins: 'preview importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap nonbreaking insertdatetime advlist lists wordcount help charmap emoticons', //quickbars
+    menubar: 'edit insert view format table tools help',
     menu: {
-        file: { title: 'File', items: 'newdocument | preview | print ' },
         edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
-        view: { title: 'View', items: 'visualaid visualchars visualblocks | spellchecker | preview fullscreen' },
-        insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
+        view: { title: 'View', items: 'visualaid visualchars visualblocks | spellchecker | fullscreen' },
+        insert: { title: 'Insert', items: 'image link inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc' },
         format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | blockformats | removeformat' },
         table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
         tools: { title: 'Tools', items: 'code wordcount' },
         help: { title: 'Help', items: 'help' }
     },
-    toolbar: 'undo redo | bold italic underline strikethrough removeformat| formatselect | outdent indent | numlist bullist checklist  | charmap emoticons | image link | fullscreen',
-    block_formats: 'Paragraph=p; Div =div; Blockquote=blockquote; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; Heading 6=h6;',
+    toolbar: 'undo redo | bold italic underline strikethrough removeformat| styles | outdent indent numlist bullist | image link charmap emoticons | fullscreen',
     toolbar_mode: 'sliding',
     contextmenu: ' cut copy paste | link ',
-
-    // Create custom templates for regular tasks,
-    templates: [
-        { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
-        { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
-        { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
-    ],
-    template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
-    
-
 
     // Have not updated from Default Settings
     image_advtab: true,
@@ -51,9 +36,7 @@ tinymce.init({
         { title: 'None', value: '' },
         { title: 'Some class', value: 'class-name' }
     ],
-    importcss_append: true,
-    noneditable_noneditable_class: 'mceNonEditable',
-    
+    importcss_append: true
 });
 
 let codemirrorContainer = document.getElementById('codemirror');
