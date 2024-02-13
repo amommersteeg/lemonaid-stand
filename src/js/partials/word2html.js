@@ -1,4 +1,4 @@
-const pandoc = require(__dirname + '/js/node-pandoc-promise/pandoc.js')
+const pandoc = require(__dirname + '/js/node-pandoc/pandoc.js')
 
 /******** Word to HTML Code ********/
 tinymce.init({
