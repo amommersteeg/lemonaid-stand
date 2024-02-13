@@ -1,13 +1,8 @@
 // Load the required Node dependencies
-
-const mammoth = require("mammoth");
-const electron = require('electron');
-const {app, BrowserWindow, dialog, globalShortcut, screen, webContents} = electron.remote
+const remote = require('@electron/remote/main');
 const fs = require('fs');
-const path = require("path");
 const Datastore = require('nedb');
 const os = require('os');
-const { clipboard } = require("electron");
 
 /* * * Global Variables * * */
 
@@ -260,8 +255,6 @@ function loadPartial(src){
 * @returns promise once js file is loaded
 */
 function LoadJS(src){
-    const fs = require("fs");
-    const path = require("path");
     filePath = __dirname + src;
     console.log(filePath)
 
@@ -332,7 +325,7 @@ function loadContent(){
         `<div class="tab-pane fade paneVertical" id="${app.id}Tab" role="tabpanel" template-target="${app.id}"></div>`)
 
         document.getElementById(app.id).addEventListener("click", function() { openTab(this, `${app.id + "Tab"}`)});
-        globalShortcut.register(key, () => {
+        remote.globalShortcut.register(key, () => {
             document.getElementById(app.id).click();
         })
         loadPartial(`/partials/${app.id}.html`)
@@ -391,7 +384,7 @@ function openTab(that, tab) {
 /** Allow to cycle through tabs using ctrl+tab
  *  Node
  */
-globalShortcut.register("Ctrl+Tab", () => {
+remote.globalShortcut.register("Ctrl+Tab", () => {
     let page = document.getElementsByClassName("paneVertical active")[0]
     let tabs = page.getElementsByClassName("nav-link");
 
@@ -412,7 +405,7 @@ globalShortcut.register("Ctrl+Tab", () => {
 /** Allow to cycle through tabs the opposite way using ctrl+shift+tab
  *  Node
  */
-globalShortcut.register("Ctrl+Shift+Tab", () => {
+remote.globalShortcut.register("Ctrl+Shift+Tab", () => {
     let page = document.getElementsByClassName("paneVertical active")[0]
     let tabs = page.getElementsByClassName("nav-link");
 
@@ -425,12 +418,12 @@ globalShortcut.register("Ctrl+Shift+Tab", () => {
                 }
                 tabs[nextTab].click()
                 break;
-            }globalShortcut
+            }
         }
     }
 })
 
-globalShortcut.register("Ctrl+Shift+C", () => {
+remote.globalShortcut.register("Ctrl+Shift+C", () => {
     // Loop through the click board starting from pin then top
     let numItems = document.getElementById('clipboard-id').children.length;
     let numPins = document.getElementById('clipboardPin-id').children.length;
@@ -446,10 +439,10 @@ globalShortcut.register("Ctrl+Shift+C", () => {
 
 let clipboardWin;
 function createClipboardWin(){
-    let display = screen.getPrimaryDisplay();
+    let display = remote.screen.getPrimaryDisplay();
     let screenWidth = display.bounds.width;
 
-    clipboardWin = new BrowserWindow({
+    clipboardWin = new remote.BrowserWindow({
       frame: false,
       resizable: false,
       alwaysOnTop: true,
@@ -481,7 +474,7 @@ function createClipboardWin(){
 document.addEventListener("keydown", event => {
     switch(event.key){
         case "Escape":
-            electron.remote.getCurrentWindow().minimize();
+            remote.getCurrentWindow().minimize();
     }
 })
 

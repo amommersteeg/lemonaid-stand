@@ -1,5 +1,4 @@
-
-
+const remote = require('@electron/remote/main');
 
 /********  Code Snippet Table Code  ************/
 /* Data structure 
@@ -699,7 +698,7 @@ function snippetExport(){
         ]
     }
 
-    dialog.showSaveDialog(electron.remote.getCurrentWindow(), options)
+    dialog.showSaveDialog(remote.getCurrentWindow(), options)
     .then( results =>{ 
         db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
             console.log(err)
@@ -724,7 +723,7 @@ function snippetExport(){
 }
 
 function snippetImport(){
-    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    dialog.showOpenDialog(remote.getCurrentWindow(),{
         title: "Import notes file",
         defaultPath : settingsGlobal.snippet.backupLocation,
         properties: ['openFile'],

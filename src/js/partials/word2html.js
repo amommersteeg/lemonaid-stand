@@ -1,4 +1,5 @@
-const pandoc = require(__dirname + '/js/node-pandoc/pandoc.js')
+const pandoc = require(__dirname + '/js/node-pandoc/pandoc.js');
+const remote = require('@electron/remote/main');
 
 /******** Word to HTML Code ********/
 tinymce.init({
@@ -154,7 +155,7 @@ function codeConvertFile(filePath) {
     }else if(document.getElementById('flexRadioDefault2').checked == true){
         let filename = filePath.split('.').slice(0, -1).join('.');
         let outputType = document.getElementById('codeConvertOptions').value;
-        dialog.showSaveDialog(electron.remote.getCurrentWindow(),{
+        dialog.showSaveDialog(remote.getCurrentWindow(),{
             title: "Save converted file",
             defaultPath: filename + "." + outputType,
             buttonLabel: "Save File",
@@ -200,7 +201,7 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", function(event) {
-    dialog.showOpenDialog(electron.remote.getCurrentWindow(),{
+    dialog.showOpenDialog(remote.getCurrentWindow(),{
         properties: ['openFile'],
         filters: [
             {name: 'All Files', extensions: ['*']}
