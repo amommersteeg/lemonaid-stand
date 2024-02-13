@@ -23,6 +23,47 @@ tinymce.init({
     toolbar: 'undo redo | bold italic underline strikethrough removeformat| styles | outdent indent numlist bullist | image link charmap emoticons | fullscreen',
     toolbar_mode: 'sliding',
     contextmenu: ' cut copy paste | link ',
+    setup: function(editor) {
+        editor.on('keydown', function(event) {
+            switch(event.key){               
+                case "Tab": 
+                    if(event.ctrlKey && event.shiftKey) {
+                        let page = document.getElementsByClassName("paneVertical active")[0]
+                        let tabs = page.getElementsByClassName("nav-link");
+        
+                        if(tabs){
+                            for(let i=0; i<tabs.length; i++){
+                                if(tabs[i].classList.contains("active")){
+                                    let nextTab = i-1
+                                    if( nextTab < 0){
+                                        nextTab = tabs.length-1;
+                                    }
+                                    tabs[nextTab].click()
+                                    break;
+                                }
+                            }
+                        }
+                       
+                    } else if(event.ctrlKey) {
+                        let page = document.getElementsByClassName("paneVertical active")[0]
+                        let tabs = page.getElementsByClassName("nav-link");
+        
+                        if(tabs){
+                            for(let i = 0; i < tabs.length; i++){
+                                if(tabs[i].classList.contains("active")){
+                                    let nextTab = i + 1;
+                                    if( nextTab == tabs.length){
+                                        nextTab = 0;
+                                    }
+                                    tabs[nextTab].click()
+                                    break;
+                                }
+                            }
+                        }
+                    } 
+            }
+        });
+    },
 
     // Have not updated from Default Settings
     image_advtab: true,

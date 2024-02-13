@@ -374,49 +374,6 @@ function openTab(that, tab) {
 }
 
 
-/* * * Secondary Nav * * */
-
-/** Allow to cycle through tabs using ctrl+tab
- *  Node
- */
-// globalShortcut.register("Ctrl+Tab", () => {
-//     let page = document.getElementsByClassName("paneVertical active")[0]
-//     let tabs = page.getElementsByClassName("nav-link");
-
-//     if(tabs){
-//         for(let i=0; i<tabs.length; i++){
-//             if(tabs[i].classList.contains("active")){
-//                 let nextTab = i+1
-//                 if( nextTab == tabs.length){
-//                     nextTab = 0;
-//                 }
-//                 tabs[nextTab].click()
-//                 break;
-//             }
-//         }
-//     }
-// })
-
-/** Allow to cycle through tabs the opposite way using ctrl+shift+tab
- *  Node
- */
-// globalShortcut.register("Ctrl+Shift+Tab", () => {
-//     let page = document.getElementsByClassName("paneVertical active")[0]
-//     let tabs = page.getElementsByClassName("nav-link");
-
-//     if(tabs){
-//         for(let i=0; i<tabs.length; i++){
-//             if(tabs[i].classList.contains("active")){
-//                 let nextTab = i-1
-//                 if( nextTab < 0){
-//                     nextTab = tabs.length-1;
-//                 }
-//                 tabs[nextTab].click()
-//                 break;
-//             }
-//         }
-//     }
-// })
 
 // globalShortcut.register("Ctrl+Shift+C", () => {
 //     // Loop through the click board starting from pin then top
@@ -471,6 +428,42 @@ document.addEventListener("keydown", event => {
         case "Escape":
             const modal = document.querySelector('.modal.show');
             if(modal) modal.hide();
+        
+        case "Tab": 
+            if(event.ctrlKey && event.shiftKey) {
+                let page = document.getElementsByClassName("paneVertical active")[0]
+                let tabs = page.getElementsByClassName("nav-link");
+
+                if(tabs){
+                    for(let i=0; i<tabs.length; i++){
+                        if(tabs[i].classList.contains("active")){
+                            let nextTab = i-1
+                            if( nextTab < 0){
+                                nextTab = tabs.length-1;
+                            }
+                            tabs[nextTab].click()
+                            break;
+                        }
+                    }
+                }
+            
+            } else if(event.ctrlKey) {
+                let page = document.getElementsByClassName("paneVertical active")[0]
+                let tabs = page.getElementsByClassName("nav-link");
+
+                if(tabs){
+                    for(let i = 0; i < tabs.length; i++){
+                        if(tabs[i].classList.contains("active")){
+                            let nextTab = i + 1;
+                            if( nextTab == tabs.length){
+                                nextTab = 0;
+                            }
+                            tabs[nextTab].click()
+                            break;
+                        }
+                    }
+                }
+            } 
     }
 })
 

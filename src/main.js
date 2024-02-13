@@ -1,4 +1,4 @@
-const { app, shell, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
+const { app, shell, BrowserWindow, Menu, dialog, ipcMain, globalShortcut  } = require('electron');
 const remoteMain = require('@electron/remote/main');
 const isMac = process.platform === 'darwin';
 const path = require('node:path');
@@ -193,6 +193,9 @@ function createWindow() {
 app.on('ready', () => {
   createLoadingScreen();
   /// add a little timeout for tutorial purposes, remember to remove this
+  globalShortcut.register("Ctrl+Shift+C", () => {
+    console.log('Electron loves global shortcuts!')
+  })
   setTimeout(() => {
     createWindow();
   }, 4000);
@@ -211,5 +214,7 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+app.on('will-quit', () => {
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll()
+})
