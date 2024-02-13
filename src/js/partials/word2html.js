@@ -116,7 +116,6 @@ function codeConvertFile(filePath) {
         mammoth.convertToHtml({path: filePath})
         .then(function(result){
             var html = result.value; // The generated HTML
-            console.log(html);
             let cleanHTML = codeBeautify(html)
             codeEditor.getDoc().setValue(cleanHTML);
             setTimeout(function(){
@@ -151,7 +150,8 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", async function(event) {
-    const filePath = await window.Word2Html.openDialog();
+    const filePath = await window.fileDialog.openDialog();
+
     if(filePath) codeConvertFile(filePath);
 });
 

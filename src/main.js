@@ -159,7 +159,7 @@ function createWindow() {
     mainWindow.show();
   });
 
-  ipcMain.handle('Word2HtmlDialog', async () => {
+  ipcMain.handle('fileDialog', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
           properties: ['openFile'],
           filters: [
