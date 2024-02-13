@@ -159,21 +159,30 @@ function createWindow() {
     mainWindow.show();
   });
 
-  ipcMain.handle('fileDialog', async () => {
-    const { canceled, filePaths } = await dialog.showOpenDialog({
+  ipcMain.handle('openDialog', async (event, options) => {
+    if(!options) {
+      options = {
           properties: ['openFile'],
           filters: [
               {name: 'All Files', extensions: ['*']}
-              // { name: 'Word', extensions: ['docx', 'doc' ]},
-              // { name: "Markdown", extensions: ['md']},
-              // { name: "HTML", extensions: ['html']},
           ]
-      })
+      }
+    }
+    const { canceled, filePaths } = await dialog.showOpenDialog(options)
       if (!canceled) {
         return filePaths[0];
       } else {
         return null;
       }
+  });
+
+  ipcMain.handle('saveDialog', async (event, options) => {
+    const { canceled, filePath } = await dialog.showSaveDialog(options)
+    if (!canceled) {
+      return filePath;
+    } else {
+      return null;
+    }
   });
   
 }

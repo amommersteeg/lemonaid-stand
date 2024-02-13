@@ -150,7 +150,16 @@ codeUploadRegion.addEventListener('click', function() {
 });
 
 codeFakeInput.addEventListener("click", async function(event) {
-    const filePath = await window.fileDialog.openDialog();
+    const options = {
+        title: "Import notes file",
+        defaultPath : settingsGlobal.snippet.backupLocation,
+        properties: ['openFile'],
+        filters: [
+            {name: 'Doc', extensions: ['doc', 'docx']},
+        ]
+    
+    };
+    const filePath = await window.fileDialog.openDialog(options);
 
     if(filePath) codeConvertFile(filePath);
 });

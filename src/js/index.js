@@ -28,7 +28,7 @@ let settingsGlobal = {
     darkTheme: false,
     snippet: {
         autoBackup: true,
-        backupLocation: `${os.homedir() + '/Desktop'}`,  // Node
+        backupLocation: `${os.homedir() + '/Downloads'}`,  // Node
         numCards: 20,
     },
     contrast: {
@@ -469,7 +469,8 @@ function createClipboardWin(){
 document.addEventListener("keydown", event => {
     switch(event.key){
         case "Escape":
-            remote.getCurrentWindow().minimize();
+            const modal = document.querySelector('.modal.show');
+            if(modal) modal.hide();
     }
 })
 

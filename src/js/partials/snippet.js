@@ -81,7 +81,7 @@ db.notes.loadDatabase(function (err){
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
-            let filepath = settingsGlobal.snippet.backupLocation + "/Lemon-Aid Stand Note - Autobackup." + Date.now() + ".json"
+            let filepath = settingsGlobal.snippet.backupLocation + "/Lemon-Aid Stand Note_auto_" + Date.now() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
                 console.log(err)
                 if(err == null){
@@ -631,7 +631,7 @@ function snippetReplaceTag(){
                 snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
                 snippetLoadFilterTags(snippetTagify.settings.whitelist) 
             }
-            db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {z}, function (err) {
+            db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {}, function (err) {
                 snippetTagReplaceCloseBtn.click();
                 document.getElementById('alertToastBody').innerHTML = "Tag Replaced";
                 alertToast.show();
@@ -640,7 +640,8 @@ function snippetReplaceTag(){
     }
 }
 
-let snippetTagModal = document.getElementById('snippetTagReplace')
+let snippetTagModal = document.getElementById('snippetTagReplace');
+
 snippetTagModal.addEventListener('hidden.bs.modal', function (e) {
     snippetReplaceTagify.removeAllTags();
     document.getElementById('snippetTagReplacement').value = "";
@@ -679,7 +680,7 @@ function snippetAddEventListeners(item){
 document.getElementById('snippetExportBtn').addEventListener('click', snippetExport )
 document.getElementById('snippetImportBtn').addEventListener('click', snippetImport )
 
-function snippetExport(){
+async function snippetExport(){
     const options = {
         title: "Save export file",
         defaultPath : settingsGlobal.snippet.backupLocation + "/Lemon-Aid Stand Notes.json",
@@ -689,32 +690,30 @@ function snippetExport(){
         ]
     }
 
-    dialog.showSaveDialog(remote.getCurrentWindow(), options)
-    .then( results =>{ 
-        db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
-            console.log(err)
-            console.log(docs)
-            let json = {
-                "name": "Lemon-Aid Stand Notes",
-                // "version": app.getVersion(),
-                "exportDate": new Date(),
-                "notes": docs
+    const filePath = await window.fileDialog.saveDialog(options);
+    if(!filePath) return;
+    
+    db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
+        let json = {
+            "name": "Lemon-Aid Stand Notes",
+            // "version": app.getVersion(),
+            "exportDate": new Date(),
+            "notes": docs
+        }
+        let fileData = JSON.stringify(json)
+        fs.writeFile(filePath, fileData, function(err) {
+            if(err == null){
+                document.getElementById('alertToastBody').innerHTML = "Notes exported";
+                alertToast.show();
             }
-            let fileData = JSON.stringify(json)
-            fs.writeFile(results.filePath, fileData, function(err) {
-                console.log(err)
-                if(err == null){
-                    document.getElementById('alertToastBody').innerHTML = "Notes exported";
-                    alertToast.show();
-                }
-            }); 
-        });
-        
-    })
+        }); 
+    });
+
 }
 
-function snippetImport(){
-    dialog.showOpenDialog(remote.getCurrentWindow(),{
+async function snippetImport(){
+
+    const options = {
         title: "Import notes file",
         defaultPath : settingsGlobal.snippet.backupLocation,
         properties: ['openFile'],
@@ -722,43 +721,45 @@ function snippetImport(){
             {name: 'JSON', extensions: ['json']},
         ]
     
-    })
-    .then( results => {
-        fs.readFile(results.filePaths[0], (err, data) => {
-            if (err) throw err;
-            let json = JSON.parse(data);
-            console.log(json);
-            let tags = [];
-            let numNotes = json.notes.length
-            let numAdded = 0; 
-            json.notes.forEach(note =>{
-                db.notes.insert(note, function (err) {
-                    console.log(err)
-                    if(err == null){
-                        numAdded += 1;
-                    }
-                });
-                note.tags.forEach(tag => {
-                    if(tags.indexOf(tag) === -1){
-                        tags.push(tag)
-                    }
-                    
-                    if(snippetTagify.settings.whitelist.indexOf(tag) === -1){
-                        snippetTagify.settings.whitelist.push(tag)
-                    }
-                });
-            });
+    };
 
-            db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {upsert: true}, function (err) {
-                snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
-                snippetLoadFilterTags(snippetTagify.settings.whitelist) 
-                document.getElementById('snippetNoteList').innerHTML = '';
-                snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
-                document.getElementById('alertToastBody').innerHTML = `Notes imported, ${numAdded} added, ${numNotes-numAdded} skipped`;
-                alertToast.show();
-            })
+    const filePath = await window.fileDialog.openDialog(options);
+    if(!filePath) return;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) throw err;
+        let json = JSON.parse(data);
+        console.log(json);
+        let tags = [];
+        let numNotes = json.notes.length
+        let numAdded = 0; 
+        json.notes.forEach(note =>{
+            db.notes.insert(note, function (err) {
+                console.log(err)
+                if(err == null){
+                    numAdded += 1;
+                }
+            });
+            note.tags.forEach(tag => {
+                if(tags.indexOf(tag) === -1){
+                    tags.push(tag)
+                }
+                
+                if(snippetTagify.settings.whitelist.indexOf(tag) === -1){
+                    snippetTagify.settings.whitelist.push(tag)
+                }
+            });
         });
-    })
+
+        db.tags.update({ title: 'tags' }, { 'tags': snippetTagify.settings.whitelist, title:'tags' }, {upsert: true}, function (err) {
+            snippetReplaceTagify.settings.whitelist = snippetTagify.settings.whitelist;
+            snippetLoadFilterTags(snippetTagify.settings.whitelist) 
+            document.getElementById('snippetNoteList').innerHTML = '';
+            snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
+            document.getElementById('alertToastBody').innerHTML = `Notes imported, ${numAdded} added, ${numNotes-numAdded} skipped`;
+            alertToast.show();
+        })
+    });
 }
     
 document.getElementById('searchBarClear').addEventListener("click", function () {
