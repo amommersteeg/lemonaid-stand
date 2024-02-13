@@ -5,13 +5,13 @@
                 <input type="text" id="searchBar" class="form-control" placeholder="Search by name, description, language..." aria-label="Text input with segmented dropdown button">
                 <button class="btn btn-outline-secondary d-none" id="searchBarClear"><i class="far fa-times-circle"></i></button>
                 <button type="button" class="btn btn-outline-secondary snippetAddBtn"><i class="fas fa-plus"></i></button>
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                 <li><a class="dropdown-item snippetAddBtn" href="#" >Add Note</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#snippetTagReplace">Replace/Remove Tag</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#snippetTagReplace">Replace/Remove Tag</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#" id="snippetImportBtn">Import Notes</a></li>
                 <li><a class="dropdown-item" href="#" id="snippetExportBtn">Export Notes</a></li>
@@ -30,7 +30,7 @@
                 <select class="form-select form-select-sm ml-2" id="snipperTagFilter" aria-label=".form-select-sm example">
                     <option value="tag" selected>Tag - Clear</option>
                 </select>
-                <button type="button" class="btn btn-outline-secondary ml-2" id="snippetFavFilterBtn" data-toggle="false"><i class="far fa-heart"></i></button>
+                <button type="button" class="btn btn-outline-secondary ml-2" id="snippetFavFilterBtn" data-bs-toggle="false"><i class="far fa-heart"></i></button>
                 <button class="btn btn-outline-secondary" id="snippetFilterClear"><i class="far fa-times-circle"></i></button>
                 
             </div>
@@ -51,7 +51,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dimiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
@@ -71,12 +71,12 @@
     </div>
 
     <!-- Code Snippet Add/Edit Modal -->
-    <div class="modal fade" id="snippetEditModal" data-backdrop="static" tabindex="-1" aria-labelledby="snippetEditModalLabel" aria-hidden="true" data-target="">
+    <div class="modal fade" id="snippetEditModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="snippetEditModalLabel" aria-hidden="true" data-bs-target="">
         <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
             <div class="modal-content">
                 <div class="modal-header">
                 <h5 class="modal-title" id="snippetEditModalLabel">Edit Note</h5>
-                <button type="button" class="close" id="snippetEditModalClose" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" id="snippetEditModalClose" data-bs-dimiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
@@ -117,7 +117,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h5 class="modal-title" id="snippetDeleteCodeLabel">Delete Note</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dimiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
@@ -125,8 +125,8 @@
                     <p>Would you like to delete the note <span id="snippetDeleteInner"></span>?</p>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
-                    <button class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
-                    <button class="btn btn-secondary" data-dismiss="modal" id="snippetDeleteBtn" data-target="">Delete</button>
+                    <button class="btn btn-secondary" data-bs-dimiss="modal" >Cancel</button>
+                    <button class="btn btn-secondary" data-bs-dimiss="modal" id="snippetDeleteBtn" data-bs-target="">Delete</button>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h5 class="modal-title" id="snippetTagReplaceLabel">Replace Tag</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="snippetTagReplaceCloseBtn">
+                <button type="button" class="close" data-bs-dimiss="modal" aria-label="Close" id="snippetTagReplaceCloseBtn">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
@@ -158,7 +158,7 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
-                    <button class="btn btn-secondary" data-dismiss="modal" >Cancel</button>
+                    <button class="btn btn-secondary" data-bs-dimiss="modal" >Cancel</button>
                     <button class="btn btn-secondary" id="snippetTagReplaceBtn">Replace</button>
                 </div>
             </div>
