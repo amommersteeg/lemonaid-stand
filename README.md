@@ -35,6 +35,7 @@ In the `releases` folder are complied versions for Windows and Mac computers (po
 * 0.3.0
     * Updated dependencies to newer version
     * Added vite build process
+    * nedb dependency moved to a forked version
 
 ## Roadmap
 * Refactor the project's code into better scripts. 
@@ -44,7 +45,24 @@ In the `releases` folder are complied versions for Windows and Mac computers (po
     * 
 
 ## How to develop
-* Open terminal in Lemon-aid Stand directory and enter `npm start` 
+1. Get `node_modules` for Lemon-aid Stand
+```
+npm ci
+```
+3. Start Electron local server
+```
+npm run start
+```
+
+## How to build
+1. Get `node_modules` for Lemon-aid Stand
+```
+npm ci
+```
+3. Build Electron app
+```
+npm run build
+```
 
 ## Helpfully Links
 ### Electron
@@ -71,7 +89,7 @@ This project is using:
 * [sortableJs](https://github.com/SortableJS/Sortable)
 * [Electron](https://www.electronjs.org/docs)
 * [Tagify](https://github.com/yairEO/tagify)
-* [nedb](https://github.com/louischatriot/nedb)
+* [nedb](https://github.com/seald/nedb)
 * [fontawesome](https://fontawesome.com/icons/)
 * [js-beautify](https://github.com/beautify-web/js-beautify)
 * [pickr](https://github.com/Simonwep/pickr)
