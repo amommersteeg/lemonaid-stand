@@ -9,6 +9,7 @@ let mainWindow;
 let aboutScreen;
 let helpScreen;
 let clipboardWin;
+let enableClipboard = false;
 
 const createLoadingScreen = () => {
   /// create a browser window
@@ -164,6 +165,10 @@ function createWindow() {
       return null;
     }
   });
+
+  ipcMain.handle('toggleClipboard', async (event, enable) => {
+    enableClipboard = enable;
+  });
   
 }
 
@@ -173,8 +178,7 @@ function createWindow() {
 app.on('ready', () => {
   createLoadingScreen();
   globalShortcut.register("Ctrl+Shift+C", () => {
-    // TODO: only if clipboard copying
-    createClipboardWin();
+    if(enableClipboard) createClipboardWin();
   })
   setTimeout(() => {
     createWindow();

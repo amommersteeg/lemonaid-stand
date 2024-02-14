@@ -9,15 +9,22 @@ let copyIntervalId;
 let lastText;
 let lastImage;
 
+if(enableCopy){
+    window.clipboardWindow.toggleClipboard(true);
+} else {
+    window.clipboardWindow.toggleClipboard(false);
+}
 
 document.getElementById('clipboardEnable-id').checked = enableCopy;
 document.getElementById('clipboardEnable-id').addEventListener("change", (event) =>{
     if(event.currentTarget.checked){
         enableCopy = true;
         enableClipboardCopy();
+        window.clipboardWindow.toggleClipboard(true);
     }else{
         enableCopy = false;
         clearInterval(copyIntervalId);
+        window.clipboardWindow.toggleClipboard(false);
     }
 })
 document.getElementById('clipboardClear-id').addEventListener("click", ()=>{

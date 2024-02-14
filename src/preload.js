@@ -12,3 +12,7 @@ window.appVersion = {
 window.screen = {
   closeWindow: () => ipcRenderer.invoke('closeWindow')
 };
+
+window.clipboardWindow = {
+  toggleClipboard: (enable) => ipcRenderer.invoke('toggleClipboard', enable)
+};
