@@ -43,7 +43,7 @@ function enableClipboardCopy(){
                 let board = document.getElementById('clipboard-id')
                 let items = board.childElementCount;
                 if(items >= settingsGlobal.clipboard.numItems){
-                    board.removeChild(board.lastChild);
+                    board.removeChild(board.lastElementChild);
                 }
 
                 lastText = text;
@@ -71,7 +71,7 @@ function enableClipboardCopy(){
                         }
                     }else if(parent.id == "clipboardPin-id"){
                         if(items >= settingsGlobal.clipboard.numItems){
-                            board.removeChild(board.lastChild);
+                            board.removeChild(board.lastElementChild);
                         }
                         board.insertBefore(card, board.firstChild);
                         event.currentTarget.classList.remove('btn-secondary');
