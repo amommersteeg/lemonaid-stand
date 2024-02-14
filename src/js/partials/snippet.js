@@ -46,8 +46,6 @@ let snippetReplaceTagify = new Tagify(snippetReplaceTagifyElement, {
     }
 })
 
-//let Datastore = require('nedb');
-//let db = {};
 db.notes = new Datastore({ filename: (__dirname + '/snippetNotes.db')});
 db.tags = new Datastore({ filename: (__dirname + '/snippetTags.db')});
 

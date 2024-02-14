@@ -320,9 +320,6 @@ function loadContent(){
         `<div class="tab-pane fade paneVertical" id="${app.id}Tab" role="tabpanel" template-target="${app.id}"></div>`)
 
         document.getElementById(app.id).addEventListener("click", function() { openTab(this, `${app.id + "Tab"}`)});
-        // globalShortcut.register(key, () => {
-        //     document.getElementById(app.id).click();
-        // })
         loadPartial(`/partials/${app.id}.html`)
         LoadJS(`/js/partials/${app.id}.js`)
     })

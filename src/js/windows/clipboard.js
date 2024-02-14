@@ -1,5 +1,3 @@
-// const {clipboard, remote} = require('electron');
-// const { app, shell, BrowserWindow, Menu } = require('electron');
 const { BrowserWindow } = require('@electron/remote')
 const { clipboard } = require("electron");
 

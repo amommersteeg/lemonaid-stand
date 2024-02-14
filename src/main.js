@@ -16,9 +16,7 @@ const createLoadingScreen = () => {
   loadingScreen = new BrowserWindow({
     width: 400,
     height: 400,
-    /// remove the window frame, so it will rendered without frames
     frame: false,
-    /// and set the transparency to true, to remove any kind of background
     transparent: true,
     webPreferences: {
       worldSafeExecuteJavaScript: true,
@@ -55,7 +53,6 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     },
     show: false
-    /// set show to false, the window will be visible when to loading screen will be remove
   });
 
   var menu = Menu.buildFromTemplate([
@@ -118,22 +115,13 @@ function createWindow() {
 
   remoteMain.enable(mainWindow.webContents);
 
-  // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
-  // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   });
 
   mainWindow.webContents.on('did-finish-load', () => {
-    /// when the content has loaded, hide the loading screen and show the main window
     if (loadingScreen) {
       loadingScreen.close();
     }
