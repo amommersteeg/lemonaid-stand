@@ -82,7 +82,7 @@ db.notes.loadDatabase(function (err){
                 "notes": docs
             }
             let fileData = JSON.stringify(json)
-            let filepath = settingsGlobal.snippet.backupLocation + "/Lemon-Aid Stand Note_auto_" + Date.now() + ".json"
+            let filepath = settingsGlobal.snippet.backupLocation + "/lemonaid-stand-note_auto_" + Date.now() + ".json"
             fs.writeFile(filepath, fileData, function(err) {
                 console.log(err)
                 if(err == null){

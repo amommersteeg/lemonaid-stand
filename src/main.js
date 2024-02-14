@@ -169,6 +169,11 @@ function createWindow() {
   ipcMain.handle('toggleClipboard', async (event, enable) => {
     enableClipboard = enable;
   });
+
+  ipcMain.handle('getVersion', async (event, options) => {
+    return app.getVersion();
+  });
+
   
 }
 
