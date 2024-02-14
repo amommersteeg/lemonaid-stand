@@ -1,5 +1,6 @@
 // const {clipboard, remote} = require('electron');
 // const { app, shell, BrowserWindow, Menu } = require('electron');
+const { BrowserWindow } = require('@electron/remote')
 const { clipboard } = require("electron");
 
 let indexItems = 0;
@@ -36,7 +37,9 @@ function getClipboard(){
         indexPins = 0;
     }
 
-    if(indexPins < numPins){
+    if (numItems === 0 && numPins === 0) {
+        document.getElementById('clipboard').textContent = "No items in the clipboard.";
+    } else if(indexPins < numPins){
         mainWin.webContents.executeJavaScript(
             `document.getElementById('clipboardPin-id').children[${indexPins}].querySelector('p').textContent`
         )
@@ -45,9 +48,7 @@ function getClipboard(){
             document.getElementById('clipboard').setAttribute('data-index', indexPins);
             document.getElementById('clipboard').setAttribute('data-type', "pin");
             indexPins++;
-   
         })
-
     }else{
         if(indexItems < numItems){
             mainWin.webContents.executeJavaScript(
@@ -60,9 +61,8 @@ function getClipboard(){
                 indexItems++;
             })
         }
-    } 
+    } numItemsnumItems
 }
-
 
 
 document.addEventListener("keyup", event => {

@@ -172,20 +172,9 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createLoadingScreen();
-  /// add a little timeout for tutorial purposes, remember to remove this
   globalShortcut.register("Ctrl+Shift+C", () => {
-    console.log('Electron loves global shortcuts!')
+    // TODO: only if clipboard copying
     createClipboardWin();
-      // Loop through the click board starting from pin then top
-      // let numItems = document.getElementById('clipboard-id').children.length;
-      // let numPins = document.getElementById('clipboardPin-id').children.length;
-      // if(numItems > 0 || numPins > 0){
-      //     if (clipboardWin) {
-      //         clipboardWin.focus();
-      //     }else{
-      //         createClipboardWin();
-      //     }
-      // }
   })
   setTimeout(() => {
     createWindow();
@@ -239,8 +228,13 @@ function createClipboardWin(){
         clipboardWin = null;
     })
     clipboardWin.on('blur', function(){
+
+      if (clipboardWin) {
         clipboardWin.close();
+      }
     })
+
+    remoteMain.enable(clipboardWin.webContents);
 }
 
 function createAboutScreen() {
