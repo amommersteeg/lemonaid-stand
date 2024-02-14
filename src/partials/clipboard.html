@@ -1,0 +1,25 @@
+<template template-target="clipboard">
+    <h1>Clipboard</h1>
+    <div class="d-flex flex-column justify-content-center mb-3">
+        <div class="d-flex justify-content-around">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="clipboardEnable-id">
+                <label class="form-check-label" for="clipboardEnable-id">Enable Clipboard Copying</label>
+            </div>
+            <div class="btn-group mb-3" role="group">
+                <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#clipboardShortcuts">Shortcuts</button>
+                <button type="button" class="btn btn-secondary" id="clipboardClear-id">Clear Clipboard</button>
+            </div>
+        </div>
+        <div class="collapse align-self-center" id="clipboardShortcuts">
+            <div class="card card-body">
+                <p><strong>Ctrl+Shift+C</strong> to cycle through available clippings. Letting go of the <strong>Ctrl+Shift</strong> will add the clipping to the clipboard.
+                This shortcut works with any open application.</p>
+                <p>Use the <i class="fas fa-thumbtack"></i> to move items to start of clippings list.</p>
+                <p>Click on a clipping to copy it.</p>
+            </div>
+        </div>
+    </div>
+    <ul class="clipboardContainer d-flex flex-column align-items-center justify-content-center" id="clipboardPin-id"></ul>
+    <ul class="clipboardContainer d-flex flex-column align-items-center justify-content-center" id="clipboard-id"></ul>
+</template>

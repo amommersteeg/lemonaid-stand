@@ -1,20 +1,22 @@
-const { app, shell, BrowserWindow, Menu } = require('electron');
+const { app, shell, BrowserWindow, Menu, dialog, ipcMain, screen, globalShortcut  } = require('electron');
 const remoteMain = require('@electron/remote/main');
 const isMac = process.platform === 'darwin';
+const path = require('node:path');
 
 remoteMain.initialize();
 let loadingScreen;
 let mainWindow;
 let aboutScreen;
+let helpScreen;
+let clipboardWin;
+let enableClipboard = false;
 
 const createLoadingScreen = () => {
   /// create a browser window
   loadingScreen = new BrowserWindow({
     width: 400,
     height: 400,
-    /// remove the window frame, so it will rendered without frames
     frame: false,
-    /// and set the transparency to true, to remove any kind of background
     transparent: true,
     webPreferences: {
       worldSafeExecuteJavaScript: true,
@@ -29,40 +31,13 @@ const createLoadingScreen = () => {
   ])
   Menu.setApplicationMenu(menu); 
   loadingScreen.setResizable(false);
-  loadingScreen.loadFile('src/loadingscreen.html')
+  loadingScreen.loadFile('src/windows/loadingscreen.html')
   loadingScreen.on('closed', () => loadingScreen = null);
   loadingScreen.webContents.on('did-finish-load', () => {
     loadingScreen.show();
   });
 }
 
-function createAboutScreen() {
-  if (aboutScreen) {
-    aboutScreen.focus()
-    return
-  }
-  /// create a browser window
-  aboutScreen = new BrowserWindow({
-    parent: mainWindow,
-    modal: true,
-    width: 400,
-    height: 400,
-    title: '',
-    center: true,
-    minimizable: false,
-    fullscreenable: false,
-    resizable: false,
-    webPreferences: {
-      nodeIntegration: true,
-      worldSafeExecuteJavaScript: true,
-      contextIsolation: false,
-    }
-  })
-  aboutScreen.loadFile('src/about.html')
-  aboutScreen.on('closed', function() {
-    aboutScreen = null
-  })
-}
   
 function createWindow() {
   // Create the browser window.
@@ -74,10 +49,10 @@ function createWindow() {
       worldSafeExecuteJavaScript: true,
       nodeIntegration: true,
       fullscreenable: true,
-      contextIsolation: false
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
     },
     show: false
-    /// set show to false, the window will be visible when to loading screen will be remove
   });
 
   var menu = Menu.buildFromTemplate([
@@ -120,6 +95,11 @@ function createWindow() {
       submenu: [
         { role: 'toggleDevTools'},
         { type: 'separator' },
+        { label: 'Tips and Tricks',
+          click() {
+            createHelpScreen()
+          }
+        },
         { 
           label: 'Contact',
           click: async () => {
@@ -135,30 +115,54 @@ function createWindow() {
 
   remoteMain.enable(mainWindow.webContents);
 
-  // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
-  // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   });
 
   mainWindow.webContents.on('did-finish-load', () => {
-    /// when the content has loaded, hide the loading screen and show the main window
     if (loadingScreen) {
       loadingScreen.close();
     }
     mainWindow.show();
   });
 
+  ipcMain.handle('openDialog', async (event, options) => {
+    if(!options) {
+      options = {
+          properties: ['openFile'],
+          filters: [
+              {name: 'All Files', extensions: ['*']}
+          ]
+      }
+    }
+    const { canceled, filePaths } = await dialog.showOpenDialog(options)
+      if (!canceled) {
+        return filePaths[0];
+      } else {
+        return null;
+      }
+  });
 
+  ipcMain.handle('saveDialog', async (event, options) => {
+    const { canceled, filePath } = await dialog.showSaveDialog(options)
+    if (!canceled) {
+      return filePath;
+    } else {
+      return null;
+    }
+  });
 
+  ipcMain.handle('toggleClipboard', async (event, enable) => {
+    enableClipboard = enable;
+  });
+
+  ipcMain.handle('getVersion', async (event, options) => {
+    return app.getVersion();
+  });
+
+  
 }
 
 // This method will be called when Electron has finished
@@ -166,7 +170,9 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createLoadingScreen();
-  /// add a little timeout for tutorial purposes, remember to remove this
+  globalShortcut.register("Ctrl+Shift+C", () => {
+    if(enableClipboard) createClipboardWin();
+  })
   setTimeout(() => {
     createWindow();
   }, 4000);
@@ -185,5 +191,119 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+app.on('will-quit', () => {
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll()
+})
+
+
+function createClipboardWin(){
+    let display = screen.getPrimaryDisplay();
+    let screenWidth = display.bounds.width;
+
+    clipboardWin = new BrowserWindow({
+      frame: false,
+      resizable: false,
+      alwaysOnTop: true,
+      skipTaskbar: true,
+      minimizable: false,
+      fullscreenable: false,
+      x: screenWidth - 400 + 5,
+      y: 5,
+      width: 400,
+      opacity: 0.8,
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: true,
+        worldSafeExecuteJavaScript: true,
+        enableRemoteModule: true,
+        contextIsolation: false,
+      }
+    })
+    clipboardWin.loadFile('src/windows/clipboard.html')
+    clipboardWin.on('closed', function() {
+        clipboardWin = null;
+    })
+    clipboardWin.on('blur', function(){
+
+      if (clipboardWin) {
+        clipboardWin.close();
+      }
+    })
+
+    remoteMain.enable(clipboardWin.webContents);
+}
+
+function createAboutScreen() {
+  if (aboutScreen) {
+    aboutScreen.focus()
+    return
+  }
+  /// create a browser window
+  aboutScreen = new BrowserWindow({
+    parent: mainWindow,
+    frame: false,
+    width: 400,
+    height: 350,
+    title: '',
+    center: true,
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+  aboutScreen.loadFile('src/windows/about.html')
+  aboutScreen.on('closed', function() {
+    ipcMain.removeHandler("closeWindow");
+    ipcMain.removeHandler("getVersion");
+    aboutScreen = null
+  })
+
+  ipcMain.handle('getVersion', async (event, options) => {
+    return app.getVersion();
+  });
+
+  ipcMain.handle('closeWindow', () => {
+    aboutScreen.close();
+  })
+}
+
+function createHelpScreen() {
+  if (helpScreen) {
+    helpScreen.focus()
+    return
+  }
+  /// create a browser window
+  helpScreen = new BrowserWindow({
+    frame: false,
+    width: 500,
+    height: 600,
+    title: '',
+    center: true,
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+  helpScreen.loadFile('src/windows/help.html')
+  helpScreen.on('closed', function() {
+    ipcMain.removeHandler("closeWindow")
+    helpScreen = null
+  })
+
+  ipcMain.handle('closeWindow', () => {
+    helpScreen.close();
+  })
+}

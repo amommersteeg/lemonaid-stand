@@ -3,8 +3,10 @@ All-in one toolbox for courseware developers.
 
 ## Components
 * Word (WYSIWYG) to HTML editor
+* Convert document files
 * Image (jpg or png) to Base 64 Image
 * Webaim contrast checker
+* Clipboard
 * Note & Code Snippet Table
 
 ## Details
@@ -18,21 +20,31 @@ Lemond-Aid Stand is built using Electron and Node.js. It is been designed to rep
 In the `releases` folder are complied versions for Windows and Mac computers (portable and installable).
 * 0.1.0
     * It is the first release, it is a rough code of all the components.
-    * The code has not been commits, sorry :( 
+    * The code has not been commented, sorry :( 
     * Styling of the components still needs to be completed. 
     * There is little to no error checking, so things may not work or crash completely.
     * Every time the app opens it will create a json backup of the Note & Code Snippet Table. Since that app hasn't really undergone testing, this allows for any lost notes to be recovered.
 
-## Roadmap
 * 0.2.0
-    * Refactor the project's code into separate files to allow for better collaboration. 
-    * Add styling to the components.
-    * Add creating of partial html components when uploading HTML and exporting using Mammoth.
-    * And more.
+    * Refactor code into separate files
+    * Adding settings
+    * Added loading page
+    * Added clipboard app
+    * Updated styles on app
+
+* 0.3.0
+    * Updated dependencies to newer version
+    * Added vite build process
+
+## Roadmap
+* Refactor the project's code into better scripts. 
+* And more.
 
 ### Known Bugs
     * 
 
+## How to develop
+* Open terminal in Lemon-aid Stand directory and enter `npm start` 
 
 ## Helpfully Links
 ### Electron
@@ -50,19 +62,19 @@ https://webaim.org/resources/contrastchecker/
 https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
 
 
-
 ## Libraries Used
 This project is using: 
-* [TinyMCE v5.4.2](https://www.tiny.cloud/docs/)
-* [Bootstrap v5.0.0-alpha](https://v5.getbootstrap.com/docs/5.0/getting-started/introduction/)
-* [CodeMirror v5.57.0](https://codemirror.net/)
-* [Mammoth v1.4.11](https://github.com/mwilliamson/mammoth.js/)
-* [Electron v10.1.1](https://www.electronjs.org/docs)
-* [Tagify v3.18.0](https://github.com/yairEO/tagify)
-* [nedb v1.8.0](https://github.com/louischatriot/nedb)
-* [fontawesome v5.14.0](https://fontawesome.com/icons/)
-* [js-beautify v1.13.0](https://github.com/beautify-web/js-beautify)
-* [pickr v1.7.2](https://github.com/Simonwep/pickr)
+* [TinyMCE](https://www.tiny.cloud/docs/)
+* [Bootstrap](https://v5.getbootstrap.com/docs/5.0/getting-started/introduction/)
+* [CodeMirror](https://codemirror.net/)
+* [Mammoth](https://github.com/mwilliamson/mammoth.js)
+* [sortableJs](https://github.com/SortableJS/Sortable)
+* [Electron](https://www.electronjs.org/docs)
+* [Tagify](https://github.com/yairEO/tagify)
+* [nedb](https://github.com/louischatriot/nedb)
+* [fontawesome](https://fontawesome.com/icons/)
+* [js-beautify](https://github.com/beautify-web/js-beautify)
+* [pickr](https://github.com/Simonwep/pickr)
 * popper -> bundled with bootstrap 
 
 ## Inspirations
