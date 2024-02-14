@@ -1,7 +1,7 @@
 // Load the required Node dependencies
 const remote = require('@electron/remote/main');
 const fs = require('fs');
-const Datastore = require('nedb');
+const Datastore = require('@seald-io/nedb')
 const os = require('os');
 
 /* * * Global Variables * * */
