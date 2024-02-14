@@ -73,10 +73,11 @@ db.notes.loadDatabase(function (err){
     snippetLoadNotes({}, 0, settingsGlobal.snippet.numCards)
 
     if(settingsGlobal.snippet.autoBackup){
-        db.notes.find({}, function (err, docs) {
+        db.notes.find({}, async function (err, docs) {
+            const version = await window.appVersion.getVersion();
             let json = {
                 "name": "Lemon-Aid Stand Notes - Autobackup",
-                // "version": app.getVersion(),
+                "version": version,
                 "exportDate": new Date(),
                 "notes": docs
             }
@@ -693,10 +694,11 @@ async function snippetExport(){
     const filePath = await window.fileDialog.saveDialog(options);
     if(!filePath) return;
     
-    db.notes.find({}).sort({ createdOn: 1}).exec(function (err, docs) {
+    db.notes.find({}).sort({ createdOn: 1}).exec( async function (err, docs) {
+        const version = await window.appVersion.getVersion();
         let json = {
             "name": "Lemon-Aid Stand Notes",
-            // "version": app.getVersion(),
+            "version": version,
             "exportDate": new Date(),
             "notes": docs
         }
