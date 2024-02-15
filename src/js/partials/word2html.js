@@ -384,17 +384,20 @@ function resetInputs(){
 function replace() {
     const text = document.getElementById('findReplaceReplaceText').value;
     searchCursor.replace(text);
-    findReplaceMessage.innerText = `Match replaced`;
+    findReplaceMessage.innerText = `Match replaced.`;
 }
 
 function replaceAll(){
     let count = 0;
     const text = document.getElementById('findReplaceReplaceText').value;
+    codeEditor.setSelection({line: 0, ch: 0});
+    searchCursor = codeEditor.getSearchCursor(queryString, {line:0, ch: 0});
+    searchCursor.replace(text);
     while(searchCursor.find()) {
         searchCursor.replace(text);
         count++;
     }
 
-    findReplaceMessage.innerText = `${count} matches replaced`;
+    findReplaceMessage.innerText = `${count} matches replaced.`;
 }
  
