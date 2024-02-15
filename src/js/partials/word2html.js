@@ -266,6 +266,7 @@ findReplaceClose.addEventListener("click", () => {
 });
 
 let searchCursor;
+let queryString;
 
 function dragElement(element) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -312,6 +313,7 @@ function find(){
         text = `\\b${text}\\b`;
     }
     const query = new RegExp(text, options);
+    queryString = query;
     const cursor = codeEditor.getSearchCursor(query, {line:0, ch: 0});
     const editorText = codeEditor.getDoc().getValue();
     const occurrences = ((editorText || '').match(query) || []).length;
@@ -335,12 +337,22 @@ function find(){
 function findNext(){
     if (searchCursor.findNext()) {
         codeEditor.setSelection(searchCursor.from(), searchCursor.to());
+    } else {
+        codeEditor.setSelection({line: 0, ch: 0});
+        searchCursor = codeEditor.getSearchCursor(queryString, {line:0, ch: 0});
     }
 }
 
 function findPrevious(){
     if (searchCursor.findPrevious()) {
         codeEditor.setSelection(searchCursor.from(), searchCursor.to());
+    } else {
+        const lastLine =  codeEditor.lastLine();
+        const lastChar = codeEditor.getLine(lastLine).length
+        codeEditor.setSelection({line: lastLine, ch: lastChar});
+        while(searchCursor.findNext()) {
+            codeEditor.setSelection(searchCursor.from(), searchCursor.to());
+        }
     }
 }
 
@@ -356,9 +368,11 @@ function resetButtons(){
 function resetInputs(){
     findReplaceFindText.value = "";
     findReplaceReplaceText.value = "";
+    codeEditor.setSelection({line: 0, ch: 0});
 }
 
 function replace() {
+    const text = document.getElementById('findReplaceReplaceText').value;
     searchCursor.replace(text);
     findReplaceMessage.innerText = `Match replaced`;
 }
