@@ -121,6 +121,7 @@ function copyText(that){
 
 function codeWrapLine(element){
     let state = codeEditor.getOption("lineWrapping");
+    console.log(state)
     if(state){
         codeEditor.setOption("lineWrapping", false);
         element.classList.add('btn-outline-secondary');
@@ -131,6 +132,8 @@ function codeWrapLine(element){
         element.classList.remove('btn-outline-secondary');
     }
 }
+
+codeWrapLine(document.getElementById("codeWrapLineBtn")); // make linewrap default true
 
 function codeUndoRedo(flag){
     if(flag == true){
