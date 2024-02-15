@@ -98,7 +98,8 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
     selfContain: true,
     lineWrapping: false,
     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"]
-})
+});
+
 
 function copyText(that){
     let panel = document.querySelector('#nav-tabContent > .active')
@@ -121,6 +122,7 @@ function copyText(that){
 
 function codeWrapLine(element){
     let state = codeEditor.getOption("lineWrapping");
+    console.log(state)
     if(state){
         codeEditor.setOption("lineWrapping", false);
         element.classList.add('btn-outline-secondary');
@@ -131,6 +133,8 @@ function codeWrapLine(element){
         element.classList.remove('btn-outline-secondary');
     }
 }
+
+codeWrapLine(document.getElementById("codeWrapLineBtn")); // make linewrap default true
 
 function codeUndoRedo(flag){
     if(flag == true){
@@ -192,7 +196,7 @@ codeUploadRegion.addEventListener('click', function() {
 
 codeFakeInput.addEventListener("click", async function(event) {
     const options = {
-        title: "Import notes file",
+        title: "Upload Doc file",
         defaultPath : settingsGlobal.snippet.backupLocation,
         properties: ['openFile'],
         filters: [
@@ -213,14 +217,184 @@ codeUploadRegion.addEventListener('drop', (event) => {
       } 
 }); 
 
-codeUploadRegion.addEventListener('dragover', preventDefault, false)
-codeUploadRegion.addEventListener('dragenter', preventDefault, false)
-codeUploadRegion.addEventListener('dragleave', preventDefault, false)
+const findReplaceClose = document.getElementById("findReplaceClose");
 
-document.getElementById("nav-word-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-word-tab")) });
+codeUploadRegion.addEventListener('dragover', (event) => event.preventDefault(), false)
+codeUploadRegion.addEventListener('dragenter', (event) => event.preventDefault(), false)
+codeUploadRegion.addEventListener('dragleave', (event) => event.preventDefault(), false)
+
+document.getElementById("nav-word-tab").addEventListener("click", function(){ 
+    copyText(document.getElementById("nav-word-tab"));
+    findReplaceClose.click();
+});
+document.getElementById("nav-upload-tab").addEventListener("click", function(){ 
+    findReplaceClose.click();
+});
 document.getElementById("nav-html-tab").addEventListener("click", function(){ copyText(document.getElementById("nav-html-tab")) });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
 document.getElementById("codeUndoBtn").addEventListener("click", function(){ codeUndoRedo(true) });
 document.getElementById("codeRedoBtn").addEventListener("click", function(){ codeUndoRedo(false) });
 document.getElementById("codeWrapLineBtn").addEventListener("click", function(){ codeWrapLine(document.getElementById("codeWrapLineBtn")) });
 document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
+
+
+// Find and Replace
+const findReplaceModal = document.getElementById('findReplaceModal');
+const findReplaceToggle = document.getElementById("findReplaceToggle");
+const findReplaceReplace = document.getElementById("findReplaceReplace");
+const findReplaceReplaceAll = document.getElementById("findReplaceReplaceAll");
+const findReplaceNext = document.getElementById("findReplaceNext");
+const findReplacePrevious = document.getElementById("findReplacePrevious");
+const findReplaceFindText =  document.getElementById("findReplaceFindText");
+const findReplaceReplaceText = document.getElementById("findReplaceReplaceText");
+const findReplaceMessage = document.getElementById("findReplaceMessage");
+const findReplaceMatchCase = document.getElementById("findReplaceMatchCase");
+const findReplaceMatchWhole = document.getElementById("findReplaceMatchWhole");
+
+dragElement(findReplaceModal);
+
+codeEditor.addKeyMap({
+    'Ctrl-F': function(cm){
+        findReplaceToggle.click();
+    }
+})
+ 
+findReplaceFindText.addEventListener("input", resetButtons);
+findReplaceFindText.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        find();
+    }
+});
+document.getElementById("findReplaceFind").addEventListener("click", find);
+findReplaceNext.addEventListener("click", findNext);
+findReplacePrevious.addEventListener("click", findPrevious);
+findReplaceReplace.addEventListener("click", replace);
+findReplaceReplaceAll.addEventListener("click", replaceAll);
+findReplaceClose.addEventListener("click", () => {
+    resetInputs();
+    resetButtons();
+});
+
+let searchCursor;
+let queryString;
+
+function dragElement(element) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(element.id).querySelector(".modal-header")) {
+    document.getElementById(element.id).querySelector(".modal-header").onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(event) {
+    event.preventDefault();
+    pos3 = event.clientX;
+    pos4 = event.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(event) {
+    event.preventDefault();
+    pos1 = pos3 - event.clientX;
+    pos2 = pos4 - event.clientY;
+    pos3 = event.clientX;
+    pos4 = event.clientY;
+
+    element.style.top = (element.offsetTop - pos2) + "px";
+    element.style.left = (element.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+function find(){
+    let text = document.getElementById('findReplaceFindText').value;
+    const matchCase = findReplaceMatchCase.checked;
+    const matchWhole = findReplaceMatchWhole.checked;
+    let options = 'g'
+
+    if (!matchCase) {
+        options += 'i';
+    }
+
+    if (matchWhole) {
+        text = `\\b${text}\\b`;
+    }
+    const query = new RegExp(text, options);
+    queryString = query;
+    const cursor = codeEditor.getSearchCursor(query, {line:0, ch: 0});
+    const editorText = codeEditor.getDoc().getValue();
+    const occurrences = ((editorText || '').match(query) || []).length;
+
+    findReplaceMessage.innerText = `${occurrences} matches found.`;
+    if (cursor.findNext()) {
+       codeEditor.setSelection(cursor.from(), cursor.to());
+
+        findReplaceReplace.disabled = false;
+        
+        if(occurrences > 1) {
+            findReplaceNext.disabled = false;
+            findReplacePrevious.disabled = false;
+            findReplaceReplaceAll.disabled = false;
+        }
+        
+    }
+    searchCursor = cursor;
+}
+
+function findNext(){
+    if (searchCursor.findNext()) {
+        codeEditor.setSelection(searchCursor.from(), searchCursor.to());
+    } else {
+        codeEditor.setSelection({line: 0, ch: 0});
+        searchCursor = codeEditor.getSearchCursor(queryString, {line:0, ch: 0});
+    }
+}
+
+function findPrevious(){
+    if (searchCursor.findPrevious()) {
+        codeEditor.setSelection(searchCursor.from(), searchCursor.to());
+    } else {
+        const lastLine =  codeEditor.lastLine();
+        const lastChar = codeEditor.getLine(lastLine).length
+        codeEditor.setSelection({line: lastLine, ch: lastChar});
+        while(searchCursor.findNext()) {
+            codeEditor.setSelection(searchCursor.from(), searchCursor.to());
+        }
+    }
+}
+
+function resetButtons(){
+    findReplaceReplace.disabled = true;
+    findReplaceReplaceAll.disabled = true;
+    findReplaceNext.disabled = true;
+    findReplacePrevious.disabled = true;
+    findReplaceMessage.innerText = '';
+    codeEditor.setSelection({line: 0, ch: 0});
+}
+
+function resetInputs(){
+    findReplaceFindText.value = "";
+    findReplaceReplaceText.value = "";
+    codeEditor.setSelection({line: 0, ch: 0});
+}
+
+function replace() {
+    const text = document.getElementById('findReplaceReplaceText').value;
+    searchCursor.replace(text);
+    findReplaceMessage.innerText = `Match replaced`;
+}
+
+function replaceAll(){
+    let count = 0;
+    const text = document.getElementById('findReplaceReplaceText').value;
+    while(searchCursor.find()) {
+        searchCursor.replace(text);
+        count++;
+    }
+
+    findReplaceMessage.innerText = `${count} matches replaced`;
+}
+ 
