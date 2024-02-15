@@ -115,7 +115,7 @@ function createWindow() {
 
   remoteMain.enable(mainWindow.webContents);
 
-  mainWindow.loadFile('src/index.html')
+  mainWindow.loadFile('./index.html')
 
   mainWindow.on('closed', function () {
     mainWindow = null

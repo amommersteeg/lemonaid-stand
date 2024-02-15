@@ -1,4 +1,8 @@
 module.exports = {
+  packagerConfig: {
+    icon: "src/img/icon/logo2.icns",
+    ignore: ["snippetNotes.db", "snippetTags.db", "standSettings.db"]
+  },
   makers: [
     {
       name: "@electron-forge/maker-squirrel",

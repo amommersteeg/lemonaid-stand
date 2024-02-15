@@ -49,19 +49,25 @@ In the `releases` folder are complied versions for Windows and Mac computers (po
 ```
 npm ci
 ```
-3. Start Electron local server
+2. Start Electron local server
 ```
 npm run start
 ```
+
+* App icons will not be used until app is packaged or built into distributable app.
 
 ## How to build
 1. Get `node_modules` for Lemon-aid Stand
 ```
 npm ci
 ```
-3. Build Electron app
+2. Package portable Electron app
 ```
-npm run build
+npm run package
+```
+3. Create distributable Electron app
+```
+npm run make
 ```
 
 ## Helpfully Links
