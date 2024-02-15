@@ -115,7 +115,7 @@ function createWindow() {
 
   remoteMain.enable(mainWindow.webContents);
 
-  mainWindow.loadFile('src/index.html')
+  mainWindow.loadFile('./index.html')
 
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -261,13 +261,8 @@ function createAboutScreen() {
   aboutScreen.loadFile('src/windows/about.html')
   aboutScreen.on('closed', function() {
     ipcMain.removeHandler("closeWindow");
-    ipcMain.removeHandler("getVersion");
     aboutScreen = null
   })
-
-  ipcMain.handle('getVersion', async (event, options) => {
-    return app.getVersion();
-  });
 
   ipcMain.handle('closeWindow', () => {
     aboutScreen.close();

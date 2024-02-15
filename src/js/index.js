@@ -320,8 +320,8 @@ function loadContent(){
         `<div class="tab-pane fade paneVertical" id="${app.id}Tab" role="tabpanel" template-target="${app.id}"></div>`)
 
         document.getElementById(app.id).addEventListener("click", function() { openTab(this, `${app.id + "Tab"}`)});
-        loadPartial(`/partials/${app.id}.html`)
-        LoadJS(`/js/partials/${app.id}.js`)
+        loadPartial(`/src/partials/${app.id}.html`)
+        LoadJS(`/src/js/partials/${app.id}.js`)
     })
 
     // Add settings
@@ -334,7 +334,7 @@ function loadContent(){
     document.getElementById("mainNavSettings").addEventListener("click", function() { openTab(this, "mainTabSettings")
         loadSettings(settingsGlobal)
     });
-    loadPartial(`/partials/settings.html`)
+    loadPartial(`/src/partials/settings.html`)
     document.getElementById('settingsSaveBtn').addEventListener('click', saveSettings)
     document.getElementById('settingsLoadDefaults').addEventListener('click', loadSettingDefaults)
 

@@ -113,9 +113,8 @@ function snippetLoadNotes(searchParam, skip, limit, clearParent=false){
     console.log(searchParam)
     db.notes.find(searchParam).sort({ createdOn: -1 }).skip(skip).limit(limit).exec(function (err, docs) {
         console.log(docs)
+        let parent = document.getElementById('snippetNoteList');
         if(docs.length > 0){
-            
-            let parent = document.getElementById('snippetNoteList')
             if(clearParent == true){
                 parent.innerHTML = "";
             }
@@ -147,6 +146,8 @@ function snippetLoadNotes(searchParam, skip, limit, clearParent=false){
                     parent.getElementsByClassName('card')[(skip)].focus()
                 }
             }
+        } else {
+            parent.innerHTML = "No snippets found with search options.";
         }
         
     });
