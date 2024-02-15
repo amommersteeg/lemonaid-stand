@@ -293,3 +293,12 @@ h1, p {
   border: 1px solid lightgray;
   padding: 5px;
 }
+
+.titlebar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.titlebar-button {
+  -webkit-app-region: no-drag;
+}
