@@ -98,7 +98,8 @@ let codeEditor = CodeMirror.fromTextArea(codemirrorContainer, {
     selfContain: true,
     lineWrapping: false,
     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"]
-})
+});
+
 
 function copyText(that){
     let panel = document.querySelector('#nav-tabContent > .active')
@@ -238,7 +239,8 @@ document.getElementById("codeCopyBtn").addEventListener("click", codeCopyAll);
 
 
 // Find and Replace
-dragElement(document.getElementById("findReplaceModal"));
+const findReplaceModal = document.getElementById('findReplaceModal');
+const findReplaceToggle = document.getElementById("findReplaceToggle");
 const findReplaceReplace = document.getElementById("findReplaceReplace");
 const findReplaceReplaceAll = document.getElementById("findReplaceReplaceAll");
 const findReplaceNext = document.getElementById("findReplaceNext");
@@ -248,6 +250,14 @@ const findReplaceReplaceText = document.getElementById("findReplaceReplaceText")
 const findReplaceMessage = document.getElementById("findReplaceMessage");
 const findReplaceMatchCase = document.getElementById("findReplaceMatchCase");
 const findReplaceMatchWhole = document.getElementById("findReplaceMatchWhole");
+
+dragElement(findReplaceModal);
+
+codeEditor.addKeyMap({
+    'Ctrl-F': function(cm){
+        findReplaceToggle.click();
+    }
+})
  
 findReplaceFindText.addEventListener("input", resetButtons);
 findReplaceFindText.addEventListener('keypress', function (e) {
