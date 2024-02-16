@@ -258,7 +258,9 @@ codeEditor.addKeyMap({
         findReplaceToggle.click();
     }
 })
- 
+
+findReplaceMatchCase.addEventListener("change", resetButtons);
+findReplaceMatchWhole.addEventListener("change", resetButtons);
 findReplaceFindText.addEventListener("input", resetButtons);
 findReplaceFindText.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -310,7 +312,7 @@ function dragElement(element) {
 }
 
 function find(){
-    let text = document.getElementById('findReplaceFindText').value;
+    let text = escapeRegex(document.getElementById('findReplaceFindText').value);
     const matchCase = findReplaceMatchCase.checked;
     const matchWhole = findReplaceMatchWhole.checked;
     let options = 'g'
@@ -322,6 +324,7 @@ function find(){
     if (matchWhole) {
         text = `\\b${text}\\b`;
     }
+
     const query = new RegExp(text, options);
     queryString = query;
     const cursor = codeEditor.getSearchCursor(query, {line:0, ch: 0});
@@ -400,4 +403,7 @@ function replaceAll(){
 
     findReplaceMessage.innerText = `${count} matches replaced.`;
 }
- 
+
+function escapeRegex(string) {
+    return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+}
