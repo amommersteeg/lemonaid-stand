@@ -257,9 +257,11 @@ dragElement(findReplaceModal);
 codeEditor.addKeyMap({
     'Ctrl-F': function(cm){
         findReplaceToggle.click();
+        
     }
 })
 
+findReplaceToggle.addEventListener("click", findSelection);
 findReplaceMatchCase.addEventListener("change", resetButtons);
 findReplaceMatchWhole.addEventListener("change", resetButtons);
 findReplaceFindText.addEventListener("input", resetButtons);
@@ -312,7 +314,18 @@ function dragElement(element) {
   }
 }
 
-function find(){
+function findSelection(){
+    const selection = codeEditor.getSelection();
+    if(selection) {
+        find({selection});
+    }
+}
+
+function find({selection=""}){
+    if(selection) {
+        document.getElementById('findReplaceFindText').value = selection;
+    }
+
     let text = escapeRegex(document.getElementById('findReplaceFindText').value);
     const matchCase = findReplaceMatchCase.checked;
     const matchWhole = findReplaceMatchWhole.checked;
