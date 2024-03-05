@@ -16,7 +16,7 @@
     "js-beautify": "^1.14.11",
     "mammoth": "^1.6.0",
     "sortablejs": "^1.15.2",
-    "tinymce": "^6.8.3"
+    "tinymce": "^5.10.9"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.2.0",

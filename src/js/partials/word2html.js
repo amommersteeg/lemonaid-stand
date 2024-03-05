@@ -9,7 +9,7 @@ tinymce.init({
     resize: false,
     auto_focus :'tinymce',
     promotion: false,
-    plugins: 'preview importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media table charmap nonbreaking insertdatetime advlist lists wordcount help charmap emoticons', //quickbars
+    plugins: 'preview paste importcss code searchreplace autolink directionality visualblocks visualchars fullscreen image link media table charmap nonbreaking insertdatetime advlist lists wordcount help charmap emoticons', //quickbars
     menubar: 'edit insert view format table tools help',
     menu: {
         edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
